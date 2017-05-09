@@ -1,0 +1,1 @@
+start "MessageCenter" "C:\Program Files\IIS Express\iisexpress.exe" /config:C:\Project\HomeNet\MessageCenter\MessageCenter\.vs\config\applicationhost.config /site:MessageCenter

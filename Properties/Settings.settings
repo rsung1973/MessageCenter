@@ -1,0 +1,59 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WebHome.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="CenterID" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">AWTK</Value>
+    </Setting>
+    <Setting Name="PRMType" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">EXAWTK</Value>
+    </Setting>
+    <Setting Name="PRMUsed" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">756001</Value>
+    </Setting>
+    <Setting Name="GetAuthToken" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235:8188/service/SecomBAService.svc/authorization/query</Value>
+    </Setting>
+    <Setting Name="GetBuildingInfo" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235:8188/service/SecomBAService.svc/building/query</Value>
+    </Setting>
+    <Setting Name="InsertDevice" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235:8188/service/SecomBAService.svc/device/insert_1</Value>
+    </Setting>
+    <Setting Name="UpdateDevice" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235:8188/service/SecomBAService.svc/device/update_1</Value>
+    </Setting>
+    <Setting Name="DeleteDevice" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235:8188/service/SecomBAService.svc/device/delete</Value>
+    </Setting>
+    <Setting Name="ValidTokenDurationInMinutes" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">30</Value>
+    </Setting>
+    <Setting Name="WebHome_BA_Service_sr_BA_DeviceWebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235:8188/service/sr_BA_DeviceWebService.asmx</Value>
+    </Setting>
+    <Setting Name="dnake" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Server=localhost;Port=4406;Database=dnake;Uid=root;Pwd=;charset=utf8;&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;MySql.Data.MySqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Server=localhost;Port=4406;Database=dnake;Uid=root;Pwd=;charset=utf8;</Value>
+    </Setting>
+    <Setting Name="DeviceHeartBeatPeriodInMinutes" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="JobSchedulerInMilliseconds" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10000</Value>
+    </Setting>
+    <Setting Name="LeaderID" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="QueryAllDevices" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235:8188/service/SecomBAService.svc/device/query_1</Value>
+    </Setting>
+    <Setting Name="CheckEventIntervalInSeconds" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

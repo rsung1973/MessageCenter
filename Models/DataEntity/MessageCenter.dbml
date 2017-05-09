@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="MessageCenter" Class="MessageCenterDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=MessageCenter;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="MessageCenterConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.DeviceEventLog" Member="DeviceEventLogs">
+    <Type Name="DeviceEventLog">
+      <Column Name="LogID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LogDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EventCode" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="Tx" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="Rx" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="LiveID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="DeviceEventLog_DeviceEventReport" Member="DeviceEventReports" ThisKey="LogID" OtherKey="LogID" Type="DeviceEventReport" />
+      <Association Name="LiveDevice_DeviceEventLog" Member="LiveDevice" ThisKey="LiveID" OtherKey="LiveID" Type="LiveDevice" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserProfile" Member="UserProfiles">
+    <Type Name="UserProfile">
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="PID" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="ExternalID" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="Expiration" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Creator" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AuthID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LevelID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ThemeName" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="Password2" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="MemberCode" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="PictureID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RealName" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(32)" CanBeNull="true" />
+      <Column Name="RecentStatus" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Birthday" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="UserProfile_UserProfile" Member="UserProfiles" ThisKey="UID" OtherKey="Creator" Type="UserProfile" />
+      <Association Name="UserProfile_UserProfile1" Member="UserProfiles1" ThisKey="UID" OtherKey="AuthID" Type="UserProfile" />
+      <Association Name="UserProfile_UserProfile" Member="UserProfile1" ThisKey="Creator" OtherKey="UID" Type="UserProfile" IsForeignKey="true" />
+      <Association Name="UserProfile_UserProfile1" Member="UserProfile2" ThisKey="AuthID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DeviceEventReport" Member="DeviceEventReports">
+    <Type Name="DeviceEventReport">
+      <Column Name="ReportID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LevelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReportDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LogID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LiveID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="DeviceEventLog_DeviceEventReport" Member="DeviceEventLog" ThisKey="LogID" OtherKey="LogID" Type="DeviceEventLog" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="LevelExpression_DeviceEventReport" Member="LevelExpression" ThisKey="LevelID" OtherKey="LevelID" Type="LevelExpression" IsForeignKey="true" />
+      <Association Name="LiveDevice_DeviceEventReport" Member="LiveDevice" ThisKey="LiveID" OtherKey="LiveID" Type="LiveDevice" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LevelExpression" Member="LevelExpressions">
+    <Type Name="LevelExpression">
+      <Column Name="LevelID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Expression" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="LevelExpression_DeviceEventReport" Member="DeviceEventReports" ThisKey="LevelID" OtherKey="LevelID" Type="DeviceEventReport" />
+      <Association Name="LevelExpression_LiveDevice" Member="LiveDevices" ThisKey="LevelID" OtherKey="CurrentLevel" Type="LiveDevice" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LiveDevice" Member="LiveDevices">
+    <Type Name="LiveDevice">
+      <Column Name="LiveID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DeviceID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DeviceUri" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="CurrentLevel" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="LiveDevice_DeviceEventLog" Member="DeviceEventLogs" ThisKey="LiveID" OtherKey="LiveID" Type="DeviceEventLog" />
+      <Association Name="LiveDevice_DeviceEventReport" Member="DeviceEventReports" ThisKey="LiveID" OtherKey="LiveID" Type="DeviceEventReport" />
+      <Association Name="LevelExpression_LiveDevice" Member="LevelExpression" ThisKey="CurrentLevel" OtherKey="LevelID" Type="LevelExpression" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

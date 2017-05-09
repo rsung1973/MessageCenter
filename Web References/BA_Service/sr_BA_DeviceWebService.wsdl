@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="Set_Status">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="prm_auth_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="l1_device_type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="device_uri" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="device_status" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="device_status_value" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="status_date" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Set_StatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Set_StatusResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Set_Event">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="prm_auth_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="l1_device_type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="device_uri" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="need_release" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="event_type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="event_sub_type" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="event_level" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="event_timeout" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="event_desc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="event_memo" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="isLog" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="device_time" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Set_EventResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Set_EventResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Set_Event_ByDeviceDetail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="prm_auth_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="l1_device_type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="device_uri" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="need_release" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="event_type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="event_sub_type" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="event_level" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="event_timeout" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="device_status" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="card_no" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="event_detail" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="isLog" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="device_time" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Set_Event_ByDeviceDetailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Set_Event_ByDeviceDetailResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Release_Event">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="prm_auth_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="l1_device_type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="event_id" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Release_EventResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Release_EventResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Sync_Device_URI">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="prm_auth_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="l1_device_type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="device_uri" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMsg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Sync_Device_URIResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Sync_Device_URIResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Sync_Complete">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="prm_auth_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="l1_device_type" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="errorMsg" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Sync_CompleteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Sync_CompleteResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="New_Rule_Trigger">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="prm_auth_code" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="l1_device_type" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="rule_id" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="event_id" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="rule_s_nbr" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="New_Rule_TriggerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="New_Rule_TriggerResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="Set_StatusSoapIn">
+    <wsdl:part name="parameters" element="tns:Set_Status" />
+  </wsdl:message>
+  <wsdl:message name="Set_StatusSoapOut">
+    <wsdl:part name="parameters" element="tns:Set_StatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="Set_EventSoapIn">
+    <wsdl:part name="parameters" element="tns:Set_Event" />
+  </wsdl:message>
+  <wsdl:message name="Set_EventSoapOut">
+    <wsdl:part name="parameters" element="tns:Set_EventResponse" />
+  </wsdl:message>
+  <wsdl:message name="Set_Event_ByDeviceDetailSoapIn">
+    <wsdl:part name="parameters" element="tns:Set_Event_ByDeviceDetail" />
+  </wsdl:message>
+  <wsdl:message name="Set_Event_ByDeviceDetailSoapOut">
+    <wsdl:part name="parameters" element="tns:Set_Event_ByDeviceDetailResponse" />
+  </wsdl:message>
+  <wsdl:message name="Release_EventSoapIn">
+    <wsdl:part name="parameters" element="tns:Release_Event" />
+  </wsdl:message>
+  <wsdl:message name="Release_EventSoapOut">
+    <wsdl:part name="parameters" element="tns:Release_EventResponse" />
+  </wsdl:message>
+  <wsdl:message name="Sync_Device_URISoapIn">
+    <wsdl:part name="parameters" element="tns:Sync_Device_URI" />
+  </wsdl:message>
+  <wsdl:message name="Sync_Device_URISoapOut">
+    <wsdl:part name="parameters" element="tns:Sync_Device_URIResponse" />
+  </wsdl:message>
+  <wsdl:message name="Sync_CompleteSoapIn">
+    <wsdl:part name="parameters" element="tns:Sync_Complete" />
+  </wsdl:message>
+  <wsdl:message name="Sync_CompleteSoapOut">
+    <wsdl:part name="parameters" element="tns:Sync_CompleteResponse" />
+  </wsdl:message>
+  <wsdl:message name="New_Rule_TriggerSoapIn">
+    <wsdl:part name="parameters" element="tns:New_Rule_Trigger" />
+  </wsdl:message>
+  <wsdl:message name="New_Rule_TriggerSoapOut">
+    <wsdl:part name="parameters" element="tns:New_Rule_TriggerResponse" />
+  </wsdl:message>
+  <wsdl:portType name="sr_BA_DeviceWebServiceSoap">
+    <wsdl:operation name="Set_Status">
+      <wsdl:input message="tns:Set_StatusSoapIn" />
+      <wsdl:output message="tns:Set_StatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Set_Event">
+      <wsdl:input message="tns:Set_EventSoapIn" />
+      <wsdl:output message="tns:Set_EventSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Set_Event_ByDeviceDetail">
+      <wsdl:input message="tns:Set_Event_ByDeviceDetailSoapIn" />
+      <wsdl:output message="tns:Set_Event_ByDeviceDetailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Release_Event">
+      <wsdl:input message="tns:Release_EventSoapIn" />
+      <wsdl:output message="tns:Release_EventSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Sync_Device_URI">
+      <wsdl:input message="tns:Sync_Device_URISoapIn" />
+      <wsdl:output message="tns:Sync_Device_URISoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Sync_Complete">
+      <wsdl:input message="tns:Sync_CompleteSoapIn" />
+      <wsdl:output message="tns:Sync_CompleteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="New_Rule_Trigger">
+      <wsdl:input message="tns:New_Rule_TriggerSoapIn" />
+      <wsdl:output message="tns:New_Rule_TriggerSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="sr_BA_DeviceWebServiceSoap" type="tns:sr_BA_DeviceWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Set_Status">
+      <soap:operation soapAction="http://tempuri.org/Set_Status" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Set_Event">
+      <soap:operation soapAction="http://tempuri.org/Set_Event" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Set_Event_ByDeviceDetail">
+      <soap:operation soapAction="http://tempuri.org/Set_Event_ByDeviceDetail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Release_Event">
+      <soap:operation soapAction="http://tempuri.org/Release_Event" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Sync_Device_URI">
+      <soap:operation soapAction="http://tempuri.org/Sync_Device_URI" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Sync_Complete">
+      <soap:operation soapAction="http://tempuri.org/Sync_Complete" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="New_Rule_Trigger">
+      <soap:operation soapAction="http://tempuri.org/New_Rule_Trigger" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="sr_BA_DeviceWebServiceSoap12" type="tns:sr_BA_DeviceWebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Set_Status">
+      <soap12:operation soapAction="http://tempuri.org/Set_Status" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Set_Event">
+      <soap12:operation soapAction="http://tempuri.org/Set_Event" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Set_Event_ByDeviceDetail">
+      <soap12:operation soapAction="http://tempuri.org/Set_Event_ByDeviceDetail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Release_Event">
+      <soap12:operation soapAction="http://tempuri.org/Release_Event" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Sync_Device_URI">
+      <soap12:operation soapAction="http://tempuri.org/Sync_Device_URI" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Sync_Complete">
+      <soap12:operation soapAction="http://tempuri.org/Sync_Complete" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="New_Rule_Trigger">
+      <soap12:operation soapAction="http://tempuri.org/New_Rule_Trigger" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="sr_BA_DeviceWebService">
+    <wsdl:port name="sr_BA_DeviceWebServiceSoap" binding="tns:sr_BA_DeviceWebServiceSoap">
+      <soap:address location="http://211.23.68.235/service/sr_BA_DeviceWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="sr_BA_DeviceWebServiceSoap12" binding="tns:sr_BA_DeviceWebServiceSoap12">
+      <soap12:address location="http://211.23.68.235/service/sr_BA_DeviceWebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

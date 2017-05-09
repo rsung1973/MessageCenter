@@ -1,0 +1,31 @@
+2017/03/24 14:27:57
+System.Data.Linq.ChangeConflictException: 資料列找不到，或者已變更。
+   於 System.Data.Linq.ChangeProcessor.SubmitChanges(ConflictMode failureMode)
+   於 System.Data.Linq.DataContext.SubmitChanges(ConflictMode failureMode)
+   於 CommonLib.DataAccess.GenericManager`1.SubmitChanges() 於 \\Vm-venus\e$\Project\GitHub\beyond-fitness\CommonLib\DataAccess\GenericManager.cs: 行 177
+   於 WebHome.Helper.BusinessExtensionMethods.ReportDeviceStatus(alarm_zone deviceToCheck, ModelSource`1 mgr, Table`1 deviceTable, DeviceLevelDefinition status, Nullable`1 currentStatus) 於 C:\Project\HomeNet\MessageCenter\MessageCenter\Helper\BusinessExtensionMethods.cs: 行 127
+   於 WebHome.Helper.Jobs.SecurityGuardDispatcher.checkSecurityGuard() 於 C:\Project\HomeNet\MessageCenter\MessageCenter\Helper\Jobs\SecurityGuardDispatcher.cs: 行 94
+2017/03/24 14:39:23
+System.Threading.ThreadAbortException: 執行緒已經中止。
+   於 SNIReadSyncOverAsync(SNI_ConnWrapper* , SNI_Packet** , Int32 )
+   於 SNINativeMethodWrapper.SNIReadSyncOverAsync(SafeHandle pConn, IntPtr& packet, Int32 timeout)
+   於 System.Data.SqlClient.TdsParserStateObject.ReadSniSyncOverAsync()
+   於 System.Data.SqlClient.TdsParserStateObject.TryReadNetworkPacket()
+   於 System.Data.SqlClient.TdsParserStateObject.TryPrepareBuffer()
+   於 System.Data.SqlClient.TdsParserStateObject.TryReadByte(Byte& value)
+   於 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   於 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   於 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   於 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   於 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   於 System.Data.Linq.SqlClient.SqlProvider.Execute(Expression query, QueryInfo queryInfo, IObjectReaderFactory factory, Object[] parentArgs, Object[] userArgs, ICompiledSubQuery[] subQueries, Object lastResult)
+   於 System.Data.Linq.SqlClient.SqlProvider.ExecuteAll(Expression query, QueryInfo[] queryInfos, IObjectReaderFactory factory, Object[] userArguments, ICompiledSubQuery[] subQueries)
+   於 System.Data.Linq.SqlClient.SqlProvider.System.Data.Linq.Provider.IProvider.Execute(Expression query)
+   於 System.Data.Linq.Table`1.System.Linq.IQueryProvider.Execute[TResult](Expression expression)
+   於 WebHome.Helper.BusinessExtensionMethods.SynchronizeDevices() 於 C:\Project\HomeNet\MessageCenter\MessageCenter\Helper\BusinessExtensionMethods.cs: 行 29
+   於 WebHome.Helper.Jobs.MessageAutoDispatcher.DoJob() 於 C:\Project\HomeNet\MessageCenter\MessageCenter\Helper\Jobs\MessageAutoDispatcher.cs: 行 21
+   於 CommonLib.Helper.JobScheduler.doJob(JobItem item, Boolean nextSchedule) 於 \\Vm-venus\e$\Project\GitHub\beyond-fitness\CommonLib\Helper\JobScheduler.cs: 行 81
+   於 CommonLib.Helper.JobScheduler.run(Object state) 於 \\Vm-venus\e$\Project\GitHub\beyond-fitness\CommonLib\Helper\JobScheduler.cs: 行 55
