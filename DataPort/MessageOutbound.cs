@@ -11,6 +11,8 @@ using System.Text;
 using System.Web;
 using WebHome.BA_Service;
 using WebHome.Models.DataEntity;
+using WebHome.Models.ViewModel;
+using Utility;
 
 namespace WebHome.DataPort
 {
@@ -40,7 +42,7 @@ namespace WebHome.DataPort
 
         public void CheckAuthToken()
         {
-            if(!_authToken.HasValue || (DateTime.Now- _authToken.Value.Value).TotalMinutes>=Settings.Default.ValidTokenDurationInMinutes)
+            if (!_authToken.HasValue || (DateTime.Now - _authToken.Value.Value).TotalMinutes >= Settings.Default.ValidTokenDurationInMinutes)
             {
                 ResetToken();
             }
@@ -55,6 +57,7 @@ namespace WebHome.DataPort
 
             using (WebClient client = new WebClient())
             {
+                Logger.Debug(Settings.Default.GetAuthToken + queryValues.ToQueryString());
                 var json = client.DownloadString(Settings.Default.GetAuthToken + queryValues.ToQueryString());
                 var result = JsonConvert.DeserializeObject(json);
                 if (result.Count > 0)
@@ -80,7 +83,7 @@ namespace WebHome.DataPort
                 {
                     var json = client.DownloadString(Settings.Default.GetBuildingInfo + queryValues.ToQueryString());
                     JArray result = JsonConvert.DeserializeObject(json) as JArray;
-                    if (result!=null && result.Count > 0)
+                    if (result != null && result.Count > 0)
                     {
                         result.DecodeValue();
                         return result;
@@ -117,6 +120,108 @@ namespace WebHome.DataPort
             return null;
         }
 
+        public JArray GetResidentInfo()
+        {
+            CheckAuthToken();
+
+            if (_authToken.HasValue)
+            {
+
+                dynamic queryValues = new DynamicQueryStringParameter();
+                queryValues.prm_auth_code = _authToken.Value.Key;
+
+                using (WebClient client = new WebClient())
+                {
+                    var json = client.DownloadString(Settings.Default.GetResidentInfo + queryValues.ToQueryString());
+                    JArray result = JsonConvert.DeserializeObject(json) as JArray;
+                    if (result != null && result.Count > 0)
+                    {
+                        result.DecodeValue();
+                        return result;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public JArray GetResidentMessage(String residentID)
+        {
+            CheckAuthToken();
+
+            if (_authToken.HasValue)
+            {
+
+                dynamic queryValues = new DynamicQueryStringParameter();
+                queryValues.prm_auth_code = _authToken.Value.Key;
+                queryValues.prm_a01_class = "-9999";
+                queryValues.prm_resident_id = residentID;
+
+                using (WebClient client = new WebClient())
+                {
+                    var json = client.DownloadString(Settings.Default.GetResidentMessage + queryValues.ToQueryString());
+                    JArray result = JsonConvert.DeserializeObject(json) as JArray;
+                    if (result != null && result.Count > 0)
+                    {
+                        result.DecodeValue();
+                        return result;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public JArray ReportEnergyDegree(EnergyQueryViewModel viewModel, int actionType = 0)
+        {
+            CheckAuthToken();
+
+            if (_authToken.HasValue)
+            {
+
+                dynamic queryValues = new DynamicQueryStringParameter();
+                queryValues.prm_auth_code = _authToken.Value.Key;
+                queryValues.prm_resident_id = viewModel.ResidentID;
+                queryValues.prm_energy_type = "1";
+                queryValues.prm_energy_yyyy = String.Format("{0:0000}", viewModel.Year);
+                queryValues.prm_energy_mm = String.Format("{0:00}", viewModel.Month);
+
+                string actionUrl = null;
+                switch (actionType)
+                {
+                    case 0:
+                        queryValues.prm_degree = viewModel.Degree;
+                        actionUrl = Settings.Default.EnergyDegreeInsert;
+                        break;
+
+                    case 1:
+                        queryValues.prm_degree = viewModel.Degree;
+                        actionUrl = Settings.Default.EnergyDegreeUpdate;
+                        break;
+
+                    case 2:
+                        actionUrl = Settings.Default.EnergyDegreeDelete;
+                        break;
+
+                    case 3:
+                        actionUrl = Settings.Default.EnergyDegreeQuery;
+                        break;
+
+                }
+
+                using (WebClient client = new WebClient())
+                {
+                    var json = client.DownloadString(actionUrl + queryValues.ToQueryString());
+                    JArray result = JsonConvert.DeserializeObject(json) as JArray;
+                    if (result != null && result.Count > 0)
+                    {
+                        result.DecodeValue();
+                        return result;
+                    }
+                }
+            }
+            return null;
+        } 
+
+
         public JArray InsertDevice(dynamic queryValues)
         {
             return ProcessDevice(Settings.Default.InsertDevice, queryValues);
@@ -138,6 +243,7 @@ namespace WebHome.DataPort
 
                 using (WebClient client = new WebClient())
                 {
+                    Logger.Debug(actionUrl + queryValues.ToQueryString());
                     var json = client.DownloadString(actionUrl + queryValues.ToQueryString());
                     JArray result = JsonConvert.DeserializeObject(json) as JArray;
                     if (result != null && result.Count > 0)
@@ -158,7 +264,7 @@ namespace WebHome.DataPort
             {
                 using (sr_BA_DeviceWebService service = new sr_BA_DeviceWebService())
                 {
-                    String json = service.Set_Status(_authToken.Value.Key, Settings.Default.PRMType, item.DeviceUri, status, "", DateTime.Now);
+                    String json = service.Set_Status(_authToken.Value.Key, Settings.Default.PRMType, item.UserRegister.DeviceUri, status, "", DateTime.Now);
                     JArray result = JsonConvert.DeserializeObject(json) as JArray;
                     if (result != null && result.Count > 0)
                     {
@@ -179,10 +285,11 @@ namespace WebHome.DataPort
             {
                 using (sr_BA_DeviceWebService service = new sr_BA_DeviceWebService())
                 {
+                    Logger.Debug(service.Url);
                     String json = service.Set_Event_ByDeviceDetail(
                         _authToken.Value.Key,
                         Settings.Default.PRMType,
-                        item.DeviceUri,
+                        item.UserRegister.DeviceUri,
                         true,
                         eventType,
                         "0",

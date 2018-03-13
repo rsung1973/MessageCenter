@@ -38,12 +38,17 @@ namespace WebHome.Models.Locale
             保全解除 = 3,
             保全設定 = 4,
             火災 = 5,
-            瓦斯異常 = 6 ,
-            緊急 = 7 ,
-            反脅迫警告 = 8
+            瓦斯異常 = 6,
+            緊急 = 7,
+            反脅迫警告 = 8,
+            迴路一異常 = 9,
+            迴路二異常 = 10,
+            迴路三異常 = 11,
+            迴路四異常 = 12,
+            迴路五異常 = 13,
         }
 
-        public static String[] DeviceStatusCode = { "", "00", "99", "R", "S", "F", "GS", "C", "TD" };
+        public static String[] DeviceStatusCode = { "", "00", "99", "R", "S", "F", "GS", "C", "TD", "T1", "T2", "T3", "T4","T5" };
 
         public enum LessonPriceStatus
         {
@@ -102,6 +107,12 @@ namespace WebHome.Models.Locale
         {
             未讀 = 3,
             已讀 = 4
+        }
+
+        public enum AlarmMode
+        {
+            release = 0,
+            alarm = 1
         }
 
     }

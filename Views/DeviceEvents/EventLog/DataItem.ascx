@@ -12,7 +12,7 @@
 <%@ Import Namespace="Newtonsoft.Json" %>
 
 <tr>
-    <td><%= _model.LiveID.HasValue ? _model.LiveDevice.DeviceUri : null %></td>
+    <td><%= _model.LiveID.HasValue ? _model.LiveDevice.UserRegister.DeviceUri : null %></td>
     <td><%= _model.LogDate.ToString() %></td>
     <td><%= _model.EventCode %></td>
     <td><%= _model.Tx %></td>

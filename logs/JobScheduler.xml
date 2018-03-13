@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
 <ArrayOfJobItem xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <JobItem>
-    <Schedule>2017-04-20T18:15:00+08:00</Schedule>
+    <Schedule>2018-03-13T23:57:03.0467466+08:00</Schedule>
     <AssemblyQualifiedName>WebHome.Helper.Jobs.MessageAutoDispatcher, MessageCenter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</AssemblyQualifiedName>
     <Description>傳送設備端裝置對應</Description>
   </JobItem>
   <JobItem>
-    <Schedule>2017-04-20T18:04:00+08:00</Schedule>
+    <Schedule>2018-03-13T23:55:03.5725409+08:00</Schedule>
     <AssemblyQualifiedName>WebHome.Helper.Jobs.AliveDeviceStatusDispatcher, MessageCenter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</AssemblyQualifiedName>
     <Description>檢查設備端狀態</Description>
   </JobItem>
   <JobItem>
-    <Schedule>2017-04-02T07:45:30+08:00</Schedule>
+    <Schedule>2018-03-13T23:54:27.5661108+08:00</Schedule>
     <AssemblyQualifiedName>WebHome.Helper.Jobs.SecurityGuardDispatcher, MessageCenter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</AssemblyQualifiedName>
     <Description>檢查設備端保全設定</Description>
   </JobItem>
   <JobItem>
-    <Schedule>2017-04-01T01:39:30+08:00</Schedule>
+    <Schedule>2018-03-13T23:54:25.3101941+08:00</Schedule>
     <AssemblyQualifiedName>WebHome.Helper.Jobs.DeviceEventDispatcher, MessageCenter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</AssemblyQualifiedName>
     <Description>檢查設備端警報</Description>
   </JobItem>

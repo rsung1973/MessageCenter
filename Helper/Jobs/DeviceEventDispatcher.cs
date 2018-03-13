@@ -60,18 +60,32 @@ namespace WebHome.Helper.Jobs
                     alarm_logger[] items;
                     if(__CheckID>=0)
                     {
-                        items = db.GetTable<alarm_logger>().Where(a => a.data == 1 && a.id > __CheckID)
+                        items = db.GetTable<alarm_logger>()
+                            .Where(a => /*a.data == 1 &&*/ a.id > __CheckID
+                                || a.confirmTs >= DateTime.Now.AddSeconds(-60))
                             .ToArray();
                     }
                     else
                     {
-                        items = db.GetTable<alarm_logger>().Where(a => a.data == 1 && a.ts >= DateTime.Now.AddSeconds(-60))
+                        items = db.GetTable<alarm_logger>()
+                            .Where(a => /*a.data == 1 &&*/ a.ts >= DateTime.Now.AddSeconds(-60)
+                                || a.confirmTs >= DateTime.Now.AddSeconds(-60))
                             .ToArray();
                     }
 
+                    Logger.Debug("__CheckID:" + __CheckID + ",ItemsCount:" + items.Length);
+
                     if (items.Length > 0)
                     {
-                        __CheckID = items[items.Length - 1].id;
+                        for (int i = items.Length - 1; i >= 0; i--)
+                        {
+                            if (items[i].confirm == 0)
+                            {
+                                __CheckID = items[i].id;
+                                break;
+                            }
+                        }
+                        //__CheckID = items[items.Length - 1].id;
                         Interlocked.Exchange(ref __BusyCount, 0);
 
                         foreach (var item in items)
@@ -81,39 +95,32 @@ namespace WebHome.Helper.Jobs
                                 var zone = db.alarm_zone.Where(z => z.user == item.user && z.zone == item.zone).FirstOrDefault();
                                 if(zone!=null)
                                 {
-                                    var sensor = db.alarm_sensor.Where(s => s.sensor == zone.sensor).FirstOrDefault();
-                                    if(sensor!=null)
+                                    if (Settings.Default.CommunicationMode == 0 || Settings.Default.CommunicationMode == 1)    //中保
                                     {
-                                        switch(sensor.sensor)
+                                        if (item.confirm == 0)     //sensor alarm
                                         {
-                                            case 0: //Smoke
-                                                zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.火災, "1");
-                                                break;
-                                            case 1: //Gas
-                                                zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.瓦斯異常, "1");
-                                                break;
-                                            case 2: //PIR
-                                                zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.緊急, "1");
-                                                break;
-                                            case 3: //Door
-                                                zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.反脅迫警告, "1");
-                                                break;
-                                            case 4: //Window
-                                                zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.反脅迫警告, "1");
-                                                break;
-                                            case 5: //Panic
-                                                zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.反脅迫警告, "1");
-                                                break;
-                                            case 6: //Flood
-                                                zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.反脅迫警告, "1");
-                                                break;
-                                            case 7: //Pull Cord
-                                                zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.反脅迫警告, "1");
-                                                break;
-                                            case 8: //Bed Mat
-                                                zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.反脅迫警告, "1");
-                                                break;
+                                            mgr.SendToFCM(item.user);
 
+                                            if (zone.zone < 5)
+                                            {
+                                                dispatchByZone(db, mgr, deviceTable, zone);
+                                            }
+                                            else
+                                            {
+                                                dispatchBySensor(db, mgr, deviceTable, zone);
+                                            }
+                                        }
+                                        else    //sensor release
+                                        {
+                                            zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.正常, "1");
+                                        }
+                                    }
+                                    if (Settings.Default.CommunicationMode == 0 || Settings.Default.CommunicationMode == 2)        //新保
+                                    {
+                                        TouchLifeDispatcher tl = new TouchLifeDispatcher();
+                                        if (item.data == 1 || item.data==0)
+                                        {
+                                            tl.Outbound(db, zone, mgr, (Naming.AlarmMode)item.data);
                                         }
                                     }
                                 }
@@ -125,6 +132,67 @@ namespace WebHome.Helper.Jobs
                         }
                     }
                 }
+            }
+        }
+
+        private void dispatchBySensor(dnakeDB db, ModelSource<MessageCenterDataContext> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, alarm_zone zone)
+        {
+            var sensor = db.alarm_sensor.Where(s => s.sensor == zone.sensor).FirstOrDefault();
+            if (sensor != null)
+            {
+                switch (sensor.sensor)
+                {
+                    case 0: //Smoke
+                        zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.火災, "1");
+                        break;
+                    case 1: //Gas
+                        zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.瓦斯異常, "1");
+                        break;
+                    case 2: //PIR
+                        zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.緊急, "1");
+                        break;
+                    case 3: //Door
+                        zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路一異常, "1");
+                        break;
+                    case 4: //Window
+                        zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路二異常, "1");
+                        break;
+                    case 5: //Panic
+                        zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路三異常, "1");
+                        break;
+                    case 6: //Flood
+                        zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路四異常, "1");
+                        break;
+                    case 7: //Pull Cord
+                        zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路五異常, "1");
+                        break;
+                    case 8: //Bed Mat
+                        zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.反脅迫警告, "1");
+                        break;
+
+                }
+            }
+        }
+        private void dispatchByZone(dnakeDB db, ModelSource<MessageCenterDataContext> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, alarm_zone zone)
+        {
+            switch (zone.zone)
+            {
+                case 0: //Smoke
+                    zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路一異常, "1");
+                    break;
+                case 1: //Gas
+                    zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路二異常, "1");
+                    break;
+                case 2: //PIR
+                    zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路三異常, "1");
+                    break;
+                case 3: //Door
+                    zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路四異常, "1");
+                    break;
+                case 4: //Door
+                    zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路五異常, "1");
+                    break;
+
             }
         }
 

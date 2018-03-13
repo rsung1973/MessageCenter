@@ -17,7 +17,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WebHome</RootNamespace>
     <AssemblyName>MessageCenter</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -27,6 +27,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <WebGreaseLibPath>packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,10 +68,11 @@
       <HintPath>packages\MySql.Data.6.7.9\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -83,8 +85,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -122,13 +122,13 @@
       <HintPath>packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
@@ -691,6 +691,11 @@
     <Content Include="Views\DeviceEvents\Module\ItemList.ascx" />
     <Content Include="Views\DeviceEvents\Module\QueryResult.ascx" />
     <Content Include="Views\DeviceEvents\ScriptHelper\Common.ascx" />
+    <Content Include="Views\InfoCenter\EnergyIndex.aspx" />
+    <Content Include="Views\InfoCenter\Index.aspx" />
+    <Content Include="Views\InfoCenter\Module\EnergyQuery.ascx" />
+    <Content Include="Views\InfoCenter\Module\InfoQuery.ascx" />
+    <Content Include="Views\Outbound\ResidentInfo.aspx" />
     <Content Include="Views\Outbound\DevicesInfo.aspx" />
     <Content Include="Views\Outbound\BuildingInfo.aspx" />
     <Content Include="Views\Outbound\BuildingInfo\DataItem.ascx" />
@@ -703,14 +708,19 @@
     <Content Include="Views\Shared\MessageView.ascx" />
     <Content Include="Views\SiteAction\FunctionTitleBar.ascx" />
     <Content Include="Views\SiteAction\PageMenuBar.ascx" />
+    <Content Include="Views\SiteAction\ResidentMenu.ascx" />
     <Content Include="Views\SiteAction\UserMenu.ascx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DeviceEventsController.cs" />
+    <Compile Include="Controllers\InboundController.cs" />
+    <Compile Include="Controllers\InfoCenterController.cs" />
     <Compile Include="Controllers\OutboundController.cs" />
     <Compile Include="Controllers\SampleController.cs" />
     <Compile Include="DataModels\dnake.generated.cs">
@@ -724,9 +734,11 @@
     </Compile>
     <Compile Include="Helper\BusinessExtensionMethods.cs" />
     <Compile Include="Helper\ExtensionMethods.cs" />
+    <Compile Include="Helper\GCM.cs" />
     <Compile Include="Helper\Jobs\MessageAutoDispatcher.cs" />
     <Compile Include="Helper\Jobs\DeviceEventDispatcher.cs" />
     <Compile Include="Helper\Jobs\SecurityGuardDispatcher.cs" />
+    <Compile Include="Helper\Jobs\TouchLifeDispatcher.cs" />
     <Compile Include="Models\DataEntity\MessageCenter.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -751,7 +763,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="LinqToDB.Templates\Validation.ttinclude" />
     <Content Include="LinqToDB.Templates\T4Model.ttinclude" />
     <Content Include="LinqToDB.Templates\ReadMe.LinqToDB.md" />
@@ -845,6 +859,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\Dnake\" />
+    <Folder Include="Views\Inbound\" />
     <Folder Include="Views\Outbound\Module\" />
   </ItemGroup>
   <ItemGroup>
@@ -876,15 +891,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="\\Vm-venus\e%24\Project\GitHub\beyond-fitness\CommonLib.Logger\CommonLib.Logger.csproj">
-      <Project>{8146e629-552a-4b36-8711-08ae8245b8fa}</Project>
-      <Name>CommonLib.Logger</Name>
-    </ProjectReference>
-    <ProjectReference Include="\\Vm-venus\e%24\Project\GitHub\beyond-fitness\CommonLib.PlugInAdapter\CommonLib.PlugInAdapter.csproj">
-      <Project>{1dc01691-e9ae-4adf-8bbd-5b02fcb5be31}</Project>
-      <Name>CommonLib.PlugInAdapter</Name>
-    </ProjectReference>
-    <ProjectReference Include="\\Vm-venus\e%24\Project\GitHub\beyond-fitness\CommonLib\CommonLib.csproj">
+    <ProjectReference Include="..\CommonLib\CommonLib.csproj">
       <Project>{c0ad239c-2ac4-46d2-ae7c-5e97266ef4ea}</Project>
       <Name>CommonLib</Name>
     </ProjectReference>

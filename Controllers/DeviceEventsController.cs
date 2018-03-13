@@ -11,6 +11,8 @@ using WebHome.Models.Locale;
 using Newtonsoft.Json;
 using WebHome.Models.Helper;
 using WebHome.Properties;
+using System.IO;
+using WebHome.Helper.Jobs;
 
 namespace WebHome.Controllers
 {
@@ -38,7 +40,7 @@ namespace WebHome.Controllers
             viewModel.DeviceUri = viewModel.DeviceUri.GetEfficientString();
             if (viewModel.DeviceUri != null)
             {
-                items = items.Where(t => t.DeviceUri.Contains(viewModel.DeviceUri));
+                items = items.Where(t => t.UserRegister.DeviceUri.Contains(viewModel.DeviceUri));
             }
 
             ViewBag.DataItemView = "~/Views/DeviceEvents/Module/DataItem.ascx";
@@ -134,27 +136,44 @@ namespace WebHome.Controllers
         {
             string message;
             var item = models.GetTable<LiveDevice>().Where(l => l.LiveID == liveID).FirstOrDefault();
+            var userReg = item.UserRegister;
+
             if (item != null)
             {
-                dynamic queryValues = new DynamicQueryStringParameter();
-                queryValues.prm_l1_device_type = Settings.Default.PRMType;
-                queryValues.prm_uri = item.DeviceUri;
-                var result = MessageOutbound.Instance.DeleteDevice(queryValues);
-
-                if (result != null && String.IsNullOrEmpty((String)result[0].return_message))
-                {
-                    message = item.DeviceUri + "=>資料已刪除!!";
-                }
-                else
-                {
-                    message = item.DeviceUri + "=>" + JsonConvert.SerializeObject(result);
-                    Logger.Warn(message);
-                }
-
                 models.ExecuteCommand("delete DeviceEventReport where LiveID = {0}", liveID);
                 models.ExecuteCommand("delete DeviceEventLog where LiveID = {0}", liveID);
                 models.DeleteAny<LiveDevice>(d => d.LiveID == liveID);
 
+                if (userReg != null)
+                {
+                    var count = models.GetTable<LiveDevice>().Where(d => d.UID == userReg.UID).Count();
+                    if (count == 0) //該用戶已裝置
+                    {
+                        dynamic queryValues = new DynamicQueryStringParameter();
+                        queryValues.prm_l1_device_type = Settings.Default.PRMType;
+                        queryValues.prm_uri = userReg.DeviceUri;
+                        var result = MessageOutbound.Instance.DeleteDevice(queryValues);
+
+                        if (result != null && String.IsNullOrEmpty((String)result[0].return_message))
+                        {
+                            message = userReg.DeviceUri + "=>資料已刪除!!";
+                            models.ExecuteCommand("delete UserProfile where UID = {0}", userReg.UID);
+                        }
+                        else
+                        {
+                            message = userReg.DeviceUri + "=>" + JsonConvert.SerializeObject(result);
+                            Logger.Warn(message);
+                        }
+                    }
+                    else
+                    {
+                        message = liveID + ":設備已刪除!!";
+                    }
+                }
+                else
+                {
+                    message = liveID + ":設備已刪除!!";
+                }
             }
             else
             {
@@ -183,7 +202,24 @@ namespace WebHome.Controllers
             }
 
             return message;
-        } 
+        }
+
+        public ActionResult PushMessage()
+        {
+            if (Request.TotalBytes <= 0)
+                return new EmptyResult();
+
+            dynamic message;
+
+            using (StreamReader reader = new StreamReader(Request.InputStream, Request.ContentEncoding))
+            {
+                using (JsonTextReader jsonReader = new JsonTextReader(reader))
+                {
+                    message = JsonSerializer.Create().Deserialize(jsonReader);
+                    return Content(JsonConvert.SerializeObject((new TouchLifeDispatcher()).PushMessage(message)), "application/json");
+                }
+            }
+        }
 
     }
 }

@@ -55,5 +55,44 @@
     <Setting Name="CheckEventIntervalInSeconds" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">10</Value>
     </Setting>
+    <Setting Name="CommunicationMode" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="TouchLifeOutbound" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://nsst.tw:8080/c148/monitor/intercom.php</Value>
+    </Setting>
+    <Setting Name="HostUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost:17185</Value>
+    </Setting>
+    <Setting Name="GetResidentInfo" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235:8188/service/SecomBAService.svc/resident/query</Value>
+    </Setting>
+    <Setting Name="GetResidentMessage" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235:8188/service/SecomBAService.svc/message_board/query</Value>
+    </Setting>
+    <Setting Name="EnergyDegreeQuery" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235:8188/service/SecomBAService.svc/energy/degree/query</Value>
+    </Setting>
+    <Setting Name="EnergyDegreeUpdate" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235:8188/service/SecomBAService.svc/energy/degree/udate</Value>
+    </Setting>
+    <Setting Name="EnergyDegreeInsert" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235:8188/service/SecomBAService.svc/energy/degree/insert</Value>
+    </Setting>
+    <Setting Name="EnergyDegreeDelete" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235:8188/service/SecomBAService.svc/energy/degree/delete</Value>
+    </Setting>
+    <Setting Name="MessageCenter_BA_Service_sr_BA_DeviceWebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://211.23.68.235/service/sr_BA_DeviceWebService.asmx</Value>
+    </Setting>
+    <Setting Name="PushMessageMaxLength" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">360</Value>
+    </Setting>
+    <Setting Name="GoogleFCMUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://fcm.googleapis.com/fcm/send</Value>
+    </Setting>
+    <Setting Name="GoogleFCMAuthorization" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">key=AIzaSyDrDyQRVavEWLBRYnsJmwy3mSksPqm9_qo</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

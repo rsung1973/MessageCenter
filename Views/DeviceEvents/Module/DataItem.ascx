@@ -13,8 +13,9 @@
 
 <tr>
     <td><input type="checkbox" name="liveID" value="<%= _model.LiveID %>" /></td>
-    <td><a href="javascript:uiDeviceQuery.inquireEventLog(<%= _model.LiveID %>);"><%= _model.DeviceUri %></a> </td>
+    <td><a href="javascript:uiDeviceQuery.inquireEventLog(<%= _model.LiveID %>);"><%= _model.UserRegister!=null ? _model.UserRegister.DeviceUri : "用戶未對應" %></a> </td>
     <td><%= (String)ViewBag.UserName %></td>
+    <td><%= _model.DeviceID %></td>
     <td><%= _model.CurrentLevel.HasValue ? _model.LevelExpression.Description : null %></td>
     <td>
         <div class="btn-group dropdown" data-toggle="dropdown">

@@ -240,3 +240,25 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+# Project output content
+assets/
+bin/
+logs/
+Debug/
+/Update(2017-07-15).sql
+/Update(2017-07-10).sql
+/Update(2017-07-09).sql
+/Update(2017-07-08).sql
+/Update(2017-07-08)-1.sql
+beyond-fitness(20160727)/
+/檢測標準.xlsx
+/檢測標準.pdf
+/Update(2017-07-01).sql
+/Update(2017-07-01)-2.sql
+/Update(2017-07-01)-1.sql
+
+*.udl
+
+# Document Folder
+[Dd]oc/

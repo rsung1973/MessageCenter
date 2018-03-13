@@ -18,6 +18,7 @@
             <th></th>
             <th style="min-width: 120px;">Device Uri</th>
             <th style="min-width: 120px;">使用者名稱</th>
+            <th style="min-width: 120px;">alarm_zone_id</th>
             <th style="min-width: 120px;">目前狀態</th>
             <th style="min-width: 150px" aria-sort="other">管理</th>
         </tr>

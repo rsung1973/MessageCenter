@@ -3,7 +3,14 @@
 <%@ Import Namespace="System.Linq.Expressions" %>
 <%@ Import Namespace="System.Web.Mvc.Html" %>
 
+<%  if (ViewBag.ResidentOnly == true)
+    { %>
+<%  Html.RenderPartial("~/Views/SiteAction/ResidentMenu.ascx"); %>
+<%  }
+    else
+    { %>
 <%  Html.RenderPartial("~/Views/SiteAction/UserMenu.ascx"); %>
+<%  } %>
 
 <script runat="server">
 

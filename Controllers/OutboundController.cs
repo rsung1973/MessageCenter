@@ -67,10 +67,29 @@ namespace WebHome.Controllers
             }
         }
 
+        public ActionResult ResidentInfo()
+        {
+            var result = MessageOutbound.Instance.GetResidentInfo();
+            if (result != null)
+            {
+                return View("~/Views/Outbound/ResidentInfo.aspx", result);
+            }
+            else
+            {
+                return new EmptyResult();
+            }
+        }
+
         public ActionResult SynchronizeDevices()
         {
-            BusinessExtensionMethods.SynchronizeDevices();
+            BusinessExtensionMethods.SynchronizeUserDevices();
             return View("~/Views/Shared/MessageView.ascx", model: "登錄設備已啟動!!");
+        }
+
+        public ActionResult CheckDeviceAlive()
+        {
+            BusinessExtensionMethods.CheckDeviceAlive();
+            return Content("Action done !!");
         }
 
         public ActionResult TestIndex()

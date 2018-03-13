@@ -97,8 +97,73 @@
             }
         };
 
+        uiDeviceQuery.inquireResidentMessage = function () {
+
+            $('#theForm').ajaxForm({
+                url: "<%= Url.Action("InquireResidentMessage","InfoCenter",new { resultAction = ViewBag.ResultAction }) %>",
+                beforeSubmit: function () {
+                    showLoading();
+                },
+                success: function (data) {
+                    hideLoading();
+                    if (data) {
+                        if (uiDeviceQuery.$result)
+                            uiDeviceQuery.$result.remove();
+                        uiDeviceQuery.$result = $(data);
+                        $('.queryAction').after(uiDeviceQuery.$result);
+                    }
+                },
+                error: function () {
+                    hideLoading();
+                }
+            }).submit();
+        };
+
+        uiDeviceQuery.reportEnergyDegree = function (actionType) {
+
+            $('#theForm').ajaxForm({
+                url: "<%= Url.Action("ReportEnergyDegree","InfoCenter",new { resultAction = ViewBag.ResultAction }) %>" + '?actionType=' + actionType,
+                beforeSubmit: function () {
+                    showLoading();
+                },
+                success: function (data) {
+                    hideLoading();
+                    if (data) {
+                        $(data).appendTo($('body'));
+                    }
+                },
+                error: function () {
+                    hideLoading();
+                }
+            }).submit();
+        };
+
+        uiDeviceQuery.inquireEnergyDegree = function () {
+
+            $('#theForm').ajaxForm({
+                url: "<%= Url.Action("InquireEnergyDegree","InfoCenter",new { resultAction = ViewBag.ResultAction }) %>" + '?actionType=3',
+                beforeSubmit: function () {
+                    showLoading();
+                },
+                success: function (data) {
+                    hideLoading();
+                    if (data) {
+                        if (uiDeviceQuery.$result)
+                            uiDeviceQuery.$result.remove();
+                        uiDeviceQuery.$result = $(data);
+                        $('.queryAction').after(uiDeviceQuery.$result);
+                    }
+                },
+                error: function () {
+                    hideLoading();
+                }
+            }).submit();
+        };
 
     });
+
+
+
 </script>
 <script runat="server">
 

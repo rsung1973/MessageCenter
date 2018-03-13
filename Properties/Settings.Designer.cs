@@ -168,5 +168,123 @@ namespace WebHome.Properties {
                 return ((int)(this["CheckEventIntervalInSeconds"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int CommunicationMode {
+            get {
+                return ((int)(this["CommunicationMode"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://nsst.tw:8080/c148/monitor/intercom.php")]
+        public string TouchLifeOutbound {
+            get {
+                return ((string)(this["TouchLifeOutbound"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:17185")]
+        public string HostUrl {
+            get {
+                return ((string)(this["HostUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://211.23.68.235:8188/service/SecomBAService.svc/resident/query")]
+        public string GetResidentInfo {
+            get {
+                return ((string)(this["GetResidentInfo"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://211.23.68.235:8188/service/SecomBAService.svc/message_board/query")]
+        public string GetResidentMessage {
+            get {
+                return ((string)(this["GetResidentMessage"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://211.23.68.235:8188/service/SecomBAService.svc/energy/degree/query")]
+        public string EnergyDegreeQuery {
+            get {
+                return ((string)(this["EnergyDegreeQuery"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://211.23.68.235:8188/service/SecomBAService.svc/energy/degree/udate")]
+        public string EnergyDegreeUpdate {
+            get {
+                return ((string)(this["EnergyDegreeUpdate"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://211.23.68.235:8188/service/SecomBAService.svc/energy/degree/insert")]
+        public string EnergyDegreeInsert {
+            get {
+                return ((string)(this["EnergyDegreeInsert"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://211.23.68.235:8188/service/SecomBAService.svc/energy/degree/delete")]
+        public string EnergyDegreeDelete {
+            get {
+                return ((string)(this["EnergyDegreeDelete"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://211.23.68.235/service/sr_BA_DeviceWebService.asmx")]
+        public string MessageCenter_BA_Service_sr_BA_DeviceWebService {
+            get {
+                return ((string)(this["MessageCenter_BA_Service_sr_BA_DeviceWebService"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("360")]
+        public int PushMessageMaxLength {
+            get {
+                return ((int)(this["PushMessageMaxLength"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://fcm.googleapis.com/fcm/send")]
+        public string GoogleFCMUrl {
+            get {
+                return ((string)(this["GoogleFCMUrl"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("key=AIzaSyDrDyQRVavEWLBRYnsJmwy3mSksPqm9_qo")]
+        public string GoogleFCMAuthorization {
+            get {
+                return ((string)(this["GoogleFCMAuthorization"]));
+            }
+        }
     }
 }
