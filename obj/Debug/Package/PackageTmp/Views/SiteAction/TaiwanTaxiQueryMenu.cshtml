@@ -1,0 +1,32 @@
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using Utility
+@using Newtonsoft.Json
+
+@{
+    InfoQueryViewModel _viewModel = ViewBag.ViewModel as InfoQueryViewModel;
+}
+
+<li>
+    <a href="javascript:dispatchQuery();"><i class="fa fa-hand-o-right" aria-hidden="true"></i>台灣大車隊住戶叫車查詢</a>
+    <script>
+
+        function dispatchQuery() {
+            doDispatchQuery();
+        }
+
+        function doDispatchQuery() {
+            $('').launchDownload('@Html.Raw(Url.Action("DispatchQueryAll", "TaiwanTaxiAgent"))', $global.viewModel);
+        }
+    </script>
+</li>
+
+
+

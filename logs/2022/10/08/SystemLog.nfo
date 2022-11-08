@@ -1,0 +1,24 @@
+﻿2022/10/08 23:38:12
+{"Amount":0,"PaidType":0,"City":"新北市","District":"永和區","Road":"竹林路","No":"204","Longitude":121.52068,"Latitude":25.00867,"UnitNo":4,"spotAccount":"00001","PageSize":50}
+2022/10/08 23:38:15
+{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNjkzLCJQaG9uZSI6IjQ2NjAxMDAwMDEiLCJpYXQiOjE2NjUyNDM0OTMsImV4cCI6MTY2NzgzNTQ5M30.VO5i-dkczqndHYfEXJw7TQn97DtYmgssL92rlNkIfNP1uWPepTBYRbjt45jk2mnyzK44ehN4smBGRqZUVtxSH2_NMEKLaxBCmC3eiOw2OkCuQs6NAb46JKVQ_YKtbWgo_VTEZ6ezqYN8PvCTbZwybLW85GHgtByUHx5ospv29cdSfOkTvVl_hUR-URLEmbQTl3kdUZeA3X1J5EhbzigKElV0ETNbIJOAPuEw4RGpZhapNedtw73yuyX22Uv11tA5XrJJbS3lnIRoJ2iQg6k3w2TNhDD_To7IxfWIeDmrLb-LEO7LrYI-RT5iKjPi6-vaP4ZZGaSiij-MhWx4DyqWkw"}}
+2022/10/08 23:38:15
+{"spotAccount":"00001","name":"00001","city":"新北市","town":"永和區","address":"竹林路204號之4","lat":25.00867,"lng":121.52068}
+2022/10/08 23:38:15
+{"Jobs":null,"ExtInfo":null,"Result":{"State":-5,"Msg":"傳入的參數有誤或空白"}}
+2022/10/08 23:42:00
+{"Amount":0,"PaidType":0,"City":"新北市","District":"永和區","Road":"竹林路","No":"204","Longitude":121.52068,"Latitude":25.00867,"UnitNo":4,"spotAccount":"00001","PageSize":50}
+2022/10/08 23:42:01
+{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNjkzLCJQaG9uZSI6IjQ2NjAxMDAwMDEiLCJpYXQiOjE2NjUyNDM3MTksImV4cCI6MTY2NzgzNTcxOX0.msu1-c2b6vo_f_bxezh-HtQluGC8eoQ61AVapjbdWF2DUvrTh6TmMkjKNiHCSU4IiPiyJ3EWIqcGsthrzziCOmOpOtYcwAO819HjjfRTcHErfntPok_4Jy52Tl5Z1ls8Cd4gO0TIT9wfYlS7doUhRvKPRp9adCCrQNXihNCqGq2vL-28BgeNe67JWylCZFnh0PcimESJD2KL50on8H2-aot0Pwvv5iShzvx_f601BFQHXuXpgEkBh2NvpfO6gsVNrzzZxyLxqTGBfv0u0RFKmD10dVqTg03QxC0yhdv5U8m9ucTMsF9tHwTWnxdkyuwGUWv7lY9K7cyPMzRWmNuskA"}}
+2022/10/08 23:42:24
+{"spotAccount":"00001","name":"00001","city":"新北市","town":"永和區","address":"竹林路204號之4","lat":25.00867,"lng":121.52068}
+2022/10/08 23:43:25
+{"Jobs":null,"ExtInfo":null,"Result":{"State":-5,"Msg":"傳入的參數有誤或空白"}}
+2022/10/08 23:45:26
+{"Amount":0,"PaidType":0,"City":"新北市","District":"永和區","Road":"竹林路","No":"204","Longitude":121.52068,"Latitude":25.00867,"UnitNo":4,"spotAccount":"00001","PageSize":50}
+2022/10/08 23:45:27
+{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNjkzLCJQaG9uZSI6IjQ2NjAxMDAwMDEiLCJpYXQiOjE2NjUyNDM5MjUsImV4cCI6MTY2NzgzNTkyNX0.F8XYtw3H55eaqtEgLfwTqAugUfozFl4XQztcVYu5ltVRXLg-F8oe1l2FCtg6J7E_YRaihGFa10M73FTmvQ0ThNBlAYaEgrq15yrstx5p2qYfFJmo4O88iPia_dYmPRjESXE_NHeXxq13Mzr1y3OeQ8laCEbhI6yhxlJreLYegLBA7exrHGXt75ft6yrlpiXFKm91RCWp7AS6zqPY9c3aK0uBUyDWIAwKTzVQtjDW-Ff3wJ44Ok_Qzm2mRRkgkp6I241WZIipUKH7pl2rV2zD14Obo7UbjMJ73P5VnMJjoqZ-NSg2ZBEevc37ZOEsCLeq5JbsA9jJo1MtmiASTIoP7g"}}
+2022/10/08 23:45:27
+{"spotAccount":"00001","name":"00001","city":"新北市","town":"永和區","address":"竹林路204號之4","lat":25.00867,"lng":121.52068}
+2022/10/08 23:45:28
+{"success":true,"error":null,"data":null}

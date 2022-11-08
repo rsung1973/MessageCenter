@@ -1,0 +1,28 @@
+
+
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using Utility
+@{
+    Layout = "~/Views/Shared/MvcMainPage.cshtml";
+    String _inquiryView;
+
+    ViewBag.ActionName = "首頁 > 社區地址維護";
+    _inquiryView = (String)ViewBag.InquiryView ?? "~/Views/InfoCenter/Module/BuildingYoxi.cshtml";
+}
+
+@section headContent {
+
+}
+@section formContent {
+    @{ Html.RenderPartial(_inquiryView);}
+}
+
+

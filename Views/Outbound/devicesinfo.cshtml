@@ -1,0 +1,25 @@
+
+@using System.IO
+@using System.Linq.Expressions
+
+@using Utility
+
+@section headContent { 
+ 
+}
+@section formContent { 
+ 
+}
+@{ Html.RenderPartial("~/Views/Outbound/BuildingInfo/QueryResult.ascx");}
+
+<script runat="server">
+
+    String _inquiryView;
+
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        ViewBag.ActionName = "首頁 > 已登錄設備資訊";
+    }
+
+</script>

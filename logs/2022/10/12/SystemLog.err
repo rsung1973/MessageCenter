@@ -1,0 +1,163 @@
+﻿2022/10/12 17:05:32
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ASP._Page_Views_DeviceEvents_Module_YoxiOrderQueryItem_cshtml.Execute() in C:\Project\HomeNet\MessageCenter\MasterWeb\Views\DeviceEvents\Module\YoxiOrderQueryItem.cshtml:line 110
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper htmlHelper, String partialViewName, Object model)
+   at ASP._Page_Views_DeviceEvents_Module_YoxiOrderQuery_cshtml.Execute() in C:\Project\HomeNet\MessageCenter\MasterWeb\Views\DeviceEvents\Module\YoxiOrderQuery.cshtml:line 72
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper htmlHelper, String partialViewName)
+   at ASP._Page_Views_DeviceEvents_Index_cshtml.<>c__DisplayClass3_0.<Execute>b__1() in C:\Project\HomeNet\MessageCenter\MasterWeb\Views\DeviceEvents\Index.cshtml:line 24
+   at System.Web.WebPages.WebPageBase.<>c__DisplayClass42_0.<RenderSection>b__0(TextWriter tw)
+   at System.Web.WebPages.WebPageBase.Write(HelperResult result)
+   at ASP._Page_Views_Shared_MvcMainPage_cshtml.Execute() in C:\Project\HomeNet\MessageCenter\MasterWeb\Views\Shared\MvcMainPage.cshtml:line 331
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.WebPages.WebPageBase.<>c__DisplayClass40_0.<RenderPageCore>b__0(TextWriter writer)
+   at System.Web.WebPages.WebPageBase.Write(HelperResult result)
+   at System.Web.WebPages.WebPageBase.RenderSurrounding(String partialViewName, Action`1 body)
+   at System.Web.WebPages.WebPageBase.PopContext()
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_1.<BeginInvokeAction>b__1(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeAction(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.<>c.<BeginExecuteCore>b__152_1(IAsyncResult asyncResult, ExecuteCoreState innerState)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.MvcHandler.<>c.<BeginProcessRequest>b__20_1(IAsyncResult asyncResult, ProcessRequestState innerState)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+2022/10/12 17:06:28
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ASP._Page_Views_DeviceEvents_Module_YoxiOrderQueryItem_cshtml.Execute() in C:\Project\HomeNet\MessageCenter\MasterWeb\Views\DeviceEvents\Module\YoxiOrderQueryItem.cshtml:line 55
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper htmlHelper, String partialViewName, Object model)
+   at ASP._Page_Views_DeviceEvents_Module_YoxiOrderQuery_cshtml.Execute() in C:\Project\HomeNet\MessageCenter\MasterWeb\Views\DeviceEvents\Module\YoxiOrderQuery.cshtml:line 72
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper htmlHelper, String partialViewName)
+   at ASP._Page_Views_DeviceEvents_Index_cshtml.<>c__DisplayClass3_0.<Execute>b__1() in C:\Project\HomeNet\MessageCenter\MasterWeb\Views\DeviceEvents\Index.cshtml:line 24
+   at System.Web.WebPages.WebPageBase.<>c__DisplayClass42_0.<RenderSection>b__0(TextWriter tw)
+   at System.Web.WebPages.WebPageBase.Write(HelperResult result)
+   at ASP._Page_Views_Shared_MvcMainPage_cshtml.Execute() in C:\Project\HomeNet\MessageCenter\MasterWeb\Views\Shared\MvcMainPage.cshtml:line 331
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.WebPages.WebPageBase.<>c__DisplayClass40_0.<RenderPageCore>b__0(TextWriter writer)
+   at System.Web.WebPages.WebPageBase.Write(HelperResult result)
+   at System.Web.WebPages.WebPageBase.RenderSurrounding(String partialViewName, Action`1 body)
+   at System.Web.WebPages.WebPageBase.PopContext()
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_1.<BeginInvokeAction>b__1(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeAction(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.<>c.<BeginExecuteCore>b__152_1(IAsyncResult asyncResult, ExecuteCoreState innerState)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.MvcHandler.<>c.<BeginProcessRequest>b__20_1(IAsyncResult asyncResult, ProcessRequestState innerState)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+2022/10/12 17:08:28
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ASP._Page_Views_DeviceEvents_Module_YoxiOrderQueryItem_cshtml.Execute() in C:\Project\HomeNet\MessageCenter\MasterWeb\Views\DeviceEvents\Module\YoxiOrderQueryItem.cshtml:line 55
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper htmlHelper, String partialViewName, Object model)
+   at ASP._Page_Views_DeviceEvents_Module_YoxiOrderQuery_cshtml.Execute() in C:\Project\HomeNet\MessageCenter\MasterWeb\Views\DeviceEvents\Module\YoxiOrderQuery.cshtml:line 72
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper htmlHelper, String partialViewName)
+   at ASP._Page_Views_DeviceEvents_Index_cshtml.<>c__DisplayClass3_0.<Execute>b__1() in C:\Project\HomeNet\MessageCenter\MasterWeb\Views\DeviceEvents\Index.cshtml:line 24
+   at System.Web.WebPages.WebPageBase.<>c__DisplayClass42_0.<RenderSection>b__0(TextWriter tw)
+   at System.Web.WebPages.WebPageBase.Write(HelperResult result)
+   at ASP._Page_Views_Shared_MvcMainPage_cshtml.Execute() in C:\Project\HomeNet\MessageCenter\MasterWeb\Views\Shared\MvcMainPage.cshtml:line 331
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy()
+   at System.Web.Mvc.WebViewPage.ExecutePageHierarchy()
+   at System.Web.WebPages.WebPageBase.ExecutePageHierarchy(WebPageContext pageContext, TextWriter writer, WebPageRenderingBase startPage)
+   at System.Web.WebPages.WebPageBase.<>c__DisplayClass40_0.<RenderPageCore>b__0(TextWriter writer)
+   at System.Web.WebPages.WebPageBase.Write(HelperResult result)
+   at System.Web.WebPages.WebPageBase.RenderSurrounding(String partialViewName, Action`1 body)
+   at System.Web.WebPages.WebPageBase.PopContext()
+   at System.Web.Mvc.ViewResultBase.ExecuteResult(ControllerContext context)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultFilterRecursive(IList`1 filters, Int32 filterIndex, ResultExecutingContext preContext, ControllerContext controllerContext, ActionResult actionResult)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionResultWithFilters(ControllerContext controllerContext, IList`1 filters, ActionResult actionResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.<>c__DisplayClass3_1.<BeginInvokeAction>b__1(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncControllerActionInvoker.EndInvokeAction(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.<>c.<BeginExecuteCore>b__152_1(IAsyncResult asyncResult, ExecuteCoreState innerState)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.EndExecuteCore(IAsyncResult asyncResult)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.Controller.EndExecute(IAsyncResult asyncResult)
+   at System.Web.Mvc.MvcHandler.<>c.<BeginProcessRequest>b__20_1(IAsyncResult asyncResult, ProcessRequestState innerState)
+   at System.Web.Mvc.Async.AsyncResultWrapper.WrappedAsyncVoid`1.CallEndDelegate(IAsyncResult asyncResult)
+   at System.Web.Mvc.MvcHandler.EndProcessRequest(IAsyncResult asyncResult)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStepImpl(IExecutionStep step)
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+2022/10/12 17:29:19
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebHome.DataPort.YoxiAgent.DispatchQuery(String hashId) in C:\Project\HomeNet\MessageCenter\MasterWeb\DataPort\YoxiAgent.cs:line 246
+2022/10/12 17:29:33
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebHome.DataPort.YoxiAgent.DispatchQuery(String hashId) in C:\Project\HomeNet\MessageCenter\MasterWeb\DataPort\YoxiAgent.cs:line 246
+2022/10/12 17:30:25
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebHome.DataPort.YoxiAgent.DispatchQuery(String hashId) in C:\Project\HomeNet\MessageCenter\MasterWeb\DataPort\YoxiAgent.cs:line 246
+2022/10/12 17:36:19
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebHome.DataPort.YoxiAgent.DispatchQuery(String hashId) in C:\Project\HomeNet\MessageCenter\MasterWeb\DataPort\YoxiAgent.cs:line 246
+2022/10/12 17:38:29
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebHome.DataPort.YoxiAgent.DispatchQuery(String hashId) in C:\Project\HomeNet\MessageCenter\MasterWeb\DataPort\YoxiAgent.cs:line 246
+2022/10/12 17:40:48
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebHome.DataPort.YoxiAgent.DispatchQuery(String hashId) in C:\Project\HomeNet\MessageCenter\MasterWeb\DataPort\YoxiAgent.cs:line 246
+2022/10/12 17:45:32
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebHome.DataPort.YoxiAgent.DispatchQuery(String hashId) in C:\Project\HomeNet\MessageCenter\MasterWeb\DataPort\YoxiAgent.cs:line 246
+2022/10/12 17:45:37
+MySql.Data.MySqlClient.MySqlException (0x80004005): Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding. ---> System.TimeoutException: Timeout in IO operation
+   at MySql.Data.MySqlClient.TimedStream.StopTimer()
+   at MySql.Data.MySqlClient.TimedStream.Read(Byte[] buffer, Int32 offset, Int32 count)
+   at MySql.Data.MySqlClient.MySqlStream.ReadFully(Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+   at MySql.Data.MySqlClient.MySqlStream.LoadPacket()
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   at MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySql.Data.MySqlClient.Interceptors.ExceptionInterceptor.Throw(Exception exception)
+   at MySql.Data.MySqlClient.MySqlConnection.HandleTimeoutOrThreadAbort(Exception ex)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at LinqToDB.Data.DataConnection.ExecuteReader(IDbCommand command, CommandBehavior commandBehavior) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1272
+   at LinqToDB.Data.DataConnection.ExecuteReader(CommandBehavior commandBehavior) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1282
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 462
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.SecurityGuardDispatcher.checkSecurityGuard() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\SecurityGuardDispatcher.cs:line 68
+   at WebHome.Helper.Jobs.SecurityGuardDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\SecurityGuardDispatcher.cs:line 35

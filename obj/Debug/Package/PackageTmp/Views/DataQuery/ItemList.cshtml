@@ -1,0 +1,45 @@
+
+@using System.IO
+@using System.Linq.Expressions
+@using System.Reflection
+
+
+@using Utility
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@{
+    IQueryable<dynamic> _model;
+    _model = (IQueryable<dynamic>)this.Model;
+}
+<table class="table01 itemList">
+    <thead>
+        <tr>
+            @{ 
+                object data = _model.First();
+                PropertyInfo[] info = data.GetType().GetProperties();
+            }
+            @foreach (PropertyInfo p in info)
+            {
+                <th>@(p.Name)</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{ int idx = 0;}
+        @foreach (var item in _model)
+        {
+            idx++;
+            Html.RenderPartial("~/Views/DataQuery/DataItem.cshtml", (object)item);
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="@(info.Length)">
+                &nbsp;
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+
+

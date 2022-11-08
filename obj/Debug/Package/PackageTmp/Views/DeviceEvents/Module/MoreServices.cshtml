@@ -1,0 +1,91 @@
+
+
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using Utility
+@using Newtonsoft.Json
+@{
+
+    ModelSource<LiveDevice> models;
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+
+}
+
+@functions
+{
+    static readonly Dictionary<String, String> _PlaceItems = new Dictionary<string, string>()
+{
+        //{ "華納威秀","https://www.vscinemas.com.tw/" },
+        //{"美麗華","http://www.miramar.com.tw/4play.php" },
+        //{"點水樓","http://www.dianshuilou.com.tw/index.html" },
+        //{"故官","https://www.npm.gov.tw/" },
+        //{"CITYLINK","http://www.citylink.tw/neihu/" },
+        //{"COSTCO","https://warehouses.costco.com.tw/neihu_zh/neihu.action" },
+            { "公告訊息","javascript:void(0);" },
+            {"社區網站","javascript:void(0);" },
+            {"業主專區","javascript:void(0);" },
+            {"週邊商家","javascript:void(0);" },
+            {"瓦斯登記","javascript:void(0);" },
+            {"社區地圖","javascript:void(0);" },
+
+    };
+
+}
+
+<table style="background-image: url('../images/main_bkg.png');background-repeat:round; right: 0px; top: 0px; bottom: 0px; left: 0px; width: 100%; height: 100%;text-align:center;">
+    <tr>
+        <td style="vertical-align:bottom;">
+            <a href="@(_PlaceItems.ElementAt(0).Value)" style="float:right;">
+                <div style="text-align:center;font-size:x-large;color:white;">
+                    <img src="~/images/main_btn_logger.png" /><br />@(_PlaceItems.ElementAt(0).Key)
+                </div>
+            </a>
+        </td>
+        <td>
+            <a href="@(_PlaceItems.ElementAt(1).Value)">
+                <div style="text-align:center;font-size:x-large;color:white;">
+                    <img src="~/images/main_btn_apps.png" /><br />@(_PlaceItems.ElementAt(1).Key)
+                </div>
+            </a>
+        </td>
+        <td style="vertical-align:bottom;">
+            <a href="@(_PlaceItems.ElementAt(2).Value)" style="float:left;">
+                <div style="text-align:center;font-size:x-large;color:white;">
+                    <img src="~/images/main_btn_cook.png" /><br />@(_PlaceItems.ElementAt(2).Key)
+                </div>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td style="vertical-align:top;">
+            <a href="@(_PlaceItems.ElementAt(3).Value)" style="float:right;">
+                <div style="text-align:center;font-size:x-large;color:white;">
+                    <img src="~/images/main_btn_mall.png" /><br />@(_PlaceItems.ElementAt(3).Key)
+                </div>
+            </a>
+        </td>
+        <td>
+            @*<a href="@(_PlaceItems.ElementAt(4).Value)">
+                    <div style="text-align:center;font-size:x-large;color:white;">
+                        <img src="~/images/main_btn_stock.png" /><br />@(_PlaceItems.ElementAt(4).Key)
+                    </div>
+                </a>*@
+        </td>
+        <td style="vertical-align:top;">
+            <a href="@(_PlaceItems.ElementAt(5).Value)" style="float:left;">
+                <div style="text-align:center;font-size:x-large;color:white;">
+                    <img src="~/images/main_btn_map.png" /><br />@(_PlaceItems.ElementAt(5).Key)
+                </div>
+            </a>
+        </td>
+    </tr>
+</table>
+
+

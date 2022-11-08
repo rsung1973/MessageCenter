@@ -1,0 +1,36 @@
+
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using Utility
+@using Newtonsoft.Json
+@{
+
+    ModelSource<LiveDevice> models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    UserProfile _model;
+    UserAccountQueryViewModel _viewModel;
+
+    _model = (UserProfile)this.Model;
+    _viewModel = (UserAccountQueryViewModel)ViewBag.ViewModel;
+}
+<tr>
+    <td>@(_model.PID)</td>
+    <td>@(_model.UserName)</td>
+    <td>
+        <input type="checkbox" onclick="uiUserAccount.updateAlarmSetting(event);" name="SubscribedAlarm" value="@(_model.UID)" @(_model.SubscribedAlarm.HasValue && (_model.SubscribedAlarm.Value & (int)Naming.AlarmSubscription.公共設施)>0 ? "checked" : null) />
+        @*<div class="btn-group dropdown" data-toggle="dropdown">
+            <button class="btn bg-color-blueLight" data-toggle="dropdown" aria-expanded="false">請選擇功能</button>
+            <button class="btn bg-color-blueLight dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a class="btn" onclick="uiUserAccount.deleteItem(@(_model.UID));">刪除</a></li>
+            </ul>
+        </div>*@
+    </td>
+</tr>
+

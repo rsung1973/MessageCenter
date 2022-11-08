@@ -1,0 +1,35 @@
+
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using Utility
+@using Newtonsoft.Json
+@{
+    LiveDevice _model;
+    _model = (LiveDevice)this.Model;
+}
+<tr>
+    <td><input type="checkbox" name="liveID" value="@(_model.LiveID)" /></td>
+    <td><a href="javascript:uiDeviceQuery.inquireEventLog(@(_model.LiveID));">@(_model.UserRegister!=null ? _model.UserRegister.DeviceUri : "用戶未對應")</a> </td>
+    <td>@((String)ViewBag.UserName)</td>
+    <td>@(_model.DeviceID)</td>
+    <td>@(_model.CurrentLevel.HasValue ? _model.LevelExpression.Description : null)</td>
+    <td>
+        <div class="btn-group dropdown" data-toggle="dropdown">
+            <button class="btn bg-color-blueLight" data-toggle="dropdown" aria-expanded="false">請選擇功能</button>
+            <button class="btn bg-color-blueLight dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a class="btn" onclick="uiDeviceQuery.deleteItem(@(_model.LiveID));">刪除</a></li>
+            </ul>
+        </div>
+    </td>
+</tr>
+
+
+

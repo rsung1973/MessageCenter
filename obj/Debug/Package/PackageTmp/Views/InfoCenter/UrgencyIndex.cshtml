@@ -1,0 +1,75 @@
+
+
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using Utility
+@{
+
+    Layout = "~/Views/Shared/MvcMainPage.cshtml";
+    String _inquiryView;
+    InfoQueryViewModel _viewModel;
+
+    _viewModel = (InfoQueryViewModel)ViewBag.ViewModel;
+    Response.Headers.Add("Feature-Policy", "autoplay 'self'");
+}
+
+@section headContent {
+    <style type="text/css">
+        .alertMsg {
+            text-align: center;
+            color: #FF0000;
+            font-size: xx-large;
+        }
+    </style>
+}
+@*<iframe src="@(Url.Action("PlayAlarm","InfoCenter"))" allow="autoplay"></iframe>*@
+@*<video id="myAudio" preload="auto" controls loop muted>
+        <source src="@(VirtualPathUtility.ToAbsolute("~/media/alarm.wav"))" type="audio/wav">
+        Your browser does not support the audio element.
+    </video>*@
+@*<button id="btnPlay" onclick="play();">Play</button>*@
+@*<script>
+        function play() {
+            var audio = document.getElementById('myAudio');
+            //alert(audio);
+            //audio.loop();
+            //audio.play();
+            console.log(audio.muted);
+            audio.muted = false;
+    }
+
+    $(function () {
+    //        var btn = document.getElementById('btnPlay');
+        //        btn.click();
+    //    document.body.click();
+    //    setTimeout(play, 500);
+    });
+
+        //window.onload = function () {
+        //    var btn = document.getElementById('btnPlay');
+        //    btn.click();
+        //};
+
+    </script>*@
+@*<embed src="@(VirtualPathUtility.ToAbsolute("~/media/alarm.mp3"))" width="180" height="90" loop="true" autostart="true" hidden="false" type="audio/mp3" />*@
+@if (_viewModel.ShowEvent == DeviceTransactionViewModel.UrgentEventDefinition.火災)
+{
+    <P class="alertMsg">請注意！！火災發生！！</P>
+    <p style="text-align:center;">
+        <img src="~/images/fire.gif" style="width:60%;" />
+    </p>
+}
+else if (_viewModel.ShowEvent == DeviceTransactionViewModel.UrgentEventDefinition.地震)
+{
+    <P class="alertMsg">請注意！！地震發生！！</P>
+    <p style="text-align:center;">
+        <img src="~/images/earthquake.gif" style="width:60%;" />
+    </p>
+}

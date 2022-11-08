@@ -1,0 +1,55 @@
+
+@using System.IO
+@using System.Linq.Expressions
+
+
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            <li>
+                <a href="@(Url.Action("ApplyCenterBuildingInfo","Outbound"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>檢視樓層資訊</a>
+            </li>
+            <li>
+                <a href="@(Url.Action("Index","DeviceEvents"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>設備端狀態查詢</a>
+            </li>
+            <li>
+                <a href="#" onclick="$.post('@(Url.Action("SynchronizeDevices","Outbound"))',{},function(data){ $(data).appendTo($('body')); });"><i class="fa fa-hand-o-right" aria-hidden="true"></i>登錄設備</a>
+            </li>
+            <li>
+                <a href="@(Url.Action("ApplyDevicesInfo","Outbound"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>檢視BA登錄設備</a>
+            </li>
+            <li>
+                <a href="@(Url.Action("ResidentInfo","Outbound"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>檢視BA住戶資訊</a>
+            </li>
+            <li>
+                <a href="@(Url.Action("Index","InfoCenter"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>住戶訊息查詢</a>
+            </li>
+            <li>
+                <a href="@(Url.Action("UserIndex","Account"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>住戶管理</a>
+            </li>
+            <li>
+                <a href="@(Url.Action("EnergyIndex","InfoCenter"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>瓦斯度數維護</a>
+            </li>
+            <li>
+                <a href="@(Url.Action("BuildingLocationIndex","InfoCenter"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>社區地址維護(台灣大車隊)</a>
+            </li>
+            @{
+                Html.RenderPartial("~/Views/SiteAction/TaiwanTaxiQueryMenu.cshtml");
+            }
+            <li>
+                <a href="@(Url.Action("BuildingYoxiIndex","InfoCenter"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>社區地址維護(Yoxi)</a>
+            </li>
+            @{
+                Html.RenderPartial("~/Views/SiteAction/YoxiQueryMenu.cshtml");
+            }
+            <li>
+                <a href="#" onclick="$.post('@(Url.Action("UrgentCall","InfoCenter",new { reset = true }))', {}, function (data) { if ($.isPlainObject(data)) { alert('警報已解除!!'); } else { $(data).appendTo($('body')); } });"><i class="fa fa-hand-o-right" aria-hidden="true"></i>解除地震警報</a>
+            </li>
+            <li>
+                <a href="@(Url.Action("InitStorageBox","DeviceEvents"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>智慧郵箱</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>
+

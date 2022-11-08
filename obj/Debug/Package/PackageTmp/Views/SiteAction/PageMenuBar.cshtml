@@ -1,0 +1,14 @@
+
+@using System.IO
+@using System.Linq.Expressions
+
+
+@if (ViewBag.ResidentOnly == true)
+{
+    Html.RenderPartial("~/Views/SiteAction/ResidentMenu.cshtml");
+}
+else
+{
+    Html.RenderPartial("~/Views/SiteAction/UserMenu.cshtml");
+}
+

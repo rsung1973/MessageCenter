@@ -1,0 +1,235 @@
+
+
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.Properties
+@using Utility
+@using Newtonsoft.Json
+@{
+
+    ModelSource<LiveDevice> models;
+    YoxiAgentViewModel _viewModel;
+
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    _viewModel = (YoxiAgentViewModel)ViewBag.ViewModel;
+}
+
+<div class="border_gray queryAction">
+    <!--表格 開始-->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="left_title">
+        <tr>
+            <th>
+                住戶識別碼(resident ID)
+            </th>
+            <td class="tdleft" colspan="3">
+                <input type="text" name="ResidentID" value="@(_viewModel.ResidentID.GetEfficientString())" />
+            </td>
+        </tr>
+    </table>
+    <!--表格 結束-->
+</div>
+<div class="border_gray" style="min-height:800px;">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            @*<td valign="top">
+                    <img src="~/images/TaxiOrder_01.png" style="width:160px;" />
+                </td>*@
+            <td>
+                <div>
+                    <div class="col-md-2">
+                        <label class="label-info">服務單位</label>
+                    </div>
+                    <img src="~/images/yoxiLogoRed.svg" />
+                </div>
+                @*<hr />
+                    <div>
+                        <div class="col-md-2">
+                            <label class="label-info">日期</label>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" name="BookDate" class="form-date" size="10" />
+                        </div>
+                        <div class="col-md-2 text-right">
+                            <label class="label-info">時間</label>
+                        </div>
+                        <div class="col-md-3 input-group">
+                            <select name="Hour">
+                                @for (int i = 0; i < 24; i++)
+                                {
+                                    <option value="@(i)">@($"{i:00}")</option>
+                                }
+                            </select> 點
+                            <input type="text" name="Minute" size="4" /> 分
+                        </div>
+
+                    </div>*@
+                <hr />
+                <div>
+                    <div class="col-md-2">
+                        <label class="label-info">地址</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="hidden" name="City" size="6" value="@(AppSettings.Default.Location.City)" />@(AppSettings.Default.Location.City)
+                        <input type="hidden" name="District" size="6" value="@(AppSettings.Default.Location.District)" />@(AppSettings.Default.Location.District)
+                        <input type="hidden" name="Road" size="6" value="@(AppSettings.Default.Location.Road)" />@(AppSettings.Default.Location.Road)
+                        <input type="hidden" name="Section" size="6" value="@(AppSettings.Default.Location.Section)" />
+                        @if (AppSettings.Default.Location.Section != null)
+                        {
+                            <text>@(AppSettings.Default.Location.Section)段</text>
+                        }
+                        <input type="hidden" name="Lane" size="6" value="@(AppSettings.Default.Location.Lane)" />
+                        @if (AppSettings.Default.Location.Lane != null)
+                        {
+                            <text>@(AppSettings.Default.Location.Lane)巷</text>
+                        }
+                        <input type="hidden" name="Alley" size="6" value="@(AppSettings.Default.Location.Alley)" />
+                        @if (AppSettings.Default.Location.Alley != null)
+                        {
+                            <text>@(AppSettings.Default.Location.Alley)弄</text>
+                        }
+                        <input type="hidden" name="No" size="6" value="@(AppSettings.Default.Location.No)" />
+                        @if (AppSettings.Default.Location.No != null)
+                        {
+                            <text>@(AppSettings.Default.Location.No)號</text>
+                        }
+                        <input type="hidden" name="Latitude" size="10" value="@(AppSettings.Default.Location.Latitude)" />
+                        <input type="hidden" name="Longitude" size="10" value="@(AppSettings.Default.Location.Longitude)" />
+                        <br />
+                        @if (AppSettings.Default.Location.FloorCount >= 1)
+                        {
+                            <select name="Floor">
+                                @for (int i = 1; i <= AppSettings.Default.Location.FloorCount; i++)
+                                {
+                                    <option>@(i)</option>
+                                }
+                            </select>
+                            <text>樓</text>
+                        }
+                        @if (_viewModel.Floor.HasValue)
+                        {
+                            <script>
+                                $(function () {
+                                    $('select[name="Floor"]').val('@(_viewModel.Floor)');
+                                });
+                            </script>
+                        }
+                        @if (AppSettings.Default.Location.UnitCount.HasValue)
+                        {
+                            <text>之</text>
+                            <select name="UnitNo">
+                                <option></option>
+                                @for (int i = 1; i <= AppSettings.Default.Location.UnitCount; i++)
+                                {
+                                    <option>@(i)</option>
+                                }
+                            </select>
+                            if (_viewModel.UnitNo.HasValue)
+                            {
+                                <script>
+                                    $(function () {
+                                        $('select[name="UnitNo"]').val('@(_viewModel.UnitNo)');
+                                    });
+                                </script>
+                            }
+                        }
+                    </div>
+                </div>
+                <hr />
+                <div>
+                    <div class="col-md-2">
+                        <label class="label-info">客戶資訊</label>
+                    </div>
+                    <div class="col-md-10 input-group">
+                        <div class="col-md-4">
+                            姓名：<input type="text" name="CustName" size="10" value="@(_viewModel.CustName ?? "王小美")" />
+                        </div>
+                        <div class="col-md-4">
+                            電話：<input type="text" name="CustPhone" size="10" value="@(_viewModel.CustPhone)" />
+                        </div>
+                        <div class="col-md-4">
+                            稱謂：
+                            <select name="CustTitle">
+                                <option>先生</option>
+                                <option>女士</option>
+                            </select>
+                            @if (_viewModel.CustTitle != null)
+                            {
+                                <script>
+                                    $(function () {
+                                        $('select[name="CustTitle"]').val('@(_viewModel.CustTitle)');
+                                    });
+                                </script>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div>
+                    <div class="col-md-2">
+                        <label class="label-info">其它</label>
+                    </div>
+                    <div class="col-md-10 input-group">
+                        <div class="col-md-4">
+                            叫車數量：
+                            <select name="Amount">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                            </select>
+                        </div>
+                        @*<div class="col-md-4">
+                            付款方式：
+                            <select name="PaidType">
+                                <option value="1">信用卡</option>
+                                <option value="2">乘車券</option>
+                                <option value="7">LINE Pay</option>
+                                <option value="10">銀聯付款</option>
+                            </select>
+                        </div>*@
+                    </div>
+                    <div class="col-md-10 input-group">
+                        <div class="col-md-12">
+                            備註：<textarea name="Memo" rows="1" cols="64">@(_viewModel.Memo ?? AppSettings.Default.Location.Memo)</textarea>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="row text-center">
+                    <button class="btn" type="button" onclick="dispatchYoxi();">送出</button>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    function dispatchYoxi() {
+
+        $('form.queryForm').ajaxForm({
+            url: "@(Url.Action("DispatchOrder","YoxiAgent"))",
+            beforeSubmit: function () {
+                showLoading();
+            },
+            success: function (data) {
+                hideLoading();
+                if ($.isPlainObject(data)) {
+                    alert(data.message);
+                } else {
+                    $(data).appendTo($('body'));
+                }
+            },
+            error: function () {
+                hideLoading();
+            }
+        }).submit();
+    }
+</script>
+
+

@@ -8,6 +8,7 @@ using CommonLib.Helper;
 using Utility;
 using WebHome.Models.DataEntity;
 using WebHome.Properties;
+using WebHome.Models.Locale;
 
 namespace WebHome.Helper.Jobs
 {
@@ -72,53 +73,65 @@ namespace WebHome.Helper.Jobs
 
             var jobList = JobScheduler.JobList;
 
-            if (Settings.Default.CommunicationMode == 0 || Settings.Default.CommunicationMode == 1)
+            if (Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.ControlCenter)
             {
-                if (jobList == null || !jobList.Any(j => j.AssemblyQualifiedName == typeof(MessageAutoDispatcher).AssemblyQualifiedName))
+
+            }
+            else
+            {
+
+                if (Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.All || Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.中保)
+                {
+                    if (jobList == null || !jobList.Any(j => j.AssemblyQualifiedName == typeof(MessageAutoDispatcher).AssemblyQualifiedName))
+                    {
+                        JobScheduler.AddJob(new JobItem
+                        {
+                            AssemblyQualifiedName = typeof(MessageAutoDispatcher).AssemblyQualifiedName,
+                            Description = "傳送設備端裝置對應",
+                            Schedule = DateTime.Today.Add(new TimeSpan(0, 0, 0))
+                        });
+                    }
+
+                }
+
+                if (Settings.Default.CommunicationMode != (int)Naming.CommunicationMode.AwtekOnly)
+                {
+
+                    if (jobList == null || !jobList.Any(j => j.AssemblyQualifiedName == typeof(AliveDeviceStatusDispatcher).AssemblyQualifiedName))
+                    {
+                        JobScheduler.AddJob(new JobItem
+                        {
+                            AssemblyQualifiedName = typeof(AliveDeviceStatusDispatcher).AssemblyQualifiedName,
+                            Description = "檢查設備端狀態",
+                            Schedule = DateTime.Today.Add(new TimeSpan(0, 10, 0))
+                        });
+                    }
+                }
+
+                if (Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.All || Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.中保)
+                {
+                    if (jobList == null || !jobList.Any(j => j.AssemblyQualifiedName == typeof(SecurityGuardDispatcher).AssemblyQualifiedName))
+                    {
+                        JobScheduler.AddJob(new JobItem
+                        {
+                            AssemblyQualifiedName = typeof(SecurityGuardDispatcher).AssemblyQualifiedName,
+                            Description = "檢查設備端保全設定",
+                            Schedule = DateTime.Today.Add(new TimeSpan(0, 20, 0))
+                        });
+                    }
+                }
+
+                if (jobList == null || !jobList.Any(j => j.AssemblyQualifiedName == typeof(DeviceEventDispatcher).AssemblyQualifiedName))
                 {
                     JobScheduler.AddJob(new JobItem
                     {
-                        AssemblyQualifiedName = typeof(MessageAutoDispatcher).AssemblyQualifiedName,
-                        Description = "傳送設備端裝置對應",
-                        Schedule = DateTime.Today.Add(new TimeSpan(0, 0, 0))
+                        AssemblyQualifiedName = typeof(DeviceEventDispatcher).AssemblyQualifiedName,
+                        Description = "檢查設備端警報",
+                        Schedule = DateTime.Today.Add(new TimeSpan(0, 30, 0))
                     });
                 }
 
             }
-
-            if (jobList == null || !jobList.Any(j => j.AssemblyQualifiedName == typeof(AliveDeviceStatusDispatcher).AssemblyQualifiedName))
-            {
-                JobScheduler.AddJob(new JobItem
-                {
-                    AssemblyQualifiedName = typeof(AliveDeviceStatusDispatcher).AssemblyQualifiedName,
-                    Description = "檢查設備端狀態",
-                    Schedule = DateTime.Today.Add(new TimeSpan(0, 10, 0))
-                });
-            }
-
-            if (Settings.Default.CommunicationMode == 0 || Settings.Default.CommunicationMode == 1)
-            {
-                if (jobList == null || !jobList.Any(j => j.AssemblyQualifiedName == typeof(SecurityGuardDispatcher).AssemblyQualifiedName))
-                {
-                    JobScheduler.AddJob(new JobItem
-                    {
-                        AssemblyQualifiedName = typeof(SecurityGuardDispatcher).AssemblyQualifiedName,
-                        Description = "檢查設備端保全設定",
-                        Schedule = DateTime.Today.Add(new TimeSpan(0, 20, 0))
-                    });
-                }
-            }
-
-            if (jobList == null || !jobList.Any(j => j.AssemblyQualifiedName == typeof(DeviceEventDispatcher).AssemblyQualifiedName))
-            {
-                JobScheduler.AddJob(new JobItem
-                {
-                    AssemblyQualifiedName = typeof(DeviceEventDispatcher).AssemblyQualifiedName,
-                    Description = "檢查設備端警報",
-                    Schedule = DateTime.Today.Add(new TimeSpan(0, 30, 0))
-                });
-            }
-
 
         }
     }

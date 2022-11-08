@@ -48,17 +48,12 @@ namespace WebHome.Models.Locale
             迴路五異常 = 13,
         }
 
-        public static String[] DeviceStatusCode = { "", "00", "99", "R", "S", "F", "GS", "C", "TD", "T1", "T2", "T3", "T4","T5" };
+        public static String[] DeviceStatusCode = { "", "00", "99", "R", "S", "F", "GS", "C", "TD", "T1", "T2", "T3", "T4", "T5" };
 
-        public enum LessonPriceStatus
+        public enum DefenceStatus
         {
-            已刪除 = 0,
-            一般課程 = 1,
-            暫存 = 2,
-            自主訓練 = 103,
-            自由教練預約 = 1004,
-            內部訓練 = 1005,
-            體驗課程 = 1006
+            Clear = -1,
+            Secured = 1,
         }
 
         public enum MemberStatusDefinition
@@ -113,6 +108,33 @@ namespace WebHome.Models.Locale
         {
             release = 0,
             alarm = 1
+        }
+
+        public enum AlarmSubscription
+        {
+            公共設施 = 1,
+        }
+
+        public enum SensorType
+        {
+            火災 = 0,
+            瓦斯,
+            紅外,
+            門磁,
+            窗磁,
+            緊急按鈕,
+            浸水,
+            緊急繩索,
+            床頭按鈕,
+        }
+
+        public enum CommunicationMode
+        {
+            All = 0,
+            中保 = 1,
+            新保 = 2,
+            AwtekOnly = 3,
+            ControlCenter = 4,
         }
 
     }

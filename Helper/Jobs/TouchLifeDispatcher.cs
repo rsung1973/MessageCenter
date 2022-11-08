@@ -25,7 +25,7 @@ namespace WebHome.Helper.Jobs
         private static int __Counter = 0;
         private static int __BusyCount = 0;
 
-        public void Outbound(dnakeDB db, alarm_zone zone, ModelSource<MessageCenterDataContext> mgr, Naming.AlarmMode alarmMode)
+        public void Outbound(dnakeDB db, alarm_zone zone, ModelSource<LiveDevice> mgr, Naming.AlarmMode alarmMode)
         {
             var rq = createOutboundRequest(db, zone, alarmMode);
             if (rq != null)
@@ -104,7 +104,7 @@ namespace WebHome.Helper.Jobs
 
         }
 
-        public void ReportDeviceStatus(dnakeDB db, alarm_zone deviceToCheck, ModelSource<MessageCenterDataContext> mgr, Naming.DeviceLevelDefinition status)
+        public void ReportDeviceStatus(dnakeDB db, alarm_zone deviceToCheck, ModelSource<LiveDevice> mgr, Naming.DeviceLevelDefinition status)
         {
             var rq = createOutboundRequest(db, deviceToCheck, Naming.AlarmMode.alarm);
             if (rq != null)
@@ -122,7 +122,7 @@ namespace WebHome.Helper.Jobs
             }
         }
 
-        public void ReportUserStatus(dnakeDB db, ModelSource<MessageCenterDataContext> mgr, device item, Naming.DeviceLevelDefinition status)
+        public void ReportUserStatus(dnakeDB db, ModelSource<LiveDevice> mgr, device item, Naming.DeviceLevelDefinition status)
         {
             var deviceCheckList = db.GetTable<alarm_zone>().Where(a => a.user == item.user).ToArray();
             foreach (var deviceToCheck in deviceCheckList)

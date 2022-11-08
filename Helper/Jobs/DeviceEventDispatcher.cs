@@ -54,7 +54,7 @@ namespace WebHome.Helper.Jobs
         {
             using (dnakeDB db = new dnakeDB("dnake"))
             {
-                using (ModelSource<MessageCenterDataContext> mgr = new ModelSource<MessageCenterDataContext>())
+                using (ModelSource<LiveDevice> mgr = new ModelSource<LiveDevice>())
                 {
                     var deviceTable = mgr.GetTable<LiveDevice>();
                     alarm_logger[] items;
@@ -62,14 +62,14 @@ namespace WebHome.Helper.Jobs
                     {
                         items = db.GetTable<alarm_logger>()
                             .Where(a => /*a.data == 1 &&*/ a.id > __CheckID
-                                || a.confirmTs >= DateTime.Now.AddSeconds(-60))
+                                || a.confirmTs >= DateTime.Now.AddSeconds(-60 * Settings.Default.AlertBeforeMinutes))
                             .ToArray();
                     }
                     else
                     {
                         items = db.GetTable<alarm_logger>()
-                            .Where(a => /*a.data == 1 &&*/ a.ts >= DateTime.Now.AddSeconds(-60)
-                                || a.confirmTs >= DateTime.Now.AddSeconds(-60))
+                            .Where(a => /*a.data == 1 &&*/ a.ts >= DateTime.Now.AddSeconds(-60 * Settings.Default.AlertBeforeMinutes)
+                                || a.confirmTs >= DateTime.Now.AddSeconds(-60 * Settings.Default.AlertBeforeMinutes))
                             .ToArray();
                     }
 
@@ -95,12 +95,10 @@ namespace WebHome.Helper.Jobs
                                 var zone = db.alarm_zone.Where(z => z.user == item.user && z.zone == item.zone).FirstOrDefault();
                                 if(zone!=null)
                                 {
-                                    if (Settings.Default.CommunicationMode == 0 || Settings.Default.CommunicationMode == 1)    //中保
+                                    if (Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.All || Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.中保)    //中保
                                     {
                                         if (item.confirm == 0)     //sensor alarm
                                         {
-                                            mgr.SendToFCM(item.user);
-
                                             if (zone.zone < 5)
                                             {
                                                 dispatchByZone(db, mgr, deviceTable, zone);
@@ -115,12 +113,20 @@ namespace WebHome.Helper.Jobs
                                             zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.正常, "1");
                                         }
                                     }
-                                    if (Settings.Default.CommunicationMode == 0 || Settings.Default.CommunicationMode == 2)        //新保
+                                    if (Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.All || Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.新保)        //新保
                                     {
                                         TouchLifeDispatcher tl = new TouchLifeDispatcher();
                                         if (item.data == 1 || item.data==0)
                                         {
                                             tl.Outbound(db, zone, mgr, (Naming.AlarmMode)item.data);
+                                        }
+                                    }
+                                    if (Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.All || Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.中保 || Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.AwtekOnly)
+                                    {
+                                        if (item.confirm == 0)
+                                        {
+                                            mgr.SendToFCM(item.user);
+
                                         }
                                     }
                                 }
@@ -135,7 +141,7 @@ namespace WebHome.Helper.Jobs
             }
         }
 
-        private void dispatchBySensor(dnakeDB db, ModelSource<MessageCenterDataContext> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, alarm_zone zone)
+        private void dispatchBySensor(dnakeDB db, ModelSource<LiveDevice> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, alarm_zone zone)
         {
             var sensor = db.alarm_sensor.Where(s => s.sensor == zone.sensor).FirstOrDefault();
             if (sensor != null)
@@ -173,26 +179,30 @@ namespace WebHome.Helper.Jobs
                 }
             }
         }
-        private void dispatchByZone(dnakeDB db, ModelSource<MessageCenterDataContext> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, alarm_zone zone)
+        private void dispatchByZone(dnakeDB db, ModelSource<LiveDevice> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, alarm_zone zone)
         {
             switch (zone.zone)
             {
                 case 0: //Smoke
                     zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路一異常, "1");
+                    //zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.反脅迫警告, "1");
                     break;
                 case 1: //Gas
                     zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路二異常, "1");
+                    //zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.緊急, "1");
                     break;
                 case 2: //PIR
                     zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路三異常, "1");
+                    //zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.瓦斯異常, "1");
                     break;
                 case 3: //Door
                     zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路四異常, "1");
+                    //zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.緊急, "1");
                     break;
                 case 4: //Door
                     zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.迴路五異常, "1");
+                    //zone.ReportDeviceEvent(mgr, deviceTable, Naming.DeviceLevelDefinition.緊急, "1");
                     break;
-
             }
         }
 

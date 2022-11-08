@@ -11,11 +11,16 @@ using WebHome.DataPort;
 using WebHome.Helper;
 using WebHome.Properties;
 using Utility;
+using WebHome.Models.DataEntity;
 
 namespace WebHome.Controllers
 {
-    public class OutboundController : Controller
+    public class OutboundController : SampleController<LiveDevice>
     {
+        public OutboundController() : base()
+        {
+
+        }
         // GET: Outbound
         public ActionResult Index()
         {
@@ -46,7 +51,7 @@ namespace WebHome.Controllers
             var result = MessageOutbound.Instance.ApplyBuildingInfo();
             if (result != null)
             {
-                return View("~/Views/Outbound/BuildingInfo.aspx", result);
+                return View("~/Views/Outbound/BuildingInfo.cshtml", result);
             }
             else
             {
@@ -83,7 +88,7 @@ namespace WebHome.Controllers
         public ActionResult SynchronizeDevices()
         {
             BusinessExtensionMethods.SynchronizeUserDevices();
-            return View("~/Views/Shared/MessageView.ascx", model: "登錄設備已啟動!!");
+            return View("~/Views/Shared/MessageView.cshtml", model: "登錄設備已啟動!!");
         }
 
         public ActionResult CheckDeviceAlive()

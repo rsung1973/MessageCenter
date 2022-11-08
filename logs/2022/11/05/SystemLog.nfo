@@ -1,0 +1,32 @@
+﻿2022/11/05 19:42:46
+RefreshAccessToken:{"CustPhone":"0922123456","CustName":"宋瑞文","CustTitle":"先生","Amount":1,"BookDate":"2022-11-01T13:43:07.3823647+08:00","PaidType":0,"City":"台北市","District":"中山區","Road":"松江路","No":"433","Longitude":121.53357,"Latitude":25.06589,"Floor":1,"spotAccount":"00002","ResidentID":"00002-1011111","Caller":"00002-1011111","PageSize":50}
+2022/11/05 19:42:48
+RefreshAccessToken:{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNzcyLCJQaG9uZSI6IjQ2NjAxMDAwMDIiLCJpYXQiOjE2Njc2NDg1NjYsImV4cCI6MTY3MDI0MDU2Nn0.NNIijJKdqnABn49fTzwtGicYUj3r5OMmSMulLF15nZtJxE1NVME5h7yZ6XJQsPxp3B6HT-myJDJ282N4UmRyRFVOEuHm-0PJ69ytCEhQn73-KU24fgAlI_TPt4AyqH-A_ByDEksnfr3vxyeBHVi0GlabXymprvNCS9t9M702-D7FJRlYutpccSKC-lcB9Gnj1WR_HwiKEjlPQoksWN1DwZ-4FBGeYm14xgXfdL0u2XQQzweE7QO3nEjy8b_kx2Rn2TC4PhNKWokthEi8QZTqhhz5FL28FHJJpdop6qLmSiwN1K_1imgAQbaxYEeVeTE5nPrAEmN68yddxbx7ARi2wg"}}
+2022/11/05 19:42:48
+DispatchQuery:https://hotaiconnected-apim.azure-api.net/AWTEKProxy/tripInformation?spotAccount=00002&hashId=f2d96d9409
+2022/11/05 19:42:48
+DispatchQuery:{"error":"DISPATCH_CANNOT_FIND_ORDER","errorCode":400055,"data":"DISPATCH can not found this order","success":false}
+2022/11/05 19:44:46
+RefreshAccessToken:{"CustPhone":"0922123456","CustName":"宋瑞文","CustTitle":"先生","Amount":1,"BookDate":"2022-11-01T13:43:07.3823647+08:00","PaidType":0,"City":"台北市","District":"中山區","Road":"松江路","No":"433","Longitude":121.53357,"Latitude":25.06589,"Floor":1,"spotAccount":"00002","ResidentID":"00002-1011111","Caller":"00002-1011111","PageSize":50}
+2022/11/05 19:44:46
+RefreshAccessToken:{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNzcyLCJQaG9uZSI6IjQ2NjAxMDAwMDIiLCJpYXQiOjE2Njc2NDg2ODUsImV4cCI6MTY3MDI0MDY4NX0.mzeTU_HKvJ5Iheoaya_HZAC_Jb-hMFh9wckZAhuGKwM2YEZro5Nrg94DKbDfi8gxF-Rzv9y-3HUUavyfnAAowJ6q6pXHs8AwzO5MNmVBrHQRBZJrZpAi-56-ZD55HM4trZA0tej_owc3oYUZhDKpZd-h6GVuN4gTtk4L2fl146DCM8IvlNYrqw14FjgJ5-y3cx9OCD40u43xeD1YsW-QyGucfx23gajvJR-MW1Zur5i8zIL76KEcsPhtE33sx3Kd0AfgIRL2eSPQgl4wS3ZPwa3YJdJ43wcY8nD3qkorT_Pg5ebu1QoW6z4JEjaw4GsBmc4JbPCgpSTkQgvT1IaL9g"}}
+2022/11/05 19:44:46
+DispatchQuery:https://hotaiconnected-apim.azure-api.net/AWTEKProxy/tripInformation?spotAccount=00002&hashId=f2d96d9409
+2022/11/05 19:44:47
+DispatchQuery:{"error":"DISPATCH_CANNOT_FIND_ORDER","errorCode":400055,"data":"DISPATCH can not found this order","success":false}
+2022/11/05 19:48:38
+RefreshAccessToken:{"CustPhone":"0922123456","CustName":"宋瑞文","CustTitle":"先生","Amount":1,"BookDate":"2022-11-01T13:43:07.3823647+08:00","PaidType":0,"City":"台北市","District":"中山區","Road":"松江路","No":"433","Longitude":121.53357,"Latitude":25.06589,"Floor":1,"spotAccount":"00002","ResidentID":"00002-1011111","Caller":"00002-1011111","PageSize":50}
+2022/11/05 19:48:39
+RefreshAccessToken:{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNzcyLCJQaG9uZSI6IjQ2NjAxMDAwMDIiLCJpYXQiOjE2Njc2NDg5MTcsImV4cCI6MTY3MDI0MDkxN30.FymgEZBCc3CXs_lyKmnHtHRxqsLkbWo8W7EaTRz8cXTQcaA0Rk6hcBpxJvi6PsDtLWLrJc1ucUh0-HJD49MVlXT3scgajc3eXm57yWCdhydcACbMYHAf20IYzyo2ofjNBNL8SdvcMYhONIYA8z8KlbRQq3yCgvM3UQK6mGYwgG9W1PYF8cBpPCQAdG0FITyT0-7MwMag0ieLjOjlVGmktYs3jGRa_Tz99aN_PmFv0-G-tBDgPy-YM0LO66aAv2JlJVVG4TQ99bhPM7csviqNAA4nelpnj2MFsB4LL0AwMUu6aGK5ltZpzBLs4Y8gs1b2PWXufLEN5ut4MuCFaTakng"}}
+2022/11/05 19:48:39
+DispatchQuery:https://hotaiconnected-apim.azure-api.net/AWTEKProxy/tripInformation?spotAccount=00002&hashId=f2d96d9409
+2022/11/05 19:48:39
+DispatchQuery:{"error":"DISPATCH_CANNOT_FIND_ORDER","errorCode":400055,"data":"DISPATCH can not found this order","success":false}
+2022/11/05 19:52:42
+{"CompanyId":53,"ServiceToken":"r+MA4bH9Ht0pC9bvF2VJknd/q4A=","CompanySecret":"85hAg1hyDhNZxOFJZXuWhT/Ij8M=","Signature":"ZLdouiDyFRNPUtJomVH3s9+jca0=","UserId":"00001-1011111"}
+2022/11/05 19:52:42
+{"AccessToken":"0736cb7e99bf485a80bf4633a805049a","Expired":"2022-11-05T21:32:41.893","ExpiredUTCT":1667655161893,"ServerUTCT":1667649161907,"Result":{"State":0,"Msg":"成功"}}
+2022/11/05 19:52:42
+{"UserId":"00001-1011111","AccessToken":"0736cb7e99bf485a80bf4633a805049a","Signature":"aDoJGDgvpwSzfMNv1Dkb9vPlzQ8="}
+2022/11/05 19:52:43
+{"Vehicles":[],"Result":{"State":0,"Msg":"成功"}}

@@ -1,0 +1,58 @@
+﻿2022/10/13 10:24:20
+RefreshAccessToken:{"Amount":0,"PaidType":0,"City":"新北市","District":"永和區","Road":"竹林路","No":"204","Longitude":121.52068,"Latitude":25.00867,"Floor":10,"UnitNo":4,"spotAccount":"00002","PageSize":50}
+2022/10/13 10:24:21
+RefreshAccessToken:{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNzcyLCJQaG9uZSI6IjQ2NjAxMDAwMDIiLCJpYXQiOjE2NjU2Mjc4NjAsImV4cCI6MTY2ODIxOTg2MH0.CQpo3XuR6gLfICb4CLccpR3JFjyOtC9Jj5y584qcmMgQ60_y03PNuKPtgJ0ihAkEf2JxkhqoVMczz8kWanPzpJB8iP0U7DiEJaYiza4zgbUQS44C_E2_Bwhjvrp2j7eqzwBfk1nZBEoP5mOYDBVbr-mlXDJwljrmj-sYxXcNL9_VyAqglAYtwmX54wwVT0f21xcTtu8bBEheG9OwoRFNz8LPZ5QaKc2xhT7SVvR_O62X9nugC35AGFDwFxmVyAAZtzEqLV4oOY4lymwVeItlcEeF8UxVLD5Bm0my0suSip7V8ZysU1tdaM0LMKjC7Fl1uKTJ-ADMT2SGOiYlUa1PuA"}}
+2022/10/13 10:24:21
+UpdateSpotAccount:{"spotAccount":"00002","name":"00002","city":"新北市","town":"永和區","address":"竹林路204號之4","lat":25.00867,"lng":121.52068}
+2022/10/13 10:25:37
+RefreshAccessToken:{"Amount":0,"PaidType":0,"City":"新北市","District":"永和區","Road":"竹林路","No":"204","Longitude":121.52068,"Latitude":25.00867,"Floor":10,"UnitNo":4,"spotAccount":"00002","PageSize":50}
+2022/10/13 10:25:37
+RefreshAccessToken:{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNzcyLCJQaG9uZSI6IjQ2NjAxMDAwMDIiLCJpYXQiOjE2NjU2Mjc5MzYsImV4cCI6MTY2ODIxOTkzNn0.EjGKZOecNcWg23quVSKq7fc1RvYR3rRUDZ6tncweRJ0MQxsq2f-MBF8UTY3Jw_ILeyO2VHrO3kvsOToW8hnb5h5cy_ti9mALfN2jqm2ET2BeSZVJGKybrAJwOivvylV4UJexgDYYgyvb0XBNr3VO5eO0spkUqrb0-syzdx0iO1eynyUuG0eJQCB5Q4Q2U5zq7UGFaxWMG68OgBytq5GjN46XmvO8JOk6qJ2GztTyycwCEgGgYtAHVqCxNoFjTWrp_25Sg3Ax9npewgTYb9vQJpMURZvRiUeRbhm6u738cGQqerwvg9vw0MbpEgk_0-QME9nB-xAXu_tBr1nfMend3w"}}
+2022/10/13 10:25:41
+UpdateSpotAccount:{"spotAccount":"00002","name":"00002","city":"新北市","town":"永和區","address":"竹林路204號之4","lat":25.00867,"lng":121.52068}
+2022/10/13 10:30:53
+RefreshAccessToken:{"Amount":0,"PaidType":0,"City":"新北市","District":"永和區","Road":"竹林路","No":"205","Longitude":121.52069,"Latitude":25.00868,"Floor":10,"UnitNo":4,"spotAccount":"00002","PageSize":50}
+2022/10/13 10:30:55
+RefreshAccessToken:{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNzcyLCJQaG9uZSI6IjQ2NjAxMDAwMDIiLCJpYXQiOjE2NjU2MjgyNTQsImV4cCI6MTY2ODIyMDI1NH0.YZWTRyDc-6VSyvxaIpIhZ9EvnA8q7Ii-ARk2Cg7tXv7H8S7p_2CU5zi2ggy0q7qEUMXdjt2n6jyl-8jivMS1jFV-IeoqzRPQozxkvRB5EGJHTAoD3VIxn1Eh3qyj46wjLUW0iOg6r0MwsuHdlyZCmvk6j_t2MM7ZsCxtjs91h9KygdNLnq3aXLbZD_11BP1nhmHxqX96vrP2kPz3ADPfUUveu7rucFULD5IlXf7U6sE0dqNdYLkSbV8PC8L5cYfMaOpdHdVBBSjJRrhSMjLuhBsz9-N4i_6gYkcWwQF-ikLNaDieGgMi9XoKZSZkeYTAdPa-A3WBuvjVuAMY4xHksw"}}
+2022/10/13 10:30:58
+UpdateSpotAccount:{"spotAccount":"00002","name":"00002","city":"新北市","town":"永和區","address":"竹林路205號之4","lat":25.00868,"lng":121.52069}
+2022/10/13 11:37:18
+RefreshAccessToken:{"CustPhone":"0922123456","CustName":"王小美","CustTitle":"先生","Amount":1,"PaidType":0,"City":"新北市","District":"永和區","Road":"竹林路","No":"205","Longitude":121.52069,"Latitude":25.00868,"Floor":1,"UnitNo":2,"spotAccount":"00002","ResidentID":"00001-1011111","Caller":"00001-1011111","PageSize":50}
+2022/10/13 11:37:20
+RefreshAccessToken:{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNzcyLCJQaG9uZSI6IjQ2NjAxMDAwMDIiLCJpYXQiOjE2NjU2MzIyMzgsImV4cCI6MTY2ODIyNDIzOH0.FUevd58kupT6ob6XOk67BpIMjqJXZiowA80a24P4y8nJ36tPHMICd0WuSiJVGKiXCX9i0UsXkaDbaZwRK8uKE6h2XLIq4Mslx1ZkT47SKxA1Xck365hNbRnpOvZE5EL5yMfZgHHeTqQSQd79LERaJiTIyVc7x18yK-h3ZaMSdiDlCiZei3HXqSsDWxnCALa2-hE2AzfFwDZ0SOchCzstGXR9VRKDDjmu8HpEX5489KBe9k7Wu0fPk0EmuYzuPSz9BXZku9OvZoX1aMOQhqzXmeUlIjXI6hwp1JOiiiqLZJR-g8lnngIsL4BZrHpLcPUbeOEjorfXZ0BwykFQ-bipzA"}}
+2022/10/13 11:37:20
+DispatchOrder:{"spotAccount":"00002","riderName":"王小美","riderPhone":"0922123456","carNumber":1}
+2022/10/13 11:37:20
+DispatchOrder:{"success":true,"error":null,"data":[{"carIndex":1,"spotAccount":"4660100002","hashId":"e1835b1d36"}]}
+2022/10/13 11:37:35
+RefreshAccessToken:{"CustPhone":"0922123456","CustName":"王小美","CustTitle":"先生","Amount":1,"BookDate":"2022-10-12T17:35:18.9852584+08:00","PaidType":0,"City":"新北市","District":"永和區","Road":"竹林路","No":"204","Longitude":121.52068,"Latitude":25.00867,"Floor":1,"UnitNo":2,"spotAccount":"00001","ResidentID":"00001-1011111","Caller":"00001-1011111","PageSize":50}
+2022/10/13 11:37:35
+RefreshAccessToken:{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNjkzLCJQaG9uZSI6IjQ2NjAxMDAwMDEiLCJpYXQiOjE2NjU2MzIyNTUsImV4cCI6MTY2ODIyNDI1NX0.QmAAw1egKd6bNpFveSyHwrA-Mwv-BsIamr6ehXIQiH3Hzevha20lLf1gySu0Eg2siJA-O2yRpbd_MLUzoQLBPozHVr-tb9Vki8JsJ8JwdTAGG9HTjHi0c1QGTpC9shHB7KLIf839dqcMNP2My2TP5NefkbzVHy8b7BFL7TH8ZbrPgH0h-I7dG7SzVX6w79Y-E1h9VaTc2r2gxTYk-J3-rwQgEVcjRda6mhE4k-Ut-OfErFBaWR3nM3T6HV3qLjwkyBV6dAmc3s2-Rt4NlNVtTJcIY315voRJm34cpRUGNEctr37Zga6iS3hA2ak52jTQVCRmSecgGi9oXoOh0V-mew"}}
+2022/10/13 11:37:35
+DispatchQuery:https://hotaiconnected-apim.azure-api.net/AWTEKProxy/tripInformation?spotAccount=00001&hashId=72bd6e9d75
+2022/10/13 11:37:36
+DispatchQuery:{"error":"DISPATCH_CANNOT_FIND_ORDER","errorCode":400055,"data":"DISPATCH can not found this order","success":false}
+2022/10/13 11:37:36
+RefreshAccessToken:{"CustPhone":"0922123456","CustName":"王小美","CustTitle":"先生","Amount":1,"BookDate":"2022-10-13T11:37:20.550248+08:00","PaidType":0,"City":"新北市","District":"永和區","Road":"竹林路","No":"205","Longitude":121.52069,"Latitude":25.00868,"Floor":1,"UnitNo":2,"spotAccount":"00002","ResidentID":"00001-1011111","Caller":"00001-1011111","PageSize":50}
+2022/10/13 11:37:36
+RefreshAccessToken:{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNzcyLCJQaG9uZSI6IjQ2NjAxMDAwMDIiLCJpYXQiOjE2NjU2MzIyNTUsImV4cCI6MTY2ODIyNDI1NX0.jxRfOFJZFhK6XfC2omhO3DY59LmC9I44dMQgdGTRLnYXtZ35v-iGaNAZi_EIcg47rPxIfYc4cpZBvNq_6rF1tzF3SYYHWIoIRS_xAdz-B99PpJBUPlFUBo6EVi6tAH7xT8SY864inLOMySARzBnOCozkhnQs_lf6qYKFkvXMBRP08-MEyfOkGsBgcNB9u8Qyl153UON0J3gGtBz6tw912x16KjWncIz48nZVBVpq1yGNzh7qGsZiDcMb44S7tfiMQE7Kanyt4WrBsq4tB-XlrsR-BwRSOR2VWbaisUZGmoIemOwchlJZKwsqKdRMtFSLHgYRw6T2dcBq1VpvYX2Pmw"}}
+2022/10/13 11:37:36
+DispatchQuery:https://hotaiconnected-apim.azure-api.net/AWTEKProxy/tripInformation?spotAccount=00002&hashId=e1835b1d36
+2022/10/13 11:37:36
+DispatchQuery:{"error":"DISPATCH_CANNOT_FIND_ORDER","errorCode":400055,"data":"DISPATCH can not found this order","success":false}
+2022/10/13 11:37:56
+RefreshAccessToken:{"CustPhone":"0922123456","CustName":"王小美","CustTitle":"先生","Amount":1,"BookDate":"2022-10-12T17:35:18.9852584+08:00","PaidType":0,"City":"新北市","District":"永和區","Road":"竹林路","No":"204","Longitude":121.52068,"Latitude":25.00867,"Floor":1,"UnitNo":2,"spotAccount":"00001","ResidentID":"00001-1011111","Caller":"00001-1011111","PageSize":50}
+2022/10/13 11:37:56
+RefreshAccessToken:{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNjkzLCJQaG9uZSI6IjQ2NjAxMDAwMDEiLCJpYXQiOjE2NjU2MzIyNzUsImV4cCI6MTY2ODIyNDI3NX0.cl2gVGTzydKTjymr4L90ARbWJDfWC6Pl1dwsajObljRKfYr0G5-FhE1qGV0b5OUJ0osb-TUjJ3mLmO0gf7FTzUbVJLE9MnuyGN-ws3LlxEuRUaMwsZpxFXxwZvaMEVup6RgFUFN7a75md3XUQI7E-Ey5k98S312xlG6u88UIjFGhj9eAFZJG7ZwX-qbSL7hUad1Voon1-2-KOsxD5ijJPLb4-eOLdDdKArHQeYvU-OK5O_3HLc61IKcdhxbOx3yA4XbYj5VMYMN5c-C3TzZH_jFh_zHSAkzMua3AYd9z6E5K0o-tT4t3E1Fo4z3Y-uOBxtrpMlJX8du7lneBvT7S0g"}}
+2022/10/13 11:37:56
+DispatchQuery:https://hotaiconnected-apim.azure-api.net/AWTEKProxy/tripInformation?spotAccount=00001&hashId=72bd6e9d75
+2022/10/13 11:37:56
+DispatchQuery:{"error":"DISPATCH_CANNOT_FIND_ORDER","errorCode":400055,"data":"DISPATCH can not found this order","success":false}
+2022/10/13 11:37:56
+RefreshAccessToken:{"CustPhone":"0922123456","CustName":"王小美","CustTitle":"先生","Amount":1,"BookDate":"2022-10-13T11:37:20.550248+08:00","PaidType":0,"City":"新北市","District":"永和區","Road":"竹林路","No":"205","Longitude":121.52069,"Latitude":25.00868,"Floor":1,"UnitNo":2,"spotAccount":"00002","ResidentID":"00001-1011111","Caller":"00001-1011111","PageSize":50}
+2022/10/13 11:37:56
+RefreshAccessToken:{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNzcyLCJQaG9uZSI6IjQ2NjAxMDAwMDIiLCJpYXQiOjE2NjU2MzIyNzUsImV4cCI6MTY2ODIyNDI3NX0.oHR7ZewC4M5XlxIa_A_bli9UiTD_kMDN3HG3p1EOdAIOXO6VAxYsyCoDo7YHLtcbN73Rrsju8JyvPr6KAVV39hLtccuB-m9G9O8upxn65E3RO3YVEyDZFqrN12ZuB3l5H7xDqmiAvv9BHviDIzoA_tpG859Oc3SkVnWZnDoq2c94e91iEzL8i68HpKcEvNIN41KoluHIaKUv-wXsNW7MLTDPAmbIk6smEhHA2tIsXVcPWEoAhLS1F7LAY1AgU9iu6TUiCbUEVi-OT6XFwtNv1pswNWhHU32WzbOoiwjwlDV7r-QxzkTFzx4E0pSQ6k7VuN-0FGgEyZwHiIY8Hg0eUw"}}
+2022/10/13 11:37:56
+DispatchQuery:https://hotaiconnected-apim.azure-api.net/AWTEKProxy/tripInformation?spotAccount=00002&hashId=e1835b1d36
+2022/10/13 11:37:56
+DispatchQuery:{"error":"DISPATCH_CANNOT_FIND_ORDER","errorCode":400055,"data":"DISPATCH can not found this order","success":false}

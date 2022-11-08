@@ -54,7 +54,7 @@ namespace WebHome.Helper.Jobs
         {
             using (dnakeDB db = new dnakeDB("dnake"))
             {
-                using (ModelSource<MessageCenterDataContext> mgr = new ModelSource<MessageCenterDataContext>())
+                using (ModelSource<LiveDevice> mgr = new ModelSource<LiveDevice>())
                 {
                     var deviceTable = mgr.GetTable<LiveDevice>();
                     alarm_defence[] items;

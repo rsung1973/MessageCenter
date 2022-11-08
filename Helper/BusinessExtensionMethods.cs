@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
@@ -15,6 +16,7 @@ using WebHome.Helper.Jobs;
 using WebHome.Models.DataEntity;
 using WebHome.Models.Helper;
 using WebHome.Models.Locale;
+using WebHome.Models.ViewModel;
 using WebHome.Properties;
 
 namespace WebHome.Helper
@@ -32,7 +34,7 @@ namespace WebHome.Helper
                 {
                     using (dnakeDB db = new dnakeDB("dnake"))
                     {
-                        using (ModelSource<MessageCenterDataContext> mgr = new ModelSource<MessageCenterDataContext>())
+                        using (ModelSource<LiveDevice> mgr = new ModelSource<LiveDevice>())
                         {
                             var deviceTable = mgr.GetTable<LiveDevice>();
                             var users = db.users.GroupBy(u => u.user_Column)
@@ -41,7 +43,7 @@ namespace WebHome.Helper
                             foreach (var item in users)
                             {
                                 var profile = mgr.GetTable<UserProfile>().Where(u => u.PID == item.user_Column).FirstOrDefault();
-                                if(profile==null)
+                                if (profile == null)
                                 {
                                     profile = new UserProfile
                                     {
@@ -59,28 +61,12 @@ namespace WebHome.Helper
                                     {
                                         UserProfile = profile
                                     };
+                                    mgr.SubmitChanges();
+                                }
 
-                                    dynamic queryValues = new DynamicQueryStringParameter();
-                                    queryValues.prm_l1_device_type = Settings.Default.PRMType;
-                                    queryValues.prm_parent_uri = "NONE";
-                                    queryValues.prm_device_name = Settings.Default.LeaderID + Settings.Default.CenterID + String.Format("{0:000000}", profile.UID);
-                                    queryValues.prm_used_device_type = Settings.Default.PRMUsed;
-                                    queryValues.prm_alarm_point_yn = "Y";
-                                    queryValues.prm_building_id = item.build;
-                                    queryValues.prm_floor_id = item.floor;
-                                    queryValues.prm_device_name_ui = profile.PID;
-
-                                    var result = MessageOutbound.Instance.InsertDevice(queryValues);
-
-                                    if (result != null && String.IsNullOrEmpty((String)result[0].return_message))
-                                    {
-                                        userReg.DeviceUri = result[0].return_final_uri;
-                                        mgr.SubmitChanges();
-                                    }
-                                    else
-                                    {
-                                        Logger.Warn("登錄設備失敗=>" + JsonConvert.SerializeObject(result));
-                                    }
+                                if(String.IsNullOrEmpty(userReg.DeviceUri))
+                                {
+                                    Insert_BA_Device(mgr, item.build, item.floor, profile, userReg);
                                 }
 
                                 if (!String.IsNullOrEmpty(userReg.DeviceUri))
@@ -97,7 +83,7 @@ namespace WebHome.Helper
                                             };
                                             deviceTable.InsertOnSubmit(dbItem);
                                         }
-                                        if(!dbItem.UID.HasValue)
+                                        if (!dbItem.UID.HasValue)
                                         {
                                             dbItem.UserRegister = userReg;
                                             mgr.SubmitChanges();
@@ -120,6 +106,34 @@ namespace WebHome.Helper
             
         }
 
+        public static void Insert_BA_Device(this ModelSource<LiveDevice> models, int? buildingID,int? floorID, UserProfile profile, UserRegister userReg,String suffix = null)
+        {
+            if (Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.All || Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.中保)
+            {
+                dynamic queryValues = new DynamicQueryStringParameter();
+                queryValues.prm_l1_device_type = Settings.Default.PRMType;
+                queryValues.prm_parent_uri = "NONE";
+                queryValues.prm_device_name = $"{Settings.Default.LeaderID}{Settings.Default.CenterID}{profile.UID:000000}{suffix}";
+                queryValues.prm_used_device_type = Settings.Default.PRMUsed;
+                queryValues.prm_alarm_point_yn = "Y";
+                queryValues.prm_building_id = buildingID;
+                queryValues.prm_floor_id = floorID;
+                queryValues.prm_device_name_ui = profile.PID;
+
+                var result = MessageOutbound.Instance.InsertDevice(queryValues);
+
+                if (result != null && String.IsNullOrEmpty((String)result[0].return_message))
+                {
+                    userReg.DeviceUri = result[0].return_final_uri;
+                    models.SubmitChanges();
+                }
+                else
+                {
+                    Logger.Warn("登錄設備失敗=>" + JsonConvert.SerializeObject(result));
+                }
+            }
+        }
+
         //public static void SynchronizeDevices()
         //{
         //    if (Interlocked.Increment(ref __BusyCount) == 1)
@@ -128,7 +142,7 @@ namespace WebHome.Helper
         //        {
         //            using (dnakeDB db = new dnakeDB("dnake"))
         //            {
-        //                using (ModelSource<MessageCenterDataContext> mgr = new ModelSource<MessageCenterDataContext>())
+        //                using (ModelSource<LiveDevice> mgr = new ModelSource<LiveDevice>())
         //                {
         //                    var deviceTable = mgr.GetTable<LiveDevice>();
         //                    var items = db.GetTable<alarm_zone>().ToArray();
@@ -198,7 +212,7 @@ namespace WebHome.Helper
                 {
                     using (dnakeDB db = new dnakeDB("dnake"))
                     {
-                        using (ModelSource<MessageCenterDataContext> mgr = new ModelSource<MessageCenterDataContext>())
+                        using (ModelSource<LiveDevice> mgr = new ModelSource<LiveDevice>())
                         {
                             var deviceTable = mgr.GetTable<LiveDevice>();
                             var items = db.GetTable<device>().ToArray();
@@ -218,11 +232,11 @@ namespace WebHome.Helper
                                     ///sync alive
                                     ///
                                     Logger.Debug("正常=>current:" + DateTime.Now + " , hearbeat:" + item.heartbeat);
-                                    if (Settings.Default.CommunicationMode == 0 || Settings.Default.CommunicationMode == 1)   //中保
+                                    if (Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.All || Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.中保)   //中保
                                     {
                                         reportStatus(db, mgr, deviceTable, item, Naming.DeviceLevelDefinition.正常);
                                     }
-                                    if (Settings.Default.CommunicationMode == 0 || Settings.Default.CommunicationMode == 2)        //新保
+                                    if (Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.All || Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.新保)        //新保
                                     {
                                         TouchLifeDispatcher dispatcher = new TouchLifeDispatcher();
                                         dispatcher.ReportUserStatus(db, mgr, item, Naming.DeviceLevelDefinition.正常);
@@ -233,11 +247,11 @@ namespace WebHome.Helper
                                     ///sync alive
                                     ///
                                     Logger.Debug("斷線=>current:" + DateTime.Now + " , hearbeat:" + item.heartbeat);
-                                    if (Settings.Default.CommunicationMode == 0 || Settings.Default.CommunicationMode == 1)   //中保
+                                    if (Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.All || Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.中保)   //中保
                                     {
                                         reportStatus(db, mgr, deviceTable, item, Naming.DeviceLevelDefinition.斷線);
                                     }
-                                    if (Settings.Default.CommunicationMode == 0 || Settings.Default.CommunicationMode == 2)        //新保
+                                    if (Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.All || Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.新保)        //新保
                                     {
                                         TouchLifeDispatcher dispatcher = new TouchLifeDispatcher();
                                         dispatcher.ReportUserStatus(db, mgr, item, Naming.DeviceLevelDefinition.斷線);
@@ -258,7 +272,7 @@ namespace WebHome.Helper
             }
         }
 
-        private static void reportStatus(dnakeDB db, ModelSource<MessageCenterDataContext> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, device item,Naming.DeviceLevelDefinition status)
+        private static void reportStatus(dnakeDB db, ModelSource<LiveDevice> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, device item,Naming.DeviceLevelDefinition status)
         {
             var deviceCheckList = db.GetTable<alarm_zone>().Where(a => a.user == item.user).ToArray();
             //Logger.Debug("user: " + item.user + ",alarm_zone: " + deviceCheckList.Count());
@@ -268,7 +282,7 @@ namespace WebHome.Helper
             }
         }
 
-        public static void ReportDeviceStatus(this alarm_zone deviceToCheck,ModelSource<MessageCenterDataContext> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, Naming.DeviceLevelDefinition status)
+        public static void ReportDeviceStatus(this alarm_zone deviceToCheck,ModelSource<LiveDevice> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, Naming.DeviceLevelDefinition status)
         {
             var device = deviceTable.Where(d => d.DeviceID == deviceToCheck.id).FirstOrDefault();
             if (device != null && (!device.CurrentLevel.HasValue || device.CurrentLevel != (int)status))
@@ -281,7 +295,7 @@ namespace WebHome.Helper
             
                 //Logger.Debug(device.LiveID + ":" + ((Naming.DeviceLevelDefinition)device.CurrentLevel) + " => " + status);
 
-                dynamic result = MessageOutbound.Instance.UpdateDeviceStatus(device, Naming.DeviceStatusCode[(int)status]);
+                dynamic result = MessageOutbound.Instance.UpdateDeviceStatus(device.UserRegister.DeviceUri, Naming.DeviceStatusCode[(int)status]);
                 if (result != null && (String)result[0].result == "OK")
                 {
                     var logDate = DateTime.Now;
@@ -308,42 +322,60 @@ namespace WebHome.Helper
             }
         }
 
-        public static LiveDevice ReportDeviceEvent(this alarm_zone deviceToCheck, ModelSource<MessageCenterDataContext> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, Naming.DeviceLevelDefinition status,String eventType)
+        public static LiveDevice ReportDeviceEvent(this alarm_zone deviceToCheck, ModelSource<LiveDevice> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, Naming.DeviceLevelDefinition status,String eventType)
         {
             var device = deviceTable.Where(d => d.DeviceID == deviceToCheck.id).FirstOrDefault();
             if (device != null)
             {
-                dynamic result = MessageOutbound.Instance.ReportDeviceEvent(device, Naming.DeviceStatusCode[(int)status], eventType);
-                if (result != null && (String)result[0].result == "OK")
-                {
-                    var logDate = DateTime.Now;
-                    mgr.GetTable<DeviceEventReport>().InsertOnSubmit(new DeviceEventReport
-                    {
-                        LiveID = device.LiveID,
-                        LevelID = (int)status,
-                        ReportDate = logDate,
-                        DeviceEventLog = new DeviceEventLog
-                        {
-                            EventCode = Naming.DeviceStatusCode[(int)status],
-                            LiveID = device.LiveID,
-                            LogDate = logDate,
-                            Rx = JsonConvert.SerializeObject(result)
-                        }
-                    });
-                    mgr.SubmitChanges();
-
-                    MessageOutbound.Instance.UpdateDeviceStatus(device, Naming.DeviceStatusCode[(int)status]);
-
-                }
-                else
-                {
-                    Logger.Error("狀態更新失敗:" + device.DeviceID + "=>" + result);
-                }
+                device.ReportDeviceEvent(mgr, status, eventType);
             }
             return device;
         }
 
-        //public static void ReportDeviceStatus(this alarm_zone deviceToCheck, ModelSource<MessageCenterDataContext> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, Naming.DeviceLevelDefinition status, String eventType)
+        public static void ReportDeviceEvent(this LiveDevice device, ModelSource<LiveDevice> models, Naming.DeviceLevelDefinition status, string eventType)
+        {
+            dynamic result = MessageOutbound.Instance.ReportDeviceEvent(device.UserRegister.DeviceUri, Naming.DeviceStatusCode[(int)status], eventType);
+            if (result != null && (String)result[0].result == "OK")
+            {
+                var logDate = DateTime.Now;
+                models.GetTable<DeviceEventReport>().InsertOnSubmit(new DeviceEventReport
+                {
+                    LiveID = device.LiveID,
+                    LevelID = (int)status,
+                    ReportDate = logDate,
+                    DeviceEventLog = new DeviceEventLog
+                    {
+                        EventCode = Naming.DeviceStatusCode[(int)status],
+                        LiveID = device.LiveID,
+                        LogDate = logDate,
+                        Rx = JsonConvert.SerializeObject(result)
+                    }
+                });
+                models.SubmitChanges();
+
+                MessageOutbound.Instance.UpdateDeviceStatus(device.UserRegister.DeviceUri, Naming.DeviceStatusCode[(int)status]);
+
+            }
+            else
+            {
+                Logger.Error("狀態更新失敗:" + device.DeviceID + "=>" + result);
+            }
+        }
+
+        //public static void ReportDeviceEvent(this String deviceUri, Naming.DeviceLevelDefinition status, string eventType)
+        //{
+        //    dynamic result = MessageOutbound.Instance.ReportDeviceEvent(deviceUri, Naming.DeviceStatusCode[(int)status], eventType);
+        //    if (result != null && (String)result[0].result == "OK")
+        //    {
+        //        MessageOutbound.Instance.UpdateDeviceStatus(deviceUri, Naming.DeviceStatusCode[(int)status]);
+        //    }
+        //    else
+        //    {
+        //        Logger.Error("狀態更新失敗:" + deviceUri + "=>" + result);
+        //    }
+        //}
+
+        //public static void ReportDeviceStatus(this alarm_zone deviceToCheck, ModelSource<LiveDevice> mgr, System.Data.Linq.Table<LiveDevice> deviceTable, Naming.DeviceLevelDefinition status, String eventType)
         //{
         //    var device = deviceTable.Where(d => d.DeviceID == deviceToCheck.id).FirstOrDefault();
         //    if (device != null)
@@ -456,16 +488,30 @@ namespace WebHome.Helper
             }
         }
 
-        public static void SendToFCM(this ModelSource<MessageCenterDataContext> models,String pid)
+        public static void SendToFCM(this ModelSource<LiveDevice> models,String pid)
         {
-            var profile = models.GetTable<UserProfile>().Where(u => u.PID == pid).FirstOrDefault();
+            var items = models.GetTable<UserProfile>().Where(u => u.PID == pid)
+                    .Join(models.GetTable<UserFCM>(), u => u.UID, f => f.UID, (u, f) => f);
 
-            if (profile != null && profile.UserFCM.Count > 0)
+            items.SendToFCM(models);
+        }
+
+        public static void SendToFCM(this IQueryable<UserFCM> items, ModelSource<LiveDevice> models)
+        {
+            var count = items.Count();
+            if (count > 0)
             {
                 using (WebClient client = new WebClient())
                 {
                     dynamic fcmData = new JObject { };
-                    fcmData.to = "";
+                    if (count > 1)
+                    {
+                        fcmData.registration_ids = new JArray(items.Select(f => f.FCMToken).ToArray());
+                    }
+                    else
+                    {
+                        fcmData.to = items.First().FCMToken;
+                    }
                     fcmData.data = new JObject { };
                     fcmData.data.id = 1;
                     fcmData.data.text = "啟動保全";
@@ -474,21 +520,175 @@ namespace WebHome.Helper
                     client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
                     client.Headers.Add("Authorization", Settings.Default.GoogleFCMAuthorization);
 
-                    foreach (var item in profile.UserFCM)
+                    try
                     {
-                        try
-                        {
-                            fcmData.to = item.FCMToken;
-                            Logger.Info(client.UploadString(Settings.Default.GoogleFCMUrl, JsonConvert.SerializeObject(fcmData)));
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Error(ex);
-                        }
+                        Logger.Info(client.UploadString(Settings.Default.GoogleFCMUrl, JsonConvert.SerializeObject(fcmData)));
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex);
+                    }
+
+                }
+            }
+        }
+
+        public static void PushPublicAlarm(this int loopNo, ModelSource<LiveDevice> models)
+        {
+            if (loopNo < 0 || loopNo >= Settings.Default.PublicAlarm.Length)
+                return;
+            var items = models.GetTable<UserProfile>().Where(u => (u.SubscribedAlarm & (int)Naming.AlarmSubscription.公共設施) == 1);
+            if (items.Count() < 1)
+                return;
+
+            String message = $"{Settings.Default.PublicAlarm[loopNo]}訊息已發生，請注意！！";
+            using (dnakeDB db = new dnakeDB("dnake"))
+            {
+                MySqlCommand cmd = (MySqlCommand)db.CreateCommand();
+                cmd.Connection = (MySqlConnection)db.Connection;
+                cmd.CommandText = @"INSERT INTO `text_logger`(`user`, `type`, `text`, `done`, `ts`) 
+                                    SELECT `user`,@type,@text,@done,@ts from `users` where `user` = @user";
+                cmd.Parameters.Add(new MySqlParameter("@user", MySqlDbType.String));
+                cmd.Parameters.Add(new MySqlParameter("@type", MySqlDbType.Int32));
+                cmd.Parameters.Add(new MySqlParameter("@text", MySqlDbType.String));
+                cmd.Parameters.Add(new MySqlParameter("@done", MySqlDbType.Int32));
+                cmd.Parameters.Add(new MySqlParameter("@ts", MySqlDbType.Datetime));
+
+                cmd.Parameters["@type"].Value = 0;
+                cmd.Parameters["@done"].Value = 0;
+                cmd.Parameters["@ts"].Value = DateTime.Now;
+                cmd.Parameters["@text"].Value = message;
+
+                foreach (var user in  items)
+                {
+                    try
+                    {
+                        cmd.Parameters["@user"].Value = user.PID;
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex);
                     }
                 }
             }
         }
 
+        public static void PushCallAlarm(this UserProfile item,String caller, ModelSource<LiveDevice> models)
+        {
+
+            String alarm = $"注意！！網路電話 {caller} 撥入，請接聽！";
+
+            var bindings = item.UserBinding.Where(b => b.LineID != null);
+            if (bindings.Count() > 0)
+            {
+                using (WebClient client = new WebClient())
+                {
+                    var encoding = new UTF8Encoding(false);
+                    client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                    client.Headers.Add("Authorization", $"Bearer {Settings.Default.ChannelToken}");
+
+                    var jsonData = new
+                    {
+                        to = bindings.Select(b => b.LineID).ToArray(),
+                        messages = new[]
+                        {
+                                new
+                                {
+                                    type =  "text",
+                                    text =  alarm
+                                }
+                            }
+                    };
+
+                    var dataItem = JsonConvert.SerializeObject(jsonData);
+                    var result = client.UploadData(Settings.Default.LinePushMulticast, encoding.GetBytes(dataItem));
+
+                    Logger.Info($"push:{dataItem},result:{(result != null ? encoding.GetString(result) : "")}");
+                }
+            }
+            else if (item.UserProfileExtension?.LineID != null)
+            {
+                using (WebClient client = new WebClient())
+                {
+                    var encoding = new UTF8Encoding(false);
+                    client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                    client.Headers.Add("Authorization", $"Bearer {Settings.Default.ChannelToken}");
+
+                    var jsonData = new
+                    {
+                        to = item.UserProfileExtension.LineID,
+                        messages = new[]
+                        {
+                            new
+                            {
+                                type =  "text",
+                                text =  alarm
+                            }
+                        }
+                    };
+
+                    var dataItem = JsonConvert.SerializeObject(jsonData);
+                    var result = client.UploadData(Settings.Default.LinePushMessage, encoding.GetBytes(dataItem));
+
+                    Logger.Info($"push:{dataItem},result:{(result != null ? encoding.GetString(result) : "")}");
+                }
+            }
+            else
+            {
+                Logger.Warn($"device without line ID:{item.PID}");
+            }
+        }
+
+        public static Naming.DeviceLevelDefinition AWTEKSensorToSECOM(this Naming.SensorType? sensor)
+        {
+            switch (sensor)
+            {
+                case Naming.SensorType.火災: //Smoke
+                    return Naming.DeviceLevelDefinition.火災;
+                case Naming.SensorType.瓦斯: //Gas
+                    return Naming.DeviceLevelDefinition.瓦斯異常;
+                case Naming.SensorType.紅外: //PIR
+                    return Naming.DeviceLevelDefinition.緊急;
+                case Naming.SensorType.門磁: //Door
+                    return Naming.DeviceLevelDefinition.迴路一異常;
+                case Naming.SensorType.窗磁: //Window
+                    return Naming.DeviceLevelDefinition.迴路二異常;
+                case Naming.SensorType.緊急按鈕: //Panic
+                    return Naming.DeviceLevelDefinition.迴路三異常;
+                case Naming.SensorType.浸水: //Flood
+                    return Naming.DeviceLevelDefinition.迴路四異常;
+                case Naming.SensorType.緊急繩索: //Pull Cord
+                    return Naming.DeviceLevelDefinition.迴路五異常;
+                case Naming.SensorType.床頭按鈕: //Bed Mat
+                    return Naming.DeviceLevelDefinition.反脅迫警告;
+            }
+            return Naming.DeviceLevelDefinition.緊急;
+        }
+
+        public static String PushToLineMessageCenter(this String url, QueryViewModel viewModel,bool sync = false)
+        {
+            string f()
+            {
+                using (WebClient client = new WebClient())
+                {
+                    String jsonData = viewModel.JsonStringify();
+                    client.Headers.Add("Content-Type", "application/json");
+                    String data = client.UploadString(url, jsonData);
+                    Logger.Info(String.Concat(jsonData, "\r\n=>\r\n", data));
+                    return data;
+                }
+            }
+
+            if (sync)
+            {
+                return f();
+            }
+            else
+            {
+                Task.Run(f);
+                return null;
+            }
+        }
     }
 }

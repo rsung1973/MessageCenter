@@ -30,27 +30,45 @@ namespace WebHome.Models.DataEntity
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertDeviceCommand(DeviceCommand instance);
+    partial void UpdateDeviceCommand(DeviceCommand instance);
+    partial void DeleteDeviceCommand(DeviceCommand instance);
+    partial void InsertUserRegister(UserRegister instance);
+    partial void UpdateUserRegister(UserRegister instance);
+    partial void DeleteUserRegister(UserRegister instance);
     partial void InsertDeviceEventLog(DeviceEventLog instance);
     partial void UpdateDeviceEventLog(DeviceEventLog instance);
     partial void DeleteDeviceEventLog(DeviceEventLog instance);
-    partial void InsertUserProfile(UserProfile instance);
-    partial void UpdateUserProfile(UserProfile instance);
-    partial void DeleteUserProfile(UserProfile instance);
     partial void InsertDeviceEventReport(DeviceEventReport instance);
     partial void UpdateDeviceEventReport(DeviceEventReport instance);
     partial void DeleteDeviceEventReport(DeviceEventReport instance);
     partial void InsertLevelExpression(LevelExpression instance);
     partial void UpdateLevelExpression(LevelExpression instance);
     partial void DeleteLevelExpression(LevelExpression instance);
-    partial void InsertUserRegister(UserRegister instance);
-    partial void UpdateUserRegister(UserRegister instance);
-    partial void DeleteUserRegister(UserRegister instance);
     partial void InsertLiveDevice(LiveDevice instance);
     partial void UpdateLiveDevice(LiveDevice instance);
     partial void DeleteLiveDevice(LiveDevice instance);
     partial void InsertUserFCM(UserFCM instance);
     partial void UpdateUserFCM(UserFCM instance);
     partial void DeleteUserFCM(UserFCM instance);
+    partial void InsertUserProfile(UserProfile instance);
+    partial void UpdateUserProfile(UserProfile instance);
+    partial void DeleteUserProfile(UserProfile instance);
+    partial void InsertUserBinding(UserBinding instance);
+    partial void UpdateUserBinding(UserBinding instance);
+    partial void DeleteUserBinding(UserBinding instance);
+    partial void InsertCommunity(Community instance);
+    partial void UpdateCommunity(Community instance);
+    partial void DeleteCommunity(Community instance);
+    partial void InsertUserProfileExtension(UserProfileExtension instance);
+    partial void UpdateUserProfileExtension(UserProfileExtension instance);
+    partial void DeleteUserProfileExtension(UserProfileExtension instance);
+    partial void InsertMessageBoard(MessageBoard instance);
+    partial void UpdateMessageBoard(MessageBoard instance);
+    partial void DeleteMessageBoard(MessageBoard instance);
+    partial void InsertGasUsageReport(GasUsageReport instance);
+    partial void UpdateGasUsageReport(GasUsageReport instance);
+    partial void DeleteGasUsageReport(GasUsageReport instance);
     #endregion
 		
 		public MessageCenterDataContext() : 
@@ -83,39 +101,15 @@ namespace WebHome.Models.DataEntity
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<DeviceEventLog> DeviceEventLogs
+		public System.Data.Linq.Table<DeviceCommand> DeviceCommand
 		{
 			get
 			{
-				return this.GetTable<DeviceEventLog>();
+				return this.GetTable<DeviceCommand>();
 			}
 		}
 		
-		public System.Data.Linq.Table<UserProfile> UserProfiles
-		{
-			get
-			{
-				return this.GetTable<UserProfile>();
-			}
-		}
-		
-		public System.Data.Linq.Table<DeviceEventReport> DeviceEventReports
-		{
-			get
-			{
-				return this.GetTable<DeviceEventReport>();
-			}
-		}
-		
-		public System.Data.Linq.Table<LevelExpression> LevelExpressions
-		{
-			get
-			{
-				return this.GetTable<LevelExpression>();
-			}
-		}
-		
-		public System.Data.Linq.Table<UserRegister> UserRegisters
+		public System.Data.Linq.Table<UserRegister> UserRegister
 		{
 			get
 			{
@@ -123,7 +117,31 @@ namespace WebHome.Models.DataEntity
 			}
 		}
 		
-		public System.Data.Linq.Table<LiveDevice> LiveDevices
+		public System.Data.Linq.Table<DeviceEventLog> DeviceEventLog
+		{
+			get
+			{
+				return this.GetTable<DeviceEventLog>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DeviceEventReport> DeviceEventReport
+		{
+			get
+			{
+				return this.GetTable<DeviceEventReport>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LevelExpression> LevelExpression
+		{
+			get
+			{
+				return this.GetTable<LevelExpression>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LiveDevice> LiveDevice
 		{
 			get
 			{
@@ -137,6 +155,319 @@ namespace WebHome.Models.DataEntity
 			{
 				return this.GetTable<UserFCM>();
 			}
+		}
+		
+		public System.Data.Linq.Table<UserProfile> UserProfile
+		{
+			get
+			{
+				return this.GetTable<UserProfile>();
+			}
+		}
+		
+		public System.Data.Linq.Table<UserBinding> UserBinding
+		{
+			get
+			{
+				return this.GetTable<UserBinding>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Community> Community
+		{
+			get
+			{
+				return this.GetTable<Community>();
+			}
+		}
+		
+		public System.Data.Linq.Table<UserProfileExtension> UserProfileExtension
+		{
+			get
+			{
+				return this.GetTable<UserProfileExtension>();
+			}
+		}
+		
+		public System.Data.Linq.Table<MessageBoard> MessageBoard
+		{
+			get
+			{
+				return this.GetTable<MessageBoard>();
+			}
+		}
+		
+		public System.Data.Linq.Table<GasUsageReport> GasUsageReport
+		{
+			get
+			{
+				return this.GetTable<GasUsageReport>();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DeviceCommand")]
+	public partial class DeviceCommand : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _LogID;
+		
+		private int _CommandID;
+		
+		private string _TokenID;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnLogIDChanging(int value);
+    partial void OnLogIDChanged();
+    partial void OnCommandIDChanging(int value);
+    partial void OnCommandIDChanged();
+    partial void OnTokenIDChanging(string value);
+    partial void OnTokenIDChanged();
+    #endregion
+		
+		public DeviceCommand()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LogID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int LogID
+		{
+			get
+			{
+				return this._LogID;
+			}
+			set
+			{
+				if ((this._LogID != value))
+				{
+					this.OnLogIDChanging(value);
+					this.SendPropertyChanging();
+					this._LogID = value;
+					this.SendPropertyChanged("LogID");
+					this.OnLogIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommandID", DbType="Int NOT NULL")]
+		public int CommandID
+		{
+			get
+			{
+				return this._CommandID;
+			}
+			set
+			{
+				if ((this._CommandID != value))
+				{
+					this.OnCommandIDChanging(value);
+					this.SendPropertyChanging();
+					this._CommandID = value;
+					this.SendPropertyChanged("CommandID");
+					this.OnCommandIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TokenID", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
+		public string TokenID
+		{
+			get
+			{
+				return this._TokenID;
+			}
+			set
+			{
+				if ((this._TokenID != value))
+				{
+					this.OnTokenIDChanging(value);
+					this.SendPropertyChanging();
+					this._TokenID = value;
+					this.SendPropertyChanged("TokenID");
+					this.OnTokenIDChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserRegister")]
+	public partial class UserRegister : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _UID;
+		
+		private string _DeviceUri;
+		
+		private EntitySet<LiveDevice> _LiveDevice;
+		
+		private EntityRef<UserProfile> _UserProfile;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(int value);
+    partial void OnUIDChanged();
+    partial void OnDeviceUriChanging(string value);
+    partial void OnDeviceUriChanged();
+    #endregion
+		
+		public UserRegister()
+		{
+			this._LiveDevice = new EntitySet<LiveDevice>(new Action<LiveDevice>(this.attach_LiveDevice), new Action<LiveDevice>(this.detach_LiveDevice));
+			this._UserProfile = default(EntityRef<UserProfile>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					if (this._UserProfile.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceUri", DbType="NVarChar(64)")]
+		public string DeviceUri
+		{
+			get
+			{
+				return this._DeviceUri;
+			}
+			set
+			{
+				if ((this._DeviceUri != value))
+				{
+					this.OnDeviceUriChanging(value);
+					this.SendPropertyChanging();
+					this._DeviceUri = value;
+					this.SendPropertyChanged("DeviceUri");
+					this.OnDeviceUriChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserRegister_LiveDevice", Storage="_LiveDevice", ThisKey="UID", OtherKey="UID")]
+		public EntitySet<LiveDevice> LiveDevice
+		{
+			get
+			{
+				return this._LiveDevice;
+			}
+			set
+			{
+				this._LiveDevice.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserRegister", Storage="_UserProfile", ThisKey="UID", OtherKey="UID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public UserProfile UserProfile
+		{
+			get
+			{
+				return this._UserProfile.Entity;
+			}
+			set
+			{
+				UserProfile previousValue = this._UserProfile.Entity;
+				if (((previousValue != value) 
+							|| (this._UserProfile.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserProfile.Entity = null;
+						previousValue.UserRegister = null;
+					}
+					this._UserProfile.Entity = value;
+					if ((value != null))
+					{
+						value.UserRegister = this;
+						this._UID = value.UID;
+					}
+					else
+					{
+						this._UID = default(int);
+					}
+					this.SendPropertyChanged("UserProfile");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_LiveDevice(LiveDevice entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserRegister = this;
+		}
+		
+		private void detach_LiveDevice(LiveDevice entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserRegister = null;
 		}
 	}
 	
@@ -158,7 +489,7 @@ namespace WebHome.Models.DataEntity
 		
 		private System.Nullable<int> _LiveID;
 		
-		private EntitySet<DeviceEventReport> _DeviceEventReports;
+		private EntitySet<DeviceEventReport> _DeviceEventReport;
 		
 		private EntityRef<LiveDevice> _LiveDevice;
 		
@@ -182,7 +513,7 @@ namespace WebHome.Models.DataEntity
 		
 		public DeviceEventLog()
 		{
-			this._DeviceEventReports = new EntitySet<DeviceEventReport>(new Action<DeviceEventReport>(this.attach_DeviceEventReports), new Action<DeviceEventReport>(this.detach_DeviceEventReports));
+			this._DeviceEventReport = new EntitySet<DeviceEventReport>(new Action<DeviceEventReport>(this.attach_DeviceEventReport), new Action<DeviceEventReport>(this.detach_DeviceEventReport));
 			this._LiveDevice = default(EntityRef<LiveDevice>);
 			OnCreated();
 		}
@@ -311,16 +642,16 @@ namespace WebHome.Models.DataEntity
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeviceEventLog_DeviceEventReport", Storage="_DeviceEventReports", ThisKey="LogID", OtherKey="LogID")]
-		public EntitySet<DeviceEventReport> DeviceEventReports
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeviceEventLog_DeviceEventReport", Storage="_DeviceEventReport", ThisKey="LogID", OtherKey="LogID")]
+		public EntitySet<DeviceEventReport> DeviceEventReport
 		{
 			get
 			{
-				return this._DeviceEventReports;
+				return this._DeviceEventReport;
 			}
 			set
 			{
-				this._DeviceEventReports.Assign(value);
+				this._DeviceEventReport.Assign(value);
 			}
 		}
 		
@@ -341,12 +672,12 @@ namespace WebHome.Models.DataEntity
 					if ((previousValue != null))
 					{
 						this._LiveDevice.Entity = null;
-						previousValue.DeviceEventLogs.Remove(this);
+						previousValue.DeviceEventLog.Remove(this);
 					}
 					this._LiveDevice.Entity = value;
 					if ((value != null))
 					{
-						value.DeviceEventLogs.Add(this);
+						value.DeviceEventLog.Add(this);
 						this._LiveID = value.LiveID;
 					}
 					else
@@ -378,16 +709,910 @@ namespace WebHome.Models.DataEntity
 			}
 		}
 		
-		private void attach_DeviceEventReports(DeviceEventReport entity)
+		private void attach_DeviceEventReport(DeviceEventReport entity)
 		{
 			this.SendPropertyChanging();
 			entity.DeviceEventLog = this;
 		}
 		
-		private void detach_DeviceEventReports(DeviceEventReport entity)
+		private void detach_DeviceEventReport(DeviceEventReport entity)
 		{
 			this.SendPropertyChanging();
 			entity.DeviceEventLog = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DeviceEventReport")]
+	public partial class DeviceEventReport : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ReportID;
+		
+		private int _LevelID;
+		
+		private System.Nullable<System.DateTime> _ReportDate;
+		
+		private System.Nullable<int> _LogID;
+		
+		private int _LiveID;
+		
+		private EntityRef<DeviceEventLog> _DeviceEventLog;
+		
+		private EntityRef<LevelExpression> _LevelExpression;
+		
+		private EntityRef<LiveDevice> _LiveDevice;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnReportIDChanging(int value);
+    partial void OnReportIDChanged();
+    partial void OnLevelIDChanging(int value);
+    partial void OnLevelIDChanged();
+    partial void OnReportDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnReportDateChanged();
+    partial void OnLogIDChanging(System.Nullable<int> value);
+    partial void OnLogIDChanged();
+    partial void OnLiveIDChanging(int value);
+    partial void OnLiveIDChanged();
+    #endregion
+		
+		public DeviceEventReport()
+		{
+			this._DeviceEventLog = default(EntityRef<DeviceEventLog>);
+			this._LevelExpression = default(EntityRef<LevelExpression>);
+			this._LiveDevice = default(EntityRef<LiveDevice>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ReportID
+		{
+			get
+			{
+				return this._ReportID;
+			}
+			set
+			{
+				if ((this._ReportID != value))
+				{
+					this.OnReportIDChanging(value);
+					this.SendPropertyChanging();
+					this._ReportID = value;
+					this.SendPropertyChanged("ReportID");
+					this.OnReportIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LevelID", DbType="Int NOT NULL")]
+		public int LevelID
+		{
+			get
+			{
+				return this._LevelID;
+			}
+			set
+			{
+				if ((this._LevelID != value))
+				{
+					if (this._LevelExpression.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnLevelIDChanging(value);
+					this.SendPropertyChanging();
+					this._LevelID = value;
+					this.SendPropertyChanged("LevelID");
+					this.OnLevelIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> ReportDate
+		{
+			get
+			{
+				return this._ReportDate;
+			}
+			set
+			{
+				if ((this._ReportDate != value))
+				{
+					this.OnReportDateChanging(value);
+					this.SendPropertyChanging();
+					this._ReportDate = value;
+					this.SendPropertyChanged("ReportDate");
+					this.OnReportDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LogID", DbType="Int")]
+		public System.Nullable<int> LogID
+		{
+			get
+			{
+				return this._LogID;
+			}
+			set
+			{
+				if ((this._LogID != value))
+				{
+					if (this._DeviceEventLog.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnLogIDChanging(value);
+					this.SendPropertyChanging();
+					this._LogID = value;
+					this.SendPropertyChanged("LogID");
+					this.OnLogIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LiveID", DbType="Int NOT NULL")]
+		public int LiveID
+		{
+			get
+			{
+				return this._LiveID;
+			}
+			set
+			{
+				if ((this._LiveID != value))
+				{
+					if (this._LiveDevice.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnLiveIDChanging(value);
+					this.SendPropertyChanging();
+					this._LiveID = value;
+					this.SendPropertyChanged("LiveID");
+					this.OnLiveIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeviceEventLog_DeviceEventReport", Storage="_DeviceEventLog", ThisKey="LogID", OtherKey="LogID", IsForeignKey=true, DeleteRule="CASCADE")]
+		public DeviceEventLog DeviceEventLog
+		{
+			get
+			{
+				return this._DeviceEventLog.Entity;
+			}
+			set
+			{
+				DeviceEventLog previousValue = this._DeviceEventLog.Entity;
+				if (((previousValue != value) 
+							|| (this._DeviceEventLog.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._DeviceEventLog.Entity = null;
+						previousValue.DeviceEventReport.Remove(this);
+					}
+					this._DeviceEventLog.Entity = value;
+					if ((value != null))
+					{
+						value.DeviceEventReport.Add(this);
+						this._LogID = value.LogID;
+					}
+					else
+					{
+						this._LogID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("DeviceEventLog");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LevelExpression_DeviceEventReport", Storage="_LevelExpression", ThisKey="LevelID", OtherKey="LevelID", IsForeignKey=true)]
+		public LevelExpression LevelExpression
+		{
+			get
+			{
+				return this._LevelExpression.Entity;
+			}
+			set
+			{
+				LevelExpression previousValue = this._LevelExpression.Entity;
+				if (((previousValue != value) 
+							|| (this._LevelExpression.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._LevelExpression.Entity = null;
+						previousValue.DeviceEventReport.Remove(this);
+					}
+					this._LevelExpression.Entity = value;
+					if ((value != null))
+					{
+						value.DeviceEventReport.Add(this);
+						this._LevelID = value.LevelID;
+					}
+					else
+					{
+						this._LevelID = default(int);
+					}
+					this.SendPropertyChanged("LevelExpression");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LiveDevice_DeviceEventReport", Storage="_LiveDevice", ThisKey="LiveID", OtherKey="LiveID", IsForeignKey=true)]
+		public LiveDevice LiveDevice
+		{
+			get
+			{
+				return this._LiveDevice.Entity;
+			}
+			set
+			{
+				LiveDevice previousValue = this._LiveDevice.Entity;
+				if (((previousValue != value) 
+							|| (this._LiveDevice.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._LiveDevice.Entity = null;
+						previousValue.DeviceEventReport.Remove(this);
+					}
+					this._LiveDevice.Entity = value;
+					if ((value != null))
+					{
+						value.DeviceEventReport.Add(this);
+						this._LiveID = value.LiveID;
+					}
+					else
+					{
+						this._LiveID = default(int);
+					}
+					this.SendPropertyChanged("LiveDevice");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LevelExpression")]
+	public partial class LevelExpression : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _LevelID;
+		
+		private string _Expression;
+		
+		private string _Description;
+		
+		private EntitySet<DeviceEventReport> _DeviceEventReport;
+		
+		private EntitySet<LiveDevice> _LiveDevice;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnLevelIDChanging(int value);
+    partial void OnLevelIDChanged();
+    partial void OnExpressionChanging(string value);
+    partial void OnExpressionChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    #endregion
+		
+		public LevelExpression()
+		{
+			this._DeviceEventReport = new EntitySet<DeviceEventReport>(new Action<DeviceEventReport>(this.attach_DeviceEventReport), new Action<DeviceEventReport>(this.detach_DeviceEventReport));
+			this._LiveDevice = new EntitySet<LiveDevice>(new Action<LiveDevice>(this.attach_LiveDevice), new Action<LiveDevice>(this.detach_LiveDevice));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LevelID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int LevelID
+		{
+			get
+			{
+				return this._LevelID;
+			}
+			set
+			{
+				if ((this._LevelID != value))
+				{
+					this.OnLevelIDChanging(value);
+					this.SendPropertyChanging();
+					this._LevelID = value;
+					this.SendPropertyChanged("LevelID");
+					this.OnLevelIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Expression", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Expression
+		{
+			get
+			{
+				return this._Expression;
+			}
+			set
+			{
+				if ((this._Expression != value))
+				{
+					this.OnExpressionChanging(value);
+					this.SendPropertyChanging();
+					this._Expression = value;
+					this.SendPropertyChanged("Expression");
+					this.OnExpressionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(50)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LevelExpression_DeviceEventReport", Storage="_DeviceEventReport", ThisKey="LevelID", OtherKey="LevelID")]
+		public EntitySet<DeviceEventReport> DeviceEventReport
+		{
+			get
+			{
+				return this._DeviceEventReport;
+			}
+			set
+			{
+				this._DeviceEventReport.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LevelExpression_LiveDevice", Storage="_LiveDevice", ThisKey="LevelID", OtherKey="CurrentLevel")]
+		public EntitySet<LiveDevice> LiveDevice
+		{
+			get
+			{
+				return this._LiveDevice;
+			}
+			set
+			{
+				this._LiveDevice.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_DeviceEventReport(DeviceEventReport entity)
+		{
+			this.SendPropertyChanging();
+			entity.LevelExpression = this;
+		}
+		
+		private void detach_DeviceEventReport(DeviceEventReport entity)
+		{
+			this.SendPropertyChanging();
+			entity.LevelExpression = null;
+		}
+		
+		private void attach_LiveDevice(LiveDevice entity)
+		{
+			this.SendPropertyChanging();
+			entity.LevelExpression = this;
+		}
+		
+		private void detach_LiveDevice(LiveDevice entity)
+		{
+			this.SendPropertyChanging();
+			entity.LevelExpression = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LiveDevice")]
+	public partial class LiveDevice : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _LiveID;
+		
+		private int _DeviceID;
+		
+		private string _DeviceUri;
+		
+		private System.Nullable<int> _CurrentLevel;
+		
+		private System.Nullable<int> _UID;
+		
+		private EntitySet<DeviceEventLog> _DeviceEventLog;
+		
+		private EntitySet<DeviceEventReport> _DeviceEventReport;
+		
+		private EntityRef<LevelExpression> _LevelExpression;
+		
+		private EntityRef<UserRegister> _UserRegister;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnLiveIDChanging(int value);
+    partial void OnLiveIDChanged();
+    partial void OnDeviceIDChanging(int value);
+    partial void OnDeviceIDChanged();
+    partial void OnDeviceUriChanging(string value);
+    partial void OnDeviceUriChanged();
+    partial void OnCurrentLevelChanging(System.Nullable<int> value);
+    partial void OnCurrentLevelChanged();
+    partial void OnUIDChanging(System.Nullable<int> value);
+    partial void OnUIDChanged();
+    #endregion
+		
+		public LiveDevice()
+		{
+			this._DeviceEventLog = new EntitySet<DeviceEventLog>(new Action<DeviceEventLog>(this.attach_DeviceEventLog), new Action<DeviceEventLog>(this.detach_DeviceEventLog));
+			this._DeviceEventReport = new EntitySet<DeviceEventReport>(new Action<DeviceEventReport>(this.attach_DeviceEventReport), new Action<DeviceEventReport>(this.detach_DeviceEventReport));
+			this._LevelExpression = default(EntityRef<LevelExpression>);
+			this._UserRegister = default(EntityRef<UserRegister>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LiveID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int LiveID
+		{
+			get
+			{
+				return this._LiveID;
+			}
+			set
+			{
+				if ((this._LiveID != value))
+				{
+					this.OnLiveIDChanging(value);
+					this.SendPropertyChanging();
+					this._LiveID = value;
+					this.SendPropertyChanged("LiveID");
+					this.OnLiveIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceID", DbType="Int NOT NULL")]
+		public int DeviceID
+		{
+			get
+			{
+				return this._DeviceID;
+			}
+			set
+			{
+				if ((this._DeviceID != value))
+				{
+					this.OnDeviceIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeviceID = value;
+					this.SendPropertyChanged("DeviceID");
+					this.OnDeviceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceUri", DbType="NVarChar(64)")]
+		public string DeviceUri
+		{
+			get
+			{
+				return this._DeviceUri;
+			}
+			set
+			{
+				if ((this._DeviceUri != value))
+				{
+					this.OnDeviceUriChanging(value);
+					this.SendPropertyChanging();
+					this._DeviceUri = value;
+					this.SendPropertyChanged("DeviceUri");
+					this.OnDeviceUriChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CurrentLevel", DbType="Int")]
+		public System.Nullable<int> CurrentLevel
+		{
+			get
+			{
+				return this._CurrentLevel;
+			}
+			set
+			{
+				if ((this._CurrentLevel != value))
+				{
+					if (this._LevelExpression.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCurrentLevelChanging(value);
+					this.SendPropertyChanging();
+					this._CurrentLevel = value;
+					this.SendPropertyChanged("CurrentLevel");
+					this.OnCurrentLevelChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int")]
+		public System.Nullable<int> UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					if (this._UserRegister.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LiveDevice_DeviceEventLog", Storage="_DeviceEventLog", ThisKey="LiveID", OtherKey="LiveID")]
+		public EntitySet<DeviceEventLog> DeviceEventLog
+		{
+			get
+			{
+				return this._DeviceEventLog;
+			}
+			set
+			{
+				this._DeviceEventLog.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LiveDevice_DeviceEventReport", Storage="_DeviceEventReport", ThisKey="LiveID", OtherKey="LiveID")]
+		public EntitySet<DeviceEventReport> DeviceEventReport
+		{
+			get
+			{
+				return this._DeviceEventReport;
+			}
+			set
+			{
+				this._DeviceEventReport.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LevelExpression_LiveDevice", Storage="_LevelExpression", ThisKey="CurrentLevel", OtherKey="LevelID", IsForeignKey=true)]
+		public LevelExpression LevelExpression
+		{
+			get
+			{
+				return this._LevelExpression.Entity;
+			}
+			set
+			{
+				LevelExpression previousValue = this._LevelExpression.Entity;
+				if (((previousValue != value) 
+							|| (this._LevelExpression.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._LevelExpression.Entity = null;
+						previousValue.LiveDevice.Remove(this);
+					}
+					this._LevelExpression.Entity = value;
+					if ((value != null))
+					{
+						value.LiveDevice.Add(this);
+						this._CurrentLevel = value.LevelID;
+					}
+					else
+					{
+						this._CurrentLevel = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("LevelExpression");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserRegister_LiveDevice", Storage="_UserRegister", ThisKey="UID", OtherKey="UID", IsForeignKey=true)]
+		public UserRegister UserRegister
+		{
+			get
+			{
+				return this._UserRegister.Entity;
+			}
+			set
+			{
+				UserRegister previousValue = this._UserRegister.Entity;
+				if (((previousValue != value) 
+							|| (this._UserRegister.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserRegister.Entity = null;
+						previousValue.LiveDevice.Remove(this);
+					}
+					this._UserRegister.Entity = value;
+					if ((value != null))
+					{
+						value.LiveDevice.Add(this);
+						this._UID = value.UID;
+					}
+					else
+					{
+						this._UID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("UserRegister");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_DeviceEventLog(DeviceEventLog entity)
+		{
+			this.SendPropertyChanging();
+			entity.LiveDevice = this;
+		}
+		
+		private void detach_DeviceEventLog(DeviceEventLog entity)
+		{
+			this.SendPropertyChanging();
+			entity.LiveDevice = null;
+		}
+		
+		private void attach_DeviceEventReport(DeviceEventReport entity)
+		{
+			this.SendPropertyChanging();
+			entity.LiveDevice = this;
+		}
+		
+		private void detach_DeviceEventReport(DeviceEventReport entity)
+		{
+			this.SendPropertyChanging();
+			entity.LiveDevice = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserFCM")]
+	public partial class UserFCM : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _TokenID;
+		
+		private int _UID;
+		
+		private string _FCMToken;
+		
+		private EntityRef<UserProfile> _UserProfile;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTokenIDChanging(int value);
+    partial void OnTokenIDChanged();
+    partial void OnUIDChanging(int value);
+    partial void OnUIDChanged();
+    partial void OnFCMTokenChanging(string value);
+    partial void OnFCMTokenChanged();
+    #endregion
+		
+		public UserFCM()
+		{
+			this._UserProfile = default(EntityRef<UserProfile>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TokenID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int TokenID
+		{
+			get
+			{
+				return this._TokenID;
+			}
+			set
+			{
+				if ((this._TokenID != value))
+				{
+					this.OnTokenIDChanging(value);
+					this.SendPropertyChanging();
+					this._TokenID = value;
+					this.SendPropertyChanged("TokenID");
+					this.OnTokenIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int NOT NULL")]
+		public int UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					if (this._UserProfile.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FCMToken", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
+		public string FCMToken
+		{
+			get
+			{
+				return this._FCMToken;
+			}
+			set
+			{
+				if ((this._FCMToken != value))
+				{
+					this.OnFCMTokenChanging(value);
+					this.SendPropertyChanging();
+					this._FCMToken = value;
+					this.SendPropertyChanged("FCMToken");
+					this.OnFCMTokenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserFCM", Storage="_UserProfile", ThisKey="UID", OtherKey="UID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public UserProfile UserProfile
+		{
+			get
+			{
+				return this._UserProfile.Entity;
+			}
+			set
+			{
+				UserProfile previousValue = this._UserProfile.Entity;
+				if (((previousValue != value) 
+							|| (this._UserProfile.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserProfile.Entity = null;
+						previousValue.UserFCM.Remove(this);
+					}
+					this._UserProfile.Entity = value;
+					if ((value != null))
+					{
+						value.UserFCM.Add(this);
+						this._UID = value.UID;
+					}
+					else
+					{
+						this._UID = default(int);
+					}
+					this.SendPropertyChanged("UserProfile");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -431,17 +1656,27 @@ namespace WebHome.Models.DataEntity
 		
 		private string _RecentStatus;
 		
-		private EntitySet<UserProfile> _UserProfiles;
+		private System.Nullable<System.DateTime> _Birthday;
 		
-		private EntitySet<UserProfile> _UserProfiles1;
+		private System.Nullable<int> _SubscribedAlarm;
 		
 		private EntityRef<UserRegister> _UserRegister;
 		
 		private EntitySet<UserFCM> _UserFCM;
 		
+		private EntitySet<UserProfile> _UserProfile2;
+		
+		private EntitySet<UserProfile> _UserProfile4;
+		
+		private EntitySet<UserBinding> _UserBinding;
+		
+		private EntityRef<UserProfileExtension> _UserProfileExtension;
+		
+		private EntitySet<GasUsageReport> _GasUsageReport;
+		
 		private EntityRef<UserProfile> _UserProfile1;
 		
-		private EntityRef<UserProfile> _UserProfile2;
+		private EntityRef<UserProfile> _UserProfile3;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -481,16 +1716,23 @@ namespace WebHome.Models.DataEntity
     partial void OnPhoneChanged();
     partial void OnRecentStatusChanging(string value);
     partial void OnRecentStatusChanged();
+    partial void OnBirthdayChanging(System.Nullable<System.DateTime> value);
+    partial void OnBirthdayChanged();
+    partial void OnSubscribedAlarmChanging(System.Nullable<int> value);
+    partial void OnSubscribedAlarmChanged();
     #endregion
 		
 		public UserProfile()
 		{
-			this._UserProfiles = new EntitySet<UserProfile>(new Action<UserProfile>(this.attach_UserProfiles), new Action<UserProfile>(this.detach_UserProfiles));
-			this._UserProfiles1 = new EntitySet<UserProfile>(new Action<UserProfile>(this.attach_UserProfiles1), new Action<UserProfile>(this.detach_UserProfiles1));
 			this._UserRegister = default(EntityRef<UserRegister>);
 			this._UserFCM = new EntitySet<UserFCM>(new Action<UserFCM>(this.attach_UserFCM), new Action<UserFCM>(this.detach_UserFCM));
+			this._UserProfile2 = new EntitySet<UserProfile>(new Action<UserProfile>(this.attach_UserProfile2), new Action<UserProfile>(this.detach_UserProfile2));
+			this._UserProfile4 = new EntitySet<UserProfile>(new Action<UserProfile>(this.attach_UserProfile4), new Action<UserProfile>(this.detach_UserProfile4));
+			this._UserBinding = new EntitySet<UserBinding>(new Action<UserBinding>(this.attach_UserBinding), new Action<UserBinding>(this.detach_UserBinding));
+			this._UserProfileExtension = default(EntityRef<UserProfileExtension>);
+			this._GasUsageReport = new EntitySet<GasUsageReport>(new Action<GasUsageReport>(this.attach_GasUsageReport), new Action<GasUsageReport>(this.detach_GasUsageReport));
 			this._UserProfile1 = default(EntityRef<UserProfile>);
-			this._UserProfile2 = default(EntityRef<UserProfile>);
+			this._UserProfile3 = default(EntityRef<UserProfile>);
 			OnCreated();
 		}
 		
@@ -649,7 +1891,7 @@ namespace WebHome.Models.DataEntity
 			{
 				if ((this._AuthID != value))
 				{
-					if (this._UserProfile2.HasLoadedOrAssignedValue)
+					if (this._UserProfile3.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -842,29 +2084,43 @@ namespace WebHome.Models.DataEntity
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserProfile", Storage="_UserProfiles", ThisKey="UID", OtherKey="Creator")]
-		public EntitySet<UserProfile> UserProfiles
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Birthday", DbType="Date")]
+		public System.Nullable<System.DateTime> Birthday
 		{
 			get
 			{
-				return this._UserProfiles;
+				return this._Birthday;
 			}
 			set
 			{
-				this._UserProfiles.Assign(value);
+				if ((this._Birthday != value))
+				{
+					this.OnBirthdayChanging(value);
+					this.SendPropertyChanging();
+					this._Birthday = value;
+					this.SendPropertyChanged("Birthday");
+					this.OnBirthdayChanged();
+				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserProfile1", Storage="_UserProfiles1", ThisKey="UID", OtherKey="AuthID")]
-		public EntitySet<UserProfile> UserProfiles1
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SubscribedAlarm", DbType="Int")]
+		public System.Nullable<int> SubscribedAlarm
 		{
 			get
 			{
-				return this._UserProfiles1;
+				return this._SubscribedAlarm;
 			}
 			set
 			{
-				this._UserProfiles1.Assign(value);
+				if ((this._SubscribedAlarm != value))
+				{
+					this.OnSubscribedAlarmChanging(value);
+					this.SendPropertyChanging();
+					this._SubscribedAlarm = value;
+					this.SendPropertyChanged("SubscribedAlarm");
+					this.OnSubscribedAlarmChanged();
+				}
 			}
 		}
 		
@@ -910,6 +2166,87 @@ namespace WebHome.Models.DataEntity
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserProfile", Storage="_UserProfile2", ThisKey="UID", OtherKey="Creator")]
+		public EntitySet<UserProfile> UserProfile2
+		{
+			get
+			{
+				return this._UserProfile2;
+			}
+			set
+			{
+				this._UserProfile2.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserProfile1", Storage="_UserProfile4", ThisKey="UID", OtherKey="AuthID")]
+		public EntitySet<UserProfile> UserProfile4
+		{
+			get
+			{
+				return this._UserProfile4;
+			}
+			set
+			{
+				this._UserProfile4.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserBinding", Storage="_UserBinding", ThisKey="UID", OtherKey="UID")]
+		public EntitySet<UserBinding> UserBinding
+		{
+			get
+			{
+				return this._UserBinding;
+			}
+			set
+			{
+				this._UserBinding.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserProfileExtension", Storage="_UserProfileExtension", ThisKey="UID", OtherKey="UID", IsUnique=true, IsForeignKey=false)]
+		public UserProfileExtension UserProfileExtension
+		{
+			get
+			{
+				return this._UserProfileExtension.Entity;
+			}
+			set
+			{
+				UserProfileExtension previousValue = this._UserProfileExtension.Entity;
+				if (((previousValue != value) 
+							|| (this._UserProfileExtension.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserProfileExtension.Entity = null;
+						previousValue.UserProfile = null;
+					}
+					this._UserProfileExtension.Entity = value;
+					if ((value != null))
+					{
+						value.UserProfile = this;
+					}
+					this.SendPropertyChanged("UserProfileExtension");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_GasUsageReport", Storage="_GasUsageReport", ThisKey="UID", OtherKey="UID")]
+		public EntitySet<GasUsageReport> GasUsageReport
+		{
+			get
+			{
+				return this._GasUsageReport;
+			}
+			set
+			{
+				this._GasUsageReport.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserProfile", Storage="_UserProfile1", ThisKey="Creator", OtherKey="UID", IsForeignKey=true)]
 		public UserProfile UserProfile1
 		{
@@ -927,12 +2264,12 @@ namespace WebHome.Models.DataEntity
 					if ((previousValue != null))
 					{
 						this._UserProfile1.Entity = null;
-						previousValue.UserProfiles.Remove(this);
+						previousValue.UserProfile2.Remove(this);
 					}
 					this._UserProfile1.Entity = value;
 					if ((value != null))
 					{
-						value.UserProfiles.Add(this);
+						value.UserProfile2.Add(this);
 						this._Creator = value.UID;
 					}
 					else
@@ -944,36 +2281,36 @@ namespace WebHome.Models.DataEntity
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserProfile1", Storage="_UserProfile2", ThisKey="AuthID", OtherKey="UID", IsForeignKey=true)]
-		public UserProfile UserProfile2
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserProfile1", Storage="_UserProfile3", ThisKey="AuthID", OtherKey="UID", IsForeignKey=true)]
+		public UserProfile UserProfile3
 		{
 			get
 			{
-				return this._UserProfile2.Entity;
+				return this._UserProfile3.Entity;
 			}
 			set
 			{
-				UserProfile previousValue = this._UserProfile2.Entity;
+				UserProfile previousValue = this._UserProfile3.Entity;
 				if (((previousValue != value) 
-							|| (this._UserProfile2.HasLoadedOrAssignedValue == false)))
+							|| (this._UserProfile3.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._UserProfile2.Entity = null;
-						previousValue.UserProfiles1.Remove(this);
+						this._UserProfile3.Entity = null;
+						previousValue.UserProfile4.Remove(this);
 					}
-					this._UserProfile2.Entity = value;
+					this._UserProfile3.Entity = value;
 					if ((value != null))
 					{
-						value.UserProfiles1.Add(this);
+						value.UserProfile4.Add(this);
 						this._AuthID = value.UID;
 					}
 					else
 					{
 						this._AuthID = default(Nullable<int>);
 					}
-					this.SendPropertyChanged("UserProfile2");
+					this.SendPropertyChanged("UserProfile3");
 				}
 			}
 		}
@@ -996,30 +2333,6 @@ namespace WebHome.Models.DataEntity
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_UserProfiles(UserProfile entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserProfile1 = this;
-		}
-		
-		private void detach_UserProfiles(UserProfile entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserProfile1 = null;
-		}
-		
-		private void attach_UserProfiles1(UserProfile entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserProfile2 = this;
-		}
-		
-		private void detach_UserProfiles1(UserProfile entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserProfile2 = null;
 		}
 		
 		private void attach_UserFCM(UserFCM entity)
@@ -1033,466 +2346,69 @@ namespace WebHome.Models.DataEntity
 			this.SendPropertyChanging();
 			entity.UserProfile = null;
 		}
+		
+		private void attach_UserProfile2(UserProfile entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserProfile1 = this;
+		}
+		
+		private void detach_UserProfile2(UserProfile entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserProfile1 = null;
+		}
+		
+		private void attach_UserProfile4(UserProfile entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserProfile3 = this;
+		}
+		
+		private void detach_UserProfile4(UserProfile entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserProfile3 = null;
+		}
+		
+		private void attach_UserBinding(UserBinding entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserProfile = this;
+		}
+		
+		private void detach_UserBinding(UserBinding entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserProfile = null;
+		}
+		
+		private void attach_GasUsageReport(GasUsageReport entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserProfile = this;
+		}
+		
+		private void detach_GasUsageReport(GasUsageReport entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserProfile = null;
+		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DeviceEventReport")]
-	public partial class DeviceEventReport : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserBinding")]
+	public partial class UserBinding : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _ReportID;
-		
-		private int _LevelID;
-		
-		private System.Nullable<System.DateTime> _ReportDate;
-		
-		private System.Nullable<int> _LogID;
-		
-		private int _LiveID;
-		
-		private EntityRef<DeviceEventLog> _DeviceEventLog;
-		
-		private EntityRef<LevelExpression> _LevelExpression;
-		
-		private EntityRef<LiveDevice> _LiveDevice;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnReportIDChanging(int value);
-    partial void OnReportIDChanged();
-    partial void OnLevelIDChanging(int value);
-    partial void OnLevelIDChanged();
-    partial void OnReportDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnReportDateChanged();
-    partial void OnLogIDChanging(System.Nullable<int> value);
-    partial void OnLogIDChanged();
-    partial void OnLiveIDChanging(int value);
-    partial void OnLiveIDChanged();
-    #endregion
-		
-		public DeviceEventReport()
-		{
-			this._DeviceEventLog = default(EntityRef<DeviceEventLog>);
-			this._LevelExpression = default(EntityRef<LevelExpression>);
-			this._LiveDevice = default(EntityRef<LiveDevice>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ReportID
-		{
-			get
-			{
-				return this._ReportID;
-			}
-			set
-			{
-				if ((this._ReportID != value))
-				{
-					this.OnReportIDChanging(value);
-					this.SendPropertyChanging();
-					this._ReportID = value;
-					this.SendPropertyChanged("ReportID");
-					this.OnReportIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LevelID", DbType="Int NOT NULL")]
-		public int LevelID
-		{
-			get
-			{
-				return this._LevelID;
-			}
-			set
-			{
-				if ((this._LevelID != value))
-				{
-					if (this._LevelExpression.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnLevelIDChanging(value);
-					this.SendPropertyChanging();
-					this._LevelID = value;
-					this.SendPropertyChanged("LevelID");
-					this.OnLevelIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> ReportDate
-		{
-			get
-			{
-				return this._ReportDate;
-			}
-			set
-			{
-				if ((this._ReportDate != value))
-				{
-					this.OnReportDateChanging(value);
-					this.SendPropertyChanging();
-					this._ReportDate = value;
-					this.SendPropertyChanged("ReportDate");
-					this.OnReportDateChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LogID", DbType="Int")]
-		public System.Nullable<int> LogID
-		{
-			get
-			{
-				return this._LogID;
-			}
-			set
-			{
-				if ((this._LogID != value))
-				{
-					if (this._DeviceEventLog.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnLogIDChanging(value);
-					this.SendPropertyChanging();
-					this._LogID = value;
-					this.SendPropertyChanged("LogID");
-					this.OnLogIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LiveID", DbType="Int NOT NULL")]
-		public int LiveID
-		{
-			get
-			{
-				return this._LiveID;
-			}
-			set
-			{
-				if ((this._LiveID != value))
-				{
-					if (this._LiveDevice.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnLiveIDChanging(value);
-					this.SendPropertyChanging();
-					this._LiveID = value;
-					this.SendPropertyChanged("LiveID");
-					this.OnLiveIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeviceEventLog_DeviceEventReport", Storage="_DeviceEventLog", ThisKey="LogID", OtherKey="LogID", IsForeignKey=true, DeleteRule="CASCADE")]
-		public DeviceEventLog DeviceEventLog
-		{
-			get
-			{
-				return this._DeviceEventLog.Entity;
-			}
-			set
-			{
-				DeviceEventLog previousValue = this._DeviceEventLog.Entity;
-				if (((previousValue != value) 
-							|| (this._DeviceEventLog.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._DeviceEventLog.Entity = null;
-						previousValue.DeviceEventReports.Remove(this);
-					}
-					this._DeviceEventLog.Entity = value;
-					if ((value != null))
-					{
-						value.DeviceEventReports.Add(this);
-						this._LogID = value.LogID;
-					}
-					else
-					{
-						this._LogID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("DeviceEventLog");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LevelExpression_DeviceEventReport", Storage="_LevelExpression", ThisKey="LevelID", OtherKey="LevelID", IsForeignKey=true)]
-		public LevelExpression LevelExpression
-		{
-			get
-			{
-				return this._LevelExpression.Entity;
-			}
-			set
-			{
-				LevelExpression previousValue = this._LevelExpression.Entity;
-				if (((previousValue != value) 
-							|| (this._LevelExpression.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._LevelExpression.Entity = null;
-						previousValue.DeviceEventReports.Remove(this);
-					}
-					this._LevelExpression.Entity = value;
-					if ((value != null))
-					{
-						value.DeviceEventReports.Add(this);
-						this._LevelID = value.LevelID;
-					}
-					else
-					{
-						this._LevelID = default(int);
-					}
-					this.SendPropertyChanged("LevelExpression");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LiveDevice_DeviceEventReport", Storage="_LiveDevice", ThisKey="LiveID", OtherKey="LiveID", IsForeignKey=true)]
-		public LiveDevice LiveDevice
-		{
-			get
-			{
-				return this._LiveDevice.Entity;
-			}
-			set
-			{
-				LiveDevice previousValue = this._LiveDevice.Entity;
-				if (((previousValue != value) 
-							|| (this._LiveDevice.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._LiveDevice.Entity = null;
-						previousValue.DeviceEventReports.Remove(this);
-					}
-					this._LiveDevice.Entity = value;
-					if ((value != null))
-					{
-						value.DeviceEventReports.Add(this);
-						this._LiveID = value.LiveID;
-					}
-					else
-					{
-						this._LiveID = default(int);
-					}
-					this.SendPropertyChanged("LiveDevice");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LevelExpression")]
-	public partial class LevelExpression : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _LevelID;
-		
-		private string _Expression;
-		
-		private string _Description;
-		
-		private EntitySet<DeviceEventReport> _DeviceEventReports;
-		
-		private EntitySet<LiveDevice> _LiveDevices;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnLevelIDChanging(int value);
-    partial void OnLevelIDChanged();
-    partial void OnExpressionChanging(string value);
-    partial void OnExpressionChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
-    #endregion
-		
-		public LevelExpression()
-		{
-			this._DeviceEventReports = new EntitySet<DeviceEventReport>(new Action<DeviceEventReport>(this.attach_DeviceEventReports), new Action<DeviceEventReport>(this.detach_DeviceEventReports));
-			this._LiveDevices = new EntitySet<LiveDevice>(new Action<LiveDevice>(this.attach_LiveDevices), new Action<LiveDevice>(this.detach_LiveDevices));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LevelID", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int LevelID
-		{
-			get
-			{
-				return this._LevelID;
-			}
-			set
-			{
-				if ((this._LevelID != value))
-				{
-					this.OnLevelIDChanging(value);
-					this.SendPropertyChanging();
-					this._LevelID = value;
-					this.SendPropertyChanged("LevelID");
-					this.OnLevelIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Expression", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Expression
-		{
-			get
-			{
-				return this._Expression;
-			}
-			set
-			{
-				if ((this._Expression != value))
-				{
-					this.OnExpressionChanging(value);
-					this.SendPropertyChanging();
-					this._Expression = value;
-					this.SendPropertyChanged("Expression");
-					this.OnExpressionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(50)")]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LevelExpression_DeviceEventReport", Storage="_DeviceEventReports", ThisKey="LevelID", OtherKey="LevelID")]
-		public EntitySet<DeviceEventReport> DeviceEventReports
-		{
-			get
-			{
-				return this._DeviceEventReports;
-			}
-			set
-			{
-				this._DeviceEventReports.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LevelExpression_LiveDevice", Storage="_LiveDevices", ThisKey="LevelID", OtherKey="CurrentLevel")]
-		public EntitySet<LiveDevice> LiveDevices
-		{
-			get
-			{
-				return this._LiveDevices;
-			}
-			set
-			{
-				this._LiveDevices.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_DeviceEventReports(DeviceEventReport entity)
-		{
-			this.SendPropertyChanging();
-			entity.LevelExpression = this;
-		}
-		
-		private void detach_DeviceEventReports(DeviceEventReport entity)
-		{
-			this.SendPropertyChanging();
-			entity.LevelExpression = null;
-		}
-		
-		private void attach_LiveDevices(LiveDevice entity)
-		{
-			this.SendPropertyChanging();
-			entity.LevelExpression = this;
-		}
-		
-		private void detach_LiveDevices(LiveDevice entity)
-		{
-			this.SendPropertyChanging();
-			entity.LevelExpression = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserRegister")]
-	public partial class UserRegister : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		private int _BindingID;
 		
 		private int _UID;
 		
-		private string _DeviceUri;
+		private string _LineID;
 		
-		private EntitySet<LiveDevice> _LiveDevices;
+		private string _LineUser;
 		
 		private EntityRef<UserProfile> _UserProfile;
 		
@@ -1500,20 +2416,43 @@ namespace WebHome.Models.DataEntity
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
+    partial void OnBindingIDChanging(int value);
+    partial void OnBindingIDChanged();
     partial void OnUIDChanging(int value);
     partial void OnUIDChanged();
-    partial void OnDeviceUriChanging(string value);
-    partial void OnDeviceUriChanged();
+    partial void OnLineIDChanging(string value);
+    partial void OnLineIDChanged();
+    partial void OnLineUserChanging(string value);
+    partial void OnLineUserChanged();
     #endregion
 		
-		public UserRegister()
+		public UserBinding()
 		{
-			this._LiveDevices = new EntitySet<LiveDevice>(new Action<LiveDevice>(this.attach_LiveDevices), new Action<LiveDevice>(this.detach_LiveDevices));
 			this._UserProfile = default(EntityRef<UserProfile>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BindingID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int BindingID
+		{
+			get
+			{
+				return this._BindingID;
+			}
+			set
+			{
+				if ((this._BindingID != value))
+				{
+					this.OnBindingIDChanging(value);
+					this.SendPropertyChanging();
+					this._BindingID = value;
+					this.SendPropertyChanged("BindingID");
+					this.OnBindingIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int NOT NULL")]
 		public int UID
 		{
 			get
@@ -1537,40 +2476,47 @@ namespace WebHome.Models.DataEntity
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceUri", DbType="NVarChar(64)")]
-		public string DeviceUri
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LineID", DbType="NVarChar(64)")]
+		public string LineID
 		{
 			get
 			{
-				return this._DeviceUri;
+				return this._LineID;
 			}
 			set
 			{
-				if ((this._DeviceUri != value))
+				if ((this._LineID != value))
 				{
-					this.OnDeviceUriChanging(value);
+					this.OnLineIDChanging(value);
 					this.SendPropertyChanging();
-					this._DeviceUri = value;
-					this.SendPropertyChanged("DeviceUri");
-					this.OnDeviceUriChanged();
+					this._LineID = value;
+					this.SendPropertyChanged("LineID");
+					this.OnLineIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserRegister_LiveDevice", Storage="_LiveDevices", ThisKey="UID", OtherKey="UID")]
-		public EntitySet<LiveDevice> LiveDevices
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LineUser", DbType="NVarChar(40)")]
+		public string LineUser
 		{
 			get
 			{
-				return this._LiveDevices;
+				return this._LineUser;
 			}
 			set
 			{
-				this._LiveDevices.Assign(value);
+				if ((this._LineUser != value))
+				{
+					this.OnLineUserChanging(value);
+					this.SendPropertyChanging();
+					this._LineUser = value;
+					this.SendPropertyChanged("LineUser");
+					this.OnLineUserChanged();
+				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserRegister", Storage="_UserProfile", ThisKey="UID", OtherKey="UID", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserBinding", Storage="_UserProfile", ThisKey="UID", OtherKey="UID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
 		public UserProfile UserProfile
 		{
 			get
@@ -1587,12 +2533,12 @@ namespace WebHome.Models.DataEntity
 					if ((previousValue != null))
 					{
 						this._UserProfile.Entity = null;
-						previousValue.UserRegister = null;
+						previousValue.UserBinding.Remove(this);
 					}
 					this._UserProfile.Entity = value;
 					if ((value != null))
 					{
-						value.UserRegister = this;
+						value.UserBinding.Add(this);
 						this._UID = value.UID;
 					}
 					else
@@ -1623,268 +2569,110 @@ namespace WebHome.Models.DataEntity
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-		
-		private void attach_LiveDevices(LiveDevice entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserRegister = this;
-		}
-		
-		private void detach_LiveDevices(LiveDevice entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserRegister = null;
-		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LiveDevice")]
-	public partial class LiveDevice : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Community")]
+	public partial class Community : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _LiveID;
+		private int _CommunityID;
 		
-		private int _DeviceID;
+		private string _CommunityNo;
 		
-		private string _DeviceUri;
+		private string _CommunityName;
 		
-		private System.Nullable<int> _CurrentLevel;
-		
-		private System.Nullable<int> _UID;
-		
-		private EntitySet<DeviceEventLog> _DeviceEventLogs;
-		
-		private EntitySet<DeviceEventReport> _DeviceEventReports;
-		
-		private EntityRef<LevelExpression> _LevelExpression;
-		
-		private EntityRef<UserRegister> _UserRegister;
+		private EntitySet<UserProfileExtension> _UserProfileExtension;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnLiveIDChanging(int value);
-    partial void OnLiveIDChanged();
-    partial void OnDeviceIDChanging(int value);
-    partial void OnDeviceIDChanged();
-    partial void OnDeviceUriChanging(string value);
-    partial void OnDeviceUriChanged();
-    partial void OnCurrentLevelChanging(System.Nullable<int> value);
-    partial void OnCurrentLevelChanged();
-    partial void OnUIDChanging(System.Nullable<int> value);
-    partial void OnUIDChanged();
+    partial void OnCommunityIDChanging(int value);
+    partial void OnCommunityIDChanged();
+    partial void OnCommunityNoChanging(string value);
+    partial void OnCommunityNoChanged();
+    partial void OnCommunityNameChanging(string value);
+    partial void OnCommunityNameChanged();
     #endregion
 		
-		public LiveDevice()
+		public Community()
 		{
-			this._DeviceEventLogs = new EntitySet<DeviceEventLog>(new Action<DeviceEventLog>(this.attach_DeviceEventLogs), new Action<DeviceEventLog>(this.detach_DeviceEventLogs));
-			this._DeviceEventReports = new EntitySet<DeviceEventReport>(new Action<DeviceEventReport>(this.attach_DeviceEventReports), new Action<DeviceEventReport>(this.detach_DeviceEventReports));
-			this._LevelExpression = default(EntityRef<LevelExpression>);
-			this._UserRegister = default(EntityRef<UserRegister>);
+			this._UserProfileExtension = new EntitySet<UserProfileExtension>(new Action<UserProfileExtension>(this.attach_UserProfileExtension), new Action<UserProfileExtension>(this.detach_UserProfileExtension));
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LiveID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int LiveID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int CommunityID
 		{
 			get
 			{
-				return this._LiveID;
+				return this._CommunityID;
 			}
 			set
 			{
-				if ((this._LiveID != value))
+				if ((this._CommunityID != value))
 				{
-					this.OnLiveIDChanging(value);
+					this.OnCommunityIDChanging(value);
 					this.SendPropertyChanging();
-					this._LiveID = value;
-					this.SendPropertyChanged("LiveID");
-					this.OnLiveIDChanged();
+					this._CommunityID = value;
+					this.SendPropertyChanged("CommunityID");
+					this.OnCommunityIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceID", DbType="Int NOT NULL")]
-		public int DeviceID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityNo", DbType="NVarChar(16) NOT NULL", CanBeNull=false)]
+		public string CommunityNo
 		{
 			get
 			{
-				return this._DeviceID;
+				return this._CommunityNo;
 			}
 			set
 			{
-				if ((this._DeviceID != value))
+				if ((this._CommunityNo != value))
 				{
-					this.OnDeviceIDChanging(value);
+					this.OnCommunityNoChanging(value);
 					this.SendPropertyChanging();
-					this._DeviceID = value;
-					this.SendPropertyChanged("DeviceID");
-					this.OnDeviceIDChanged();
+					this._CommunityNo = value;
+					this.SendPropertyChanged("CommunityNo");
+					this.OnCommunityNoChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceUri", DbType="NVarChar(64)")]
-		public string DeviceUri
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityName", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
+		public string CommunityName
 		{
 			get
 			{
-				return this._DeviceUri;
+				return this._CommunityName;
 			}
 			set
 			{
-				if ((this._DeviceUri != value))
+				if ((this._CommunityName != value))
 				{
-					this.OnDeviceUriChanging(value);
+					this.OnCommunityNameChanging(value);
 					this.SendPropertyChanging();
-					this._DeviceUri = value;
-					this.SendPropertyChanged("DeviceUri");
-					this.OnDeviceUriChanged();
+					this._CommunityName = value;
+					this.SendPropertyChanged("CommunityName");
+					this.OnCommunityNameChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CurrentLevel", DbType="Int")]
-		public System.Nullable<int> CurrentLevel
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Community_UserProfileExtension", Storage="_UserProfileExtension", ThisKey="CommunityID", OtherKey="CommunityID")]
+		public EntitySet<UserProfileExtension> UserProfileExtension
 		{
 			get
 			{
-				return this._CurrentLevel;
+				return this._UserProfileExtension;
 			}
 			set
 			{
-				if ((this._CurrentLevel != value))
-				{
-					if (this._LevelExpression.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnCurrentLevelChanging(value);
-					this.SendPropertyChanging();
-					this._CurrentLevel = value;
-					this.SendPropertyChanged("CurrentLevel");
-					this.OnCurrentLevelChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int")]
-		public System.Nullable<int> UID
-		{
-			get
-			{
-				return this._UID;
-			}
-			set
-			{
-				if ((this._UID != value))
-				{
-					if (this._UserRegister.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnUIDChanging(value);
-					this.SendPropertyChanging();
-					this._UID = value;
-					this.SendPropertyChanged("UID");
-					this.OnUIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LiveDevice_DeviceEventLog", Storage="_DeviceEventLogs", ThisKey="LiveID", OtherKey="LiveID")]
-		public EntitySet<DeviceEventLog> DeviceEventLogs
-		{
-			get
-			{
-				return this._DeviceEventLogs;
-			}
-			set
-			{
-				this._DeviceEventLogs.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LiveDevice_DeviceEventReport", Storage="_DeviceEventReports", ThisKey="LiveID", OtherKey="LiveID")]
-		public EntitySet<DeviceEventReport> DeviceEventReports
-		{
-			get
-			{
-				return this._DeviceEventReports;
-			}
-			set
-			{
-				this._DeviceEventReports.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LevelExpression_LiveDevice", Storage="_LevelExpression", ThisKey="CurrentLevel", OtherKey="LevelID", IsForeignKey=true)]
-		public LevelExpression LevelExpression
-		{
-			get
-			{
-				return this._LevelExpression.Entity;
-			}
-			set
-			{
-				LevelExpression previousValue = this._LevelExpression.Entity;
-				if (((previousValue != value) 
-							|| (this._LevelExpression.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._LevelExpression.Entity = null;
-						previousValue.LiveDevices.Remove(this);
-					}
-					this._LevelExpression.Entity = value;
-					if ((value != null))
-					{
-						value.LiveDevices.Add(this);
-						this._CurrentLevel = value.LevelID;
-					}
-					else
-					{
-						this._CurrentLevel = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("LevelExpression");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserRegister_LiveDevice", Storage="_UserRegister", ThisKey="UID", OtherKey="UID", IsForeignKey=true)]
-		public UserRegister UserRegister
-		{
-			get
-			{
-				return this._UserRegister.Entity;
-			}
-			set
-			{
-				UserRegister previousValue = this._UserRegister.Entity;
-				if (((previousValue != value) 
-							|| (this._UserRegister.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserRegister.Entity = null;
-						previousValue.LiveDevices.Remove(this);
-					}
-					this._UserRegister.Entity = value;
-					if ((value != null))
-					{
-						value.LiveDevices.Add(this);
-						this._UID = value.UID;
-					}
-					else
-					{
-						this._UID = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("UserRegister");
-				}
+				this._UserProfileExtension.Assign(value);
 			}
 		}
 		
@@ -1908,42 +2696,36 @@ namespace WebHome.Models.DataEntity
 			}
 		}
 		
-		private void attach_DeviceEventLogs(DeviceEventLog entity)
+		private void attach_UserProfileExtension(UserProfileExtension entity)
 		{
 			this.SendPropertyChanging();
-			entity.LiveDevice = this;
+			entity.Community = this;
 		}
 		
-		private void detach_DeviceEventLogs(DeviceEventLog entity)
+		private void detach_UserProfileExtension(UserProfileExtension entity)
 		{
 			this.SendPropertyChanging();
-			entity.LiveDevice = null;
-		}
-		
-		private void attach_DeviceEventReports(DeviceEventReport entity)
-		{
-			this.SendPropertyChanging();
-			entity.LiveDevice = this;
-		}
-		
-		private void detach_DeviceEventReports(DeviceEventReport entity)
-		{
-			this.SendPropertyChanging();
-			entity.LiveDevice = null;
+			entity.Community = null;
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserFCM")]
-	public partial class UserFCM : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserProfileExtension")]
+	public partial class UserProfileExtension : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _TokenID;
-		
 		private int _UID;
 		
-		private string _FCMToken;
+		private string _LineID;
+		
+		private string _InstanceID;
+		
+		private System.Nullable<int> _CommunityID;
+		
+		private System.Nullable<int> _DefenceStatus;
+		
+		private EntityRef<Community> _Community;
 		
 		private EntityRef<UserProfile> _UserProfile;
 		
@@ -1951,36 +2733,392 @@ namespace WebHome.Models.DataEntity
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnTokenIDChanging(int value);
-    partial void OnTokenIDChanged();
     partial void OnUIDChanging(int value);
     partial void OnUIDChanged();
-    partial void OnFCMTokenChanging(string value);
-    partial void OnFCMTokenChanged();
+    partial void OnLineIDChanging(string value);
+    partial void OnLineIDChanged();
+    partial void OnInstanceIDChanging(string value);
+    partial void OnInstanceIDChanged();
+    partial void OnCommunityIDChanging(System.Nullable<int> value);
+    partial void OnCommunityIDChanged();
+    partial void OnDefenceStatusChanging(System.Nullable<int> value);
+    partial void OnDefenceStatusChanged();
     #endregion
 		
-		public UserFCM()
+		public UserProfileExtension()
+		{
+			this._Community = default(EntityRef<Community>);
+			this._UserProfile = default(EntityRef<UserProfile>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					if (this._UserProfile.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LineID", DbType="NVarChar(64)")]
+		public string LineID
+		{
+			get
+			{
+				return this._LineID;
+			}
+			set
+			{
+				if ((this._LineID != value))
+				{
+					this.OnLineIDChanging(value);
+					this.SendPropertyChanging();
+					this._LineID = value;
+					this.SendPropertyChanged("LineID");
+					this.OnLineIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InstanceID", DbType="NVarChar(64)")]
+		public string InstanceID
+		{
+			get
+			{
+				return this._InstanceID;
+			}
+			set
+			{
+				if ((this._InstanceID != value))
+				{
+					this.OnInstanceIDChanging(value);
+					this.SendPropertyChanging();
+					this._InstanceID = value;
+					this.SendPropertyChanged("InstanceID");
+					this.OnInstanceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityID", DbType="Int")]
+		public System.Nullable<int> CommunityID
+		{
+			get
+			{
+				return this._CommunityID;
+			}
+			set
+			{
+				if ((this._CommunityID != value))
+				{
+					if (this._Community.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCommunityIDChanging(value);
+					this.SendPropertyChanging();
+					this._CommunityID = value;
+					this.SendPropertyChanged("CommunityID");
+					this.OnCommunityIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DefenceStatus", DbType="Int")]
+		public System.Nullable<int> DefenceStatus
+		{
+			get
+			{
+				return this._DefenceStatus;
+			}
+			set
+			{
+				if ((this._DefenceStatus != value))
+				{
+					this.OnDefenceStatusChanging(value);
+					this.SendPropertyChanging();
+					this._DefenceStatus = value;
+					this.SendPropertyChanged("DefenceStatus");
+					this.OnDefenceStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Community_UserProfileExtension", Storage="_Community", ThisKey="CommunityID", OtherKey="CommunityID", IsForeignKey=true)]
+		public Community Community
+		{
+			get
+			{
+				return this._Community.Entity;
+			}
+			set
+			{
+				Community previousValue = this._Community.Entity;
+				if (((previousValue != value) 
+							|| (this._Community.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Community.Entity = null;
+						previousValue.UserProfileExtension.Remove(this);
+					}
+					this._Community.Entity = value;
+					if ((value != null))
+					{
+						value.UserProfileExtension.Add(this);
+						this._CommunityID = value.CommunityID;
+					}
+					else
+					{
+						this._CommunityID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Community");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserProfileExtension", Storage="_UserProfile", ThisKey="UID", OtherKey="UID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public UserProfile UserProfile
+		{
+			get
+			{
+				return this._UserProfile.Entity;
+			}
+			set
+			{
+				UserProfile previousValue = this._UserProfile.Entity;
+				if (((previousValue != value) 
+							|| (this._UserProfile.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserProfile.Entity = null;
+						previousValue.UserProfileExtension = null;
+					}
+					this._UserProfile.Entity = value;
+					if ((value != null))
+					{
+						value.UserProfileExtension = this;
+						this._UID = value.UID;
+					}
+					else
+					{
+						this._UID = default(int);
+					}
+					this.SendPropertyChanged("UserProfile");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MessageBoard")]
+	public partial class MessageBoard : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _InstanceID;
+		
+		private System.DateTime _MessageDate;
+		
+		private System.Nullable<int> _Defence;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnInstanceIDChanging(string value);
+    partial void OnInstanceIDChanged();
+    partial void OnMessageDateChanging(System.DateTime value);
+    partial void OnMessageDateChanged();
+    partial void OnDefenceChanging(System.Nullable<int> value);
+    partial void OnDefenceChanged();
+    #endregion
+		
+		public MessageBoard()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InstanceID", DbType="NVarChar(64) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string InstanceID
+		{
+			get
+			{
+				return this._InstanceID;
+			}
+			set
+			{
+				if ((this._InstanceID != value))
+				{
+					this.OnInstanceIDChanging(value);
+					this.SendPropertyChanging();
+					this._InstanceID = value;
+					this.SendPropertyChanged("InstanceID");
+					this.OnInstanceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageDate", DbType="DateTime NOT NULL")]
+		public System.DateTime MessageDate
+		{
+			get
+			{
+				return this._MessageDate;
+			}
+			set
+			{
+				if ((this._MessageDate != value))
+				{
+					this.OnMessageDateChanging(value);
+					this.SendPropertyChanging();
+					this._MessageDate = value;
+					this.SendPropertyChanged("MessageDate");
+					this.OnMessageDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Defence", DbType="Int")]
+		public System.Nullable<int> Defence
+		{
+			get
+			{
+				return this._Defence;
+			}
+			set
+			{
+				if ((this._Defence != value))
+				{
+					this.OnDefenceChanging(value);
+					this.SendPropertyChanging();
+					this._Defence = value;
+					this.SendPropertyChanged("Defence");
+					this.OnDefenceChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GasUsageReport")]
+	public partial class GasUsageReport : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ReportID;
+		
+		private int _UID;
+		
+		private System.Nullable<System.DateTime> _ReportDate;
+		
+		private int _Year;
+		
+		private int _Month;
+		
+		private decimal _Usage;
+		
+		private EntityRef<UserProfile> _UserProfile;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnReportIDChanging(int value);
+    partial void OnReportIDChanged();
+    partial void OnUIDChanging(int value);
+    partial void OnUIDChanged();
+    partial void OnReportDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnReportDateChanged();
+    partial void OnYearChanging(int value);
+    partial void OnYearChanged();
+    partial void OnMonthChanging(int value);
+    partial void OnMonthChanged();
+    partial void OnUsageChanging(decimal value);
+    partial void OnUsageChanged();
+    #endregion
+		
+		public GasUsageReport()
 		{
 			this._UserProfile = default(EntityRef<UserProfile>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TokenID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int TokenID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ReportID
 		{
 			get
 			{
-				return this._TokenID;
+				return this._ReportID;
 			}
 			set
 			{
-				if ((this._TokenID != value))
+				if ((this._ReportID != value))
 				{
-					this.OnTokenIDChanging(value);
+					this.OnReportIDChanging(value);
 					this.SendPropertyChanging();
-					this._TokenID = value;
-					this.SendPropertyChanged("TokenID");
-					this.OnTokenIDChanged();
+					this._ReportID = value;
+					this.SendPropertyChanged("ReportID");
+					this.OnReportIDChanged();
 				}
 			}
 		}
@@ -2009,27 +3147,87 @@ namespace WebHome.Models.DataEntity
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FCMToken", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
-		public string FCMToken
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> ReportDate
 		{
 			get
 			{
-				return this._FCMToken;
+				return this._ReportDate;
 			}
 			set
 			{
-				if ((this._FCMToken != value))
+				if ((this._ReportDate != value))
 				{
-					this.OnFCMTokenChanging(value);
+					this.OnReportDateChanging(value);
 					this.SendPropertyChanging();
-					this._FCMToken = value;
-					this.SendPropertyChanged("FCMToken");
-					this.OnFCMTokenChanged();
+					this._ReportDate = value;
+					this.SendPropertyChanged("ReportDate");
+					this.OnReportDateChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserFCM", Storage="_UserProfile", ThisKey="UID", OtherKey="UID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Year", DbType="Int NOT NULL")]
+		public int Year
+		{
+			get
+			{
+				return this._Year;
+			}
+			set
+			{
+				if ((this._Year != value))
+				{
+					this.OnYearChanging(value);
+					this.SendPropertyChanging();
+					this._Year = value;
+					this.SendPropertyChanged("Year");
+					this.OnYearChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Month", DbType="Int NOT NULL")]
+		public int Month
+		{
+			get
+			{
+				return this._Month;
+			}
+			set
+			{
+				if ((this._Month != value))
+				{
+					this.OnMonthChanging(value);
+					this.SendPropertyChanging();
+					this._Month = value;
+					this.SendPropertyChanged("Month");
+					this.OnMonthChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usage", DbType="Decimal(18,2) NOT NULL")]
+		public decimal Usage
+		{
+			get
+			{
+				return this._Usage;
+			}
+			set
+			{
+				if ((this._Usage != value))
+				{
+					this.OnUsageChanging(value);
+					this.SendPropertyChanging();
+					this._Usage = value;
+					this.SendPropertyChanged("Usage");
+					this.OnUsageChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_GasUsageReport", Storage="_UserProfile", ThisKey="UID", OtherKey="UID", IsForeignKey=true)]
 		public UserProfile UserProfile
 		{
 			get
@@ -2046,12 +3244,12 @@ namespace WebHome.Models.DataEntity
 					if ((previousValue != null))
 					{
 						this._UserProfile.Entity = null;
-						previousValue.UserFCM.Remove(this);
+						previousValue.GasUsageReport.Remove(this);
 					}
 					this._UserProfile.Entity = value;
 					if ((value != null))
 					{
-						value.UserFCM.Add(this);
+						value.GasUsageReport.Add(this);
 						this._UID = value.UID;
 					}
 					else

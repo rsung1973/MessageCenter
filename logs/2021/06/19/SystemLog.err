@@ -1,0 +1,1274 @@
+2021/06/19 11:46:27
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:46:36
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:46:46
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:46:56
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:47:06
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:47:08
+Newtonsoft.Json.JsonSerializationException: Error converting value {null} to type 'System.Int32'. Path 'Vehicles[0].ConfirmRuleId', line 1, position 189. ---> System.InvalidCastException: Null object cannot be converted to a value type.
+   at System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   --- End of inner exception stack trace ---
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.SetPropertyValue(JsonProperty property, JsonConverter propertyConverter, JsonContainerContract containerContract, JsonProperty containerProperty, JsonReader reader, Object target)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateList(IList list, JsonReader reader, JsonArrayContract contract, JsonProperty containerProperty, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateList(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, Object existingValue, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.SetPropertyValue(JsonProperty property, JsonConverter propertyConverter, JsonContainerContract containerContract, JsonProperty containerProperty, JsonReader reader, Object target)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at WebHome.DataPort.TaiwanTaxiAgent.DispatchQuery() in C:\Project\HomeNet\MessageCenter\MasterWeb\DataPort\TaiwanTaxiAgent.cs:line 185
+2021/06/19 11:47:16
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:47:26
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:47:36
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:47:46
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:47:56
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:48:06
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:48:16
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:48:26
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:48:36
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:48:46
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:48:56
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:49:06
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:49:16
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:49:26
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:49:36
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:49:46
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:49:56
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:50:06
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:50:16
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:50:26
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:50:36
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:50:46
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:50:56
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:51:06
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:51:16
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:51:26
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:51:36
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.AggregateException: One or more errors occurred. ---> System.Net.Sockets.SocketException: No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+---> (Inner Exception #0) System.Net.Sockets.SocketException (0x80004005): No connection could be made because the target machine actively refused it 127.0.0.1:4406
+   at System.Net.Sockets.Socket.InternalEndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.Sockets.TcpClient.EndConnect(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)<---
+
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:51:44
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts. ---> System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Monitor.ObjWait(Boolean exitContext, Int32 millisecondsTimeout, Object obj)
+   at System.Threading.ManualResetEventSlim.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.SpinThenBlockingWait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.InternalWait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at System.Threading.Tasks.Task.Wait(Int32 millisecondsTimeout, CancellationToken cancellationToken)
+   at MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.NativeDriver.Open()
+   at MySql.Data.MySqlClient.Driver.Open()
+   at MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   at MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at LinqToDB.Data.DataConnection.EnsureConnection() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 980
+   at LinqToDB.Data.DataConnection.CreateCommand() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1111
+   at LinqToDB.Data.DataConnection.get_Command() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.cs:line 1102
+   at LinqToDB.Data.DataConnection.QueryRunner.AddParameter(DataConnection dataConnection, ICollection`1 parms, String name, SqlParameter parm) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 244
+   at LinqToDB.Data.DataConnection.QueryRunner.GetParameters(DataConnection dataConnection, IQueryContext query, PreparedQuery pq) in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 235
+   at LinqToDB.Data.DataConnection.QueryRunner.SetQuery() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 281
+   at LinqToDB.Linq.QueryRunnerBase.SetCommand(Boolean clearQueryHints) in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunnerBase.cs:line 69
+   at LinqToDB.Data.DataConnection.QueryRunner.ExecuteReader() in C:\projects\linq2db\Source\LinqToDB\Data\DataConnection.QueryRunner.cs:line 454
+   at LinqToDB.Linq.QueryRunner.<ExecuteQuery>d__10`1.MoveNext() in C:\projects\linq2db\Source\LinqToDB\Linq\QueryRunner.cs:line 344
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ToArray[TSource](IEnumerable`1 source)
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.checkDeviceEvent() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 70
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 35
+2021/06/19 11:51:44
+System.Threading.ThreadAbortException: Thread was being aborted.
+   at WebHome.Helper.Jobs.DeviceEventDispatcher.DoJob() in C:\Project\HomeNet\MessageCenter\MasterWeb\Helper\Jobs\DeviceEventDispatcher.cs:line 36
+   at CommonLib.Helper.JobScheduler.doJob(JobItem item, Boolean nextSchedule) in C:\Project\HomeNet\MessageCenter\CommonLib\Helper\JobScheduler.cs:line 104
+   at CommonLib.Helper.JobScheduler.run(Object state) in C:\Project\HomeNet\MessageCenter\CommonLib\Helper\JobScheduler.cs:line 69

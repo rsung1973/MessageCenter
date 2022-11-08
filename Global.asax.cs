@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Optimization;
 using WebHome.Helper.Jobs;
 using Utility;
+using System.Net;
 
 namespace WebHome
 {
@@ -23,7 +24,8 @@ namespace WebHome
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             JobLauncher.StartUp();
-
+            ServicePointManager.ServerCertificateValidationCallback = (s, cert, chain, policy) => { return true; };
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
         }
 
         void Application_Error(object sender, EventArgs e)

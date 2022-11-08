@@ -1,0 +1,140 @@
+
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.DataPort
+@using WebHome.Properties
+@using Utility
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@{
+
+    ModelSource<LiveDevice> models;
+    YoxiAgentViewModel _viewModel;
+
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    _viewModel = (YoxiAgentViewModel)ViewBag.ViewModel;
+    YoxiAgent.DispatchQueryResponse _model = this.Model as YoxiAgent.DispatchQueryResponse;
+
+}
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        @*<td valign="top">
+                <img src="~/images/TaxiOrder_03.png" style="width:180px;" />
+            </td>*@
+        <td>
+            @{
+                var data = _model?.data;
+                var vehicle = data?.orderInfo;
+                <div>
+                    <label class="label-info">派車資訊</label>
+                    @if (data != null)
+                    {
+                        <label class="label-info">@(data.status)</label>
+                        if (ViewBag.EnableDispatchCancel != false
+                            && !(data.status == "CANCEL_TRIP" || data.status == "CLOSE_TRIP"))
+                        {
+                            <button type="button" class="btn" onclick="javascript: dispatchCancel('@(data.hashId)');">取消叫車</button>
+                        }
+
+                        if (data.status == "CANCEL_TRIP" || data.status == "CLOSE_TRIP")
+                        {
+                            <button type="button" class="btn" onclick="javascript: deleteTrip('@(data.hashId)');">刪除叫車資料</button>
+                        }
+
+                    }
+                    else
+                    {
+                        if (_viewModel.BookDate.HasValue
+                            && (DateTime.Now - _viewModel.BookDate.Value).TotalSeconds >= YoxiAgent.TripOrderWaitingIntervalInSeconds)
+                        {
+                            <label class="label-info">無回應</label>
+                            <button type="button" class="btn" onclick="javascript: deleteTrip('@(ViewBag.HashID)');">刪除叫車資料</button>
+                        }
+                        else
+                        {
+                            <label class="label-info">搜車中...</label>
+                        }
+                    }
+                </div>
+                <div>
+                    <div class="col-md-2">
+                        <label class="label-info">乘客</label>
+                    </div>
+                    <div class="col-md-3 input-group">
+                        @(_viewModel.CustName) @(_viewModel.CustTitle)
+                    </div>
+                </div>
+                <hr />
+                <div>
+                    <div class="col-md-2">
+                        <label class="label-info">電話</label>
+                    </div>
+                    <div class="col-md-3 input-group">
+                        @(_viewModel.CustPhone)
+                    </div>
+                </div>
+                <hr />
+                <div>
+                    <div class="col-md-2">
+                        <label class="label-info">地址</label>
+                    </div>
+                    <div class="input-group">
+                        @(String.Concat(AppSettings.Default.Location.City,
+                            AppSettings.Default.Location.District,
+                            AppSettings.Default.Location.Road,
+                            AppSettings.Default.Location.Section.GetEfficientString("段"),
+                            AppSettings.Default.Location.Lane.GetEfficientString("巷"),
+                            AppSettings.Default.Location.Alley.GetEfficientString("弄"),
+                            $"{(AppSettings.Default.Location.No.GetEfficientString() ?? "0")}號",
+                            AppSettings.Default.Location.UnitCount.HasValue ? $"之{AppSettings.Default.Location.UnitCount}" : null))
+                    </div>
+                </div>
+                <hr />
+                <div>
+                    <div class="col-md-2">
+                        <label class="label-info">其它</label>
+                    </div>
+                    <div class="col-md-10 input-group">
+                        <div class="col-md-4">
+                            備註：@(_viewModel.Memo)
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                if (vehicle!=null)
+                {
+                    var driver = vehicle;
+                    <div>
+                        <div class="col-md-2">
+                            <label class="label-info">駕駛員資訊</label>
+                        </div>
+                        <div class="col-md-10 input-group">
+                            <div>
+                                車號：@(driver.vehicleLicensePlate) &nbsp;&nbsp;
+                                姓名：@(driver.driverName) &nbsp;&nbsp;
+                                顏色：@(driver.vehicleColor)
+                            </div>
+                            <div>
+                                廠牌：@(driver.vehicleBrandName) &nbsp;&nbsp;
+                                款式：@(driver.vehicleSeriesName)&nbsp;&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                }
+            }
+            @*<div class="row text-center">
+                    <button class="btn" type="button">送出</button>
+                </div>*@
+        </td>
+    </tr>
+</table>
+

@@ -1,0 +1,56 @@
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using Utility
+@using Newtonsoft.Json
+
+@{
+    InfoQueryViewModel _viewModel = ViewBag.ViewModel as InfoQueryViewModel;
+}
+
+<li>
+    <a href="javascript:taxiOrder();"><i class="fa fa-hand-o-right" aria-hidden="true"></i>台灣大車隊叫車服務</a>
+    <script>
+        function taxiOrder() {
+            $('').launchDownload('@Html.Raw(Url.Action("TaxiOrderIndex", "DeviceEvents"))', $global.viewModel);
+        }
+    </script>
+</li>
+<li>
+    <a href="javascript:dispatchQuery();"><i class="fa fa-hand-o-right" aria-hidden="true"></i>台灣大車隊叫車查詢</a>
+    <script>
+        function dispatchQuery() {
+            var wait = -1;
+            if (typeof ($global.actionTimeStamp) !== "undefined") {
+                wait = 8000 - ((new Date()).getTime() - $global.actionTimeStamp.getTime());
+            }
+            $global.actionTimeStamp = new Date();
+            if (wait > 0) {
+                delayDispatchQuery(wait);
+            } else {
+                doDispatchQuery();
+            }
+        }
+
+        function delayDispatchQuery(interval) {
+            showLoading();
+            setTimeout(function () {
+                hideLoading();
+                doDispatchQuery();
+            }, interval);
+        }
+
+        function doDispatchQuery() {
+            $('').launchDownload('@Html.Raw(Url.Action("DispatchQueryIndex", "TaiwanTaxiAgent"))', $global.viewModel);
+        }
+    </script>
+</li>
+
+
+

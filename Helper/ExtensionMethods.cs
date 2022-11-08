@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -24,6 +25,13 @@ namespace WebHome.Helper
                 }
             }
             return result;
+        }
+
+        public static ClosedXML.Excel.XLWorkbook ConvertToExcel(this DataSet ds)
+        {
+            ClosedXML.Excel.XLWorkbook xls = new ClosedXML.Excel.XLWorkbook();
+            xls.Worksheets.Add(ds);
+            return xls;
         }
     }
 }

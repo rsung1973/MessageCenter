@@ -1,0 +1,15 @@
+POST /MessageCenter/LineEvents/Index HTTP/1.1
+Connection: Keep-Alive
+Content-Length: 304
+Content-Type: application/json;charset=UTF-8
+Accept: */*
+Host: ralph-2019:17185
+Max-Forwards: 10
+User-Agent: LineBotWebhook/1.0
+X-Line-Signature: TehZXr1y8QaUooruU/dK9opO5kTILb+tY/8Fg7KX5ok=
+X-Original-URL: /MessageCenter/LineEvents/Index
+X-Forwarded-For: 147.92.150.195:42932
+X-ARR-SSL: 2048|256|C=US, O=Let's Encrypt, CN=Let's Encrypt Authority X3|CN=www.worthitstudio.idv.tw
+X-ARR-LOG-ID: ba89b9d2-77e9-4839-ae00-f9d7303dfaba
+
+{"events":[{"type":"message","replyToken":"89628cb6fd054c17ba3ec89d5850b5ab","source":{"userId":"Ubccd10bde1f3fc51a7eb55c1a3af2fd9","type":"user"},"timestamp":1578331517989,"mode":"active","message":{"type":"text","id":"11212509514014","text":"hello"}}],"destination":"Ufd7a1422bba8839e683a9c070a56dcb2"}

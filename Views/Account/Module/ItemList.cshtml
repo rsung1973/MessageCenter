@@ -1,0 +1,51 @@
+
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.DataModels
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using Utility
+@using Newtonsoft.Json
+
+@{
+
+    ModelSource<LiveDevice> models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    IQueryable<UserProfile> _model;
+    IQueryable<UserProfile> _items;
+    UserAccountQueryViewModel _viewModel;
+
+    _model = (IQueryable<UserProfile>)this.Model;
+    _viewModel = (UserAccountQueryViewModel)ViewBag.ViewModel;
+    _items = _model;
+
+}
+
+<table class="table01 itemList">
+    <thead>
+        <tr>
+            <th>使用者ID</th>
+            <th>使用者名稱</th>
+            <th aria-sort="other">接收公設警報</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in _items)
+        {
+            Html.RenderPartial("~/Views/Account/Module/DataItem.cshtml", item);
+        }
+    </tbody>
+    @*<tfoot>
+        <tr>
+            <td colspan="5">
+                <button type="button" class="btn" onclick="uiUserAccount.deleteAll();">全部刪除</button>
+            </td>
+        </tr>
+    </tfoot>*@
+</table>
+
+

@@ -1,0 +1,87 @@
+
+
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.DataPort
+@using Utility
+@using Newtonsoft.Json
+@{
+
+    ModelSource<LiveDevice> models;
+    TaiwanTaxiAgentViewModel _viewModel;
+
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    _viewModel = (TaiwanTaxiAgentViewModel)ViewBag.ViewModel;
+    TaiwanTaxiAgent.DispatchQueryResponse _model = this.Model as TaiwanTaxiAgent.DispatchQueryResponse;
+
+}
+
+<div class="border_gray queryAction">
+    <!--表格 開始-->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="left_title">
+        <tr>
+            <th>
+                住戶識別碼(resident ID)
+            </th>
+            <td class="tdleft" colspan="3">
+                <input type="text" name="ResidentID" value="@(_viewModel.ResidentID.GetEfficientString())" />
+            </td>
+        </tr>
+    </table>
+    <!--表格 結束-->
+</div>
+@if (_model?.Vehicles?.Length > 0)
+{
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            @*<td valign="top">
+                    <img src="~/images/TaxiOrder_03.png" style="width:180px;" />
+                </td>*@
+            <td>
+                <div>
+                    <div class="col-md-2">
+                        <label class="label-info">服務單位</label>
+                    </div>
+                    <img src="~/images/TaxiOrder_02.png" />
+                </div>
+                <hr />
+            </td>
+        </tr>
+    </table>
+    Html.RenderPartial("~/Views/DeviceEvents/Module/TaxiOrderQueryItem.cshtml", _model);
+
+    <script>
+        function dispatchCancel(jobID) {
+            showLoading();
+            $.post('@(Url.Action("DispatchCancel", "TaiwanTaxiAgent"))', { 'ResidentID': '@(_viewModel.ResidentID)', 'JobID': jobID }, function (data) {
+                hideLoading();
+                if ($.isPlainObject(data)) {
+                } else {
+                    $(data).appendTo($('body'));
+                }
+            });
+        }
+    </script>
+}
+else
+{
+    <div>尚無叫車資訊!!</div>
+    <div class="row text-center">
+        <button class="btn" type="button" onclick="dispatchQuery();">重新查詢</button>
+    </div>
+}
+<script>
+    $(function () {
+        $global.viewModel.AuthResponse = @Html.Raw(_viewModel.AuthResponse.JsonStringify());
+        $global.actionTimeStamp = new Date();
+    });
+</script>
+
+

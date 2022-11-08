@@ -1,0 +1,40 @@
+
+@using System.IO
+@using System.Linq.Expressions
+
+
+@using Utility
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@{
+    JArray _model;
+    _model = (JArray)this.Model;
+}
+<table class="table01 itemList">
+    <thead>
+        <tr>
+            @foreach (JProperty p in _model.First.Children())
+            {
+                <th @*style="min-width: 80px;"*@>@(p.Name)</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{ int idx = 0;}
+        @foreach (var item in _model)
+        {
+            idx++;
+            Html.RenderPartial("~/Views/Outbound/BuildingInfo/DataItem.cshtml", item);
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="@(_model.First.Count())">
+                &nbsp;
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+
+

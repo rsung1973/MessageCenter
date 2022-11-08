@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Dynamic;
@@ -56,6 +57,32 @@ namespace WebHome.Models.Helper
             builder[0] = '?';
             return builder.ToString();
         }
+
+        public String ToJsonString()
+        {
+            JObject  json = new JObject();
+            foreach (var key in _items.AllKeys)
+            {
+                var v = _items.GetValues(key);
+                if(v!=null)
+                {
+                    if (v.Length == 1)
+                    {
+                        json[key] = v[0];
+                    }
+                    else
+                    {
+                        json[key] = JArray.FromObject(v);
+                    }
+                }
+                else
+                {
+                    json[key] = null;
+                }
+            }
+            return json.ToString();
+        }
+
 
     }
 }

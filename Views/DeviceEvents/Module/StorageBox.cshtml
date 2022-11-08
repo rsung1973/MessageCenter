@@ -1,0 +1,56 @@
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.DataPort
+@using WebHome.Properties
+@using Utility
+@using Newtonsoft.Json
+@{
+
+    ModelSource<LiveDevice> models;
+    StorageBoxViewModel _viewModel;
+
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    _viewModel = (StorageBoxViewModel)ViewBag.ViewModel;
+
+}
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="left_title">
+    <tr>
+        <th colspan="@(AppSettings.Default.StorageBox.PortCount)" class="Head_style_a">
+            郵箱管理
+        </th>
+    </tr>
+    <tr>
+        @for (int port = 0; port < AppSettings.Default.StorageBox.PortCount; port++)
+        {
+            <th style="text-align:center;">@(port+1)</th>
+        }
+    </tr>
+    @for (int layer = 0; layer < (_viewModel.LayerCount ?? 0); layer++)
+    {
+        <tr>
+            @for (int port = 0; port < AppSettings.Default.StorageBox.PortCount; port++)
+            {
+                int idx = layer * AppSettings.Default.StorageBox.PortCount + port;
+                if (_viewModel.StorageItem[idx] == _viewModel.ResidentID)
+                {
+                    <td><a href="javascript:prepareToStore(@(idx));">空</a></td>
+                }
+                else
+                {
+                    <td><a href="javascript:removeStorageItem({ 'ResidentID': '@(_viewModel.StorageItem[idx])', 'Port': @(idx), 'ActionType': 0 });">@(_viewModel.StorageItem[idx])</a></td>
+                }
+            }
+        </tr>
+    }
+</table>
+
+

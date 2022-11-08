@@ -1,0 +1,58 @@
+
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using Utility
+@using Newtonsoft.Json
+@{
+    IEnumerable<DeviceEventLog> _model;
+    IEnumerable<DeviceEventLog> _items;
+    String _dataItemView;
+    DeviceQueryViewModel _viewModel;
+
+
+    _model = (IEnumerable<DeviceEventLog>)this.Model;
+    _dataItemView = ViewBag.DataItemView ?? "~/Views/DeviceEvents/EventLog/DataItem.cshtml";
+    _viewModel = (DeviceQueryViewModel)ViewBag.ViewModel;
+    _items = _model.OrderByDescending(g => g.LogID)
+        .Skip((int)_viewModel.PageIndex * _viewModel.PageSize).Take(_viewModel.PageSize);
+
+}
+<table class="table01 eventLogList">
+    <thead>
+        <tr>
+            <th style="min-width: 120px;">Device Uri</th>
+            <th style="min-width: 120px;">傳送時間</th>
+            <th style="min-width: 120px;">警報代碼</th>
+            <th style="min-width: 120px;">警報事件</th>
+            @*<th style="min-width: 120px;">Tx</th>
+            <th style="min-width: 120px;">Rx</th>*@
+            <th style="min-width: 120px;">功能</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int idx = 0;}
+        @foreach (var item in _items)
+        {
+            idx++;
+            Html.RenderPartial(_dataItemView, item);
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6">
+                &nbsp;
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+
+
+

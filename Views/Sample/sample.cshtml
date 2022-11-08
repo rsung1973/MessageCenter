@@ -1,0 +1,24 @@
+
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Helper
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.Models.DataEntity
+@using WebHome.Controllers
+@using Newtonsoft.Json
+
+<script runat="server">
+
+    ModelStateDictionary _modelState;
+    ModelSource<LiveDevice> models;
+
+    protected override void OnInit(EventArgs e)
+    {
+        base.OnInit(e);
+        _modelState = (ModelStateDictionary)ViewBag.ModelState;
+        models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    }
+
+</script>

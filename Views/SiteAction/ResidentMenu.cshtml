@@ -1,0 +1,43 @@
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using Utility
+@using Newtonsoft.Json
+
+@{ 
+    InfoQueryViewModel _viewModel = ViewBag.ViewModel as InfoQueryViewModel;
+}
+
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            <li>
+                <a href="@(Url.Action("ResidentDeviceIndex","DeviceEvents"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>住戶警報記錄</a>
+            </li>
+            <li>
+                <a href="@(Url.Action("ResidentIndex","InfoCenter"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>住戶訊息查詢</a>
+            </li>
+            <li>
+                <a href="@(Url.Action("ResidentEnergyIndex","InfoCenter"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>瓦斯度維護</a>
+            </li>
+            @{
+                Html.RenderPartial("~/Views/SiteAction/TaiwanTaxiMenu.cshtml");
+            }
+            @{
+                Html.RenderPartial("~/Views/SiteAction/YoxiMenu.cshtml");
+            }
+            <li>
+                <a href="javascript:$('').launchDownload('@Html.Raw(Url.Action("AccessCard", "DeviceEvents"))', $global.viewModel);"><i class="fa fa-hand-o-right" aria-hidden="true"></i>設定門禁卡</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>
+
+

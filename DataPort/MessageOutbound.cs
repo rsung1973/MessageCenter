@@ -40,12 +40,13 @@ namespace WebHome.DataPort
 
         }
 
-        public void CheckAuthToken()
+        public KeyValuePair<String, DateTime>? CheckAuthToken()
         {
             if (!_authToken.HasValue || (DateTime.Now - _authToken.Value.Value).TotalMinutes >= Settings.Default.ValidTokenDurationInMinutes)
             {
                 ResetToken();
             }
+            return _authToken;
         }
 
         public void ResetToken()
@@ -55,14 +56,33 @@ namespace WebHome.DataPort
             dynamic queryValues = new DynamicQueryStringParameter();
             queryValues.prm_id = Settings.Default.CenterID;
 
-            using (WebClient client = new WebClient())
+            if (AppSettings.Default.UseCustomBA)
             {
-                Logger.Debug(Settings.Default.GetAuthToken + queryValues.ToQueryString());
-                var json = client.DownloadString(Settings.Default.GetAuthToken + queryValues.ToQueryString());
-                var result = JsonConvert.DeserializeObject(json);
-                if (result.Count > 0)
+                using (WebClient client = new WebClient())
                 {
-                    _authToken = new KeyValuePair<string, DateTime>(Encoding.UTF8.GetString(Convert.FromBase64String((String)result[0].auth_code)), DateTime.Now);
+                    client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                    var json = client.UploadString(Settings.Default.GetAuthToken , queryValues.ToJsonString());
+                    Logger.Info(Settings.Default.GetAuthToken + queryValues.ToQueryString());
+                    Logger.Info(json);
+                    JObject result = JObject.Parse(json);
+                    if (result.ContainsKey("auth_code"))
+                    {
+                        _authToken = new KeyValuePair<string, DateTime>(result.Value<String>("auth_code"), DateTime.MaxValue);
+                    }
+                }
+
+            }
+            else
+            {
+                using (WebClient client = new WebClient())
+                {
+                    Logger.Debug(Settings.Default.GetAuthToken + queryValues.ToQueryString());
+                    var json = client.DownloadString(Settings.Default.GetAuthToken + queryValues.ToQueryString());
+                    var result = JsonConvert.DeserializeObject(json);
+                    if (result.Count > 0)
+                    {
+                        _authToken = new KeyValuePair<string, DateTime>(Encoding.UTF8.GetString(Convert.FromBase64String((String)result[0].auth_code)), DateTime.Now);
+                    }
                 }
             }
         }
@@ -81,6 +101,7 @@ namespace WebHome.DataPort
 
                 using (WebClient client = new WebClient())
                 {
+                    Logger.Debug(Settings.Default.GetBuildingInfo + queryValues.ToQueryString());
                     var json = client.DownloadString(Settings.Default.GetBuildingInfo + queryValues.ToQueryString());
                     JArray result = JsonConvert.DeserializeObject(json) as JArray;
                     if (result != null && result.Count > 0)
@@ -238,77 +259,200 @@ namespace WebHome.DataPort
 
             if (_authToken.HasValue)
             {
-
                 queryValues.prm_auth_code = _authToken.Value.Key;
 
-                using (WebClient client = new WebClient())
+                if (AppSettings.Default.UseCustomBA)
                 {
-                    Logger.Debug(actionUrl + queryValues.ToQueryString());
-                    var json = client.DownloadString(actionUrl + queryValues.ToQueryString());
-                    JArray result = JsonConvert.DeserializeObject(json) as JArray;
-                    if (result != null && result.Count > 0)
+                    String jsonRequest = queryValues.ToJsonString();
+
+                    using (WebClient client = new WebClient())
                     {
-                        result.DecodeValue();
-                        return result;
+                        //Logger.Debug(Settings.Default.GetAuthToken + queryValues.ToQueryString());
+                        client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                        var json = client.UploadString(actionUrl, jsonRequest);
+                        Logger.Info($"{actionUrl} => {jsonRequest}");
+                        Logger.Info(json);
+                        JObject result = JObject.Parse(json);
+                        return new JArray(result);
+                    }
+                }
+                else
+                {
+
+                    using (WebClient client = new WebClient())
+                    {
+                        Logger.Debug(actionUrl + queryValues.ToQueryString());
+                        var json = client.DownloadString(actionUrl + queryValues.ToQueryString());
+                        JArray result = JsonConvert.DeserializeObject(json) as JArray;
+                        if (result != null && result.Count > 0)
+                        {
+                            result.DecodeValue();
+                            return result;
+                        }
+                    }
+                }
+
+            }
+            return null;
+        }
+
+        public JArray UpdateDeviceStatus(String deviceUri,String status)
+        {
+            CheckAuthToken();
+
+            if (_authToken.HasValue)
+            {
+                if(AppSettings.Default.UseCustomBA)
+                {
+                    String jsonRequest = (new
+                    {
+                        prm_auth_code = _authToken.Value.Key,
+                        l1_device_type = Settings.Default.PRMType,
+                        device_uri = deviceUri,
+                        device_status = status,
+                        device_status_value = "",
+                        status_date = DateTime.Now,
+                    }).JsonStringify();
+
+                    using (WebClient client = new WebClient())
+                    {
+                        //Logger.Debug(Settings.Default.GetAuthToken + queryValues.ToQueryString());
+                        client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                        var json = client.UploadString(Settings.Default.MessageCenter_BA_Service_sr_BA_DeviceWebService, jsonRequest);
+                        Logger.Info($"{Settings.Default.MessageCenter_BA_Service_sr_BA_DeviceWebService} => {jsonRequest}");
+                        Logger.Info(json);
+                        JObject result = JObject.Parse(json);
+                        return new JArray(result);
+                    }
+
+                }
+                else
+                {
+                    using (sr_BA_DeviceWebService service = new sr_BA_DeviceWebService())
+                    {
+                        String json = service.Set_Status(_authToken.Value.Key, Settings.Default.PRMType, deviceUri, status, "", DateTime.Now);
+                        JArray result = JsonConvert.DeserializeObject(json) as JArray;
+                        if (result != null && result.Count > 0)
+                        {
+                            ((dynamic)result[0]).result = ((dynamic)result[0]).reulst;
+                            return result;
+                        }
+                    }
+                }
+            }
+            return null;
+
+        }
+
+        public JArray ReportDeviceEvent(String deviceUri, String status,String eventType)
+        {
+            CheckAuthToken();
+
+            if (_authToken.HasValue)
+            {
+                if (AppSettings.Default.UseCustomBA)
+                {
+                    String jsonRequest = (new
+                    {
+                        prm_auth_code = _authToken.Value.Key,
+                        l1_device_type = Settings.Default.PRMType,
+                        device_uri = deviceUri,
+                        need_release = true,
+                        event_type = eventType,
+                        event_sub_type = "0",
+                        event_level = 0,
+                        event_timeout = 0,
+                        device_status = status,
+                        card_no = "",
+                        event_detail = "",
+                        isLog = false,
+                        device_time = DateTime.Now,
+                    }).JsonStringify();
+
+                    using (WebClient client = new WebClient())
+                    {
+                        //Logger.Debug(Settings.Default.GetAuthToken + queryValues.ToQueryString());
+                        client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                        var json = client.UploadString(Settings.Default.MessageCenter_BA_Service_sr_BA_DeviceWebService, jsonRequest);
+                        Logger.Info($"{Settings.Default.MessageCenter_BA_Service_sr_BA_DeviceWebService} => {jsonRequest}");
+                        Logger.Info(json);
+                        JObject result = JObject.Parse(json);
+                        return new JArray(result);
+                    }
+                }
+                else
+                {
+                    using (sr_BA_DeviceWebService service = new sr_BA_DeviceWebService())
+                    {
+                        Logger.Debug(service.Url);
+                        String json = service.Set_Event_ByDeviceDetail(
+                            _authToken.Value.Key,
+                            Settings.Default.PRMType,
+                            deviceUri,
+                            true,
+                            eventType,
+                            "0",
+                            0,
+                            0,
+                            status,
+                            "",
+                            "",
+                            false,
+                            DateTime.Now);
+                        JArray result = JsonConvert.DeserializeObject(json) as JArray;
+                        if (result != null && result.Count > 0)
+                        {
+                            ((dynamic)result[0]).result = ((dynamic)result[0]).reulst;
+
+                            if (((dynamic)result[0]).event_id != null)
+                            {
+                                try
+                                {
+                                    json = service.New_Rule_Trigger(
+                                        _authToken.Value.Key,
+                                        Settings.Default.PRMType,
+                                        1,
+                                        ((dynamic)result[0]).event_id as String,
+                                        1);
+
+                                    Logger.Debug("連動回應: " + json);
+
+                                    JArray jsonResult = JsonConvert.DeserializeObject(json) as JArray;
+                                    if (jsonResult != null && jsonResult.Count > 0)
+                                    {
+                                        json = service.Sync_Complete
+                                            (
+                                            _authToken.Value.Key,
+                                            Settings.Default.PRMType,
+                                            ((dynamic)jsonResult[0]).reulst == "OK" ? "" : $"{((dynamic)jsonResult[0]).error_msg}");
+
+                                        Logger.Debug("同步回應: " + json);
+
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Logger.Error(ex);
+                                }
+                            }
+
+                            return result;
+                        }
                     }
                 }
             }
             return null;
         }
 
-        public JArray UpdateDeviceStatus(LiveDevice item,String status)
+        public void ApplyDefaultBuildingInfo()
         {
-            CheckAuthToken();
-
-            if (_authToken.HasValue)
+            var result = ApplyBuildingInfo();
+            if (result != null)
             {
-                using (sr_BA_DeviceWebService service = new sr_BA_DeviceWebService())
-                {
-                    String json = service.Set_Status(_authToken.Value.Key, Settings.Default.PRMType, item.UserRegister.DeviceUri, status, "", DateTime.Now);
-                    JArray result = JsonConvert.DeserializeObject(json) as JArray;
-                    if (result != null && result.Count > 0)
-                    {
-                        ((dynamic)result[0]).result = ((dynamic)result[0]).reulst;
-                        return result;
-                    }
-                }
+                dynamic building = result[0] as dynamic;
+                WebHome.Properties.AppSettings.Default.BuildingID = building.building_id;
+                WebHome.Properties.AppSettings.Default.FloorID = building.floor_id;
             }
-            return null;
-
-        }
-
-        public JArray ReportDeviceEvent(LiveDevice item, String status,String eventType)
-        {
-            CheckAuthToken();
-
-            if (_authToken.HasValue)
-            {
-                using (sr_BA_DeviceWebService service = new sr_BA_DeviceWebService())
-                {
-                    Logger.Debug(service.Url);
-                    String json = service.Set_Event_ByDeviceDetail(
-                        _authToken.Value.Key,
-                        Settings.Default.PRMType,
-                        item.UserRegister.DeviceUri,
-                        true,
-                        eventType,
-                        "0",
-                        0,
-                        0,
-                        status,
-                        "",
-                        "",
-                        false,
-                        DateTime.Now);
-                    JArray result = JsonConvert.DeserializeObject(json) as JArray;
-                    if (result != null && result.Count > 0)
-                    {
-                        ((dynamic)result[0]).result = ((dynamic)result[0]).reulst;
-                        return result;
-                    }
-                }
-            }
-            return null;
         }
 
     }

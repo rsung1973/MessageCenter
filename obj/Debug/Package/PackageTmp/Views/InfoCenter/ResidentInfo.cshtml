@@ -1,0 +1,196 @@
+﻿
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using Utility
+@using Newtonsoft.Json
+
+@{
+    Layout = "~/Views/Shared/MvcBlankPage.cshtml";
+
+    ModelStateDictionary _modelState;
+    ModelSource<LiveDevice> models;
+    String _viewID = $"unpaidPI{DateTime.Now.Ticks}";
+
+    _modelState = (ModelStateDictionary)ViewBag.ModelState;
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+
+    UserProfile _model = this.Model as UserProfile;
+    InfoQueryViewModel _viewModel = (InfoQueryViewModel)ViewBag.ViewModel;
+}
+<style>
+    .security-icon {
+        width: 49%;
+    }
+</style>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0" style="color: white; background: #284265;">
+        <img src="~/images/info-title.png" style="width:64px;" />室內機住戶管理帳號
+    </h1>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12">
+
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h4 class="m-0 font-weight-bold text-primary">
+                    室內機平板識別碼:@(_model.UserProfileExtension.InstanceID)<br />
+                    住戶社區名稱:@(_model.UserProfileExtension.Community?.CommunityName)<br />
+                    住戶名稱:@(_model.PID)<br />
+                    @{
+                        var statusItem = UrgentEventHandler.Instance.DeviceStatusList.Where(d => d.InstanceID == _model.UserProfileExtension.InstanceID).FirstOrDefault();
+                        if (statusItem != null)
+                        {
+                            <text>保全狀態：</text>
+                            switch ((Naming.DefenceStatus?)statusItem.DefenceStatus)
+                            {
+                                case Naming.DefenceStatus.Clear:
+                                    Write("未設定");
+                                    break;
+
+                                case Naming.DefenceStatus.Secured:
+                                    Write("警戒中");
+                                    break;
+                            }
+                        }
+                    }
+                </h4>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                        @*<div class="dropdown-header">Dropdown Header:</div>*@
+                        <a class="dropdown-item" href="javascript:editUser();"><img src="~/images/SIP_No.png" class="security-icon" /></a>
+                        <a class="dropdown-item" href="javascript:resetRegister();"><img src="~/images/Reset_Account.png" class="security-icon" /></a><br />
+                        <a class="dropdown-item" href="javascript:setDefence(1);"><img src="~/images/On_Guard.png" class="security-icon" /></a>
+                        <a class="dropdown-item" href="javascript:setDefence(0);"><img src="~/images/Off_Guard.png" class="security-icon" /></a>
+                        @*<a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>*@
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0" style="color: white;background: #36693E"><img src="~/images/Line_Push.png" style="width:64px;" />接收警報LINE帳號</h1>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12">
+        @foreach (var item in _model.UserBinding)
+        {
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">名稱:@(item.LineUser)</h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                            @*<div class="dropdown-header">Dropdown Header:</div>*@
+                            <a class="dropdown-item" onclick="deleteLine('@(item.LineID)');"><img src="~/images/Remove_Account.png" class="security-icon" /></a>
+                            @*<div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>*@
+                        </div>
+                    </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    Line ID:@(item.LineID)
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+<script>
+
+    function setDefence(defence) {
+        var formData = $('input,select,textarea').serializeObject();
+        clearErrors();
+        showLoading();
+        $.post('@Html.Raw(Url.Action("SetDefence", "InfoCenter"))', { 'keyID': '@(_model.UID.EncryptKey())', 'defence': defence }, function (data) {
+            hideLoading();
+            if ($.isPlainObject(data)) {
+                if (data.result) {
+                    alert('設定完成!!');
+                } else {
+                    alert(data.message);
+                }
+            } else {
+                $(data).appendTo($('body')).remove();
+            }
+        });
+    }
+
+    function resetRegister() {
+        var formData = $('input,select,textarea').serializeObject();
+        clearErrors();
+        showLoading();
+        $.post('@Html.Raw(Url.Action("ResetRegister","InfoCenter"))', {'keyID':'@(_model.UID.EncryptKey())'}, function (data) {
+            hideLoading();
+            if ($.isPlainObject(data)) {
+                if (data.result) {
+                    showLoading();
+                    $('').launchDownload('@Html.Raw(Url.Action("RegisterResident","InfoCenter"))', data);
+                } else {
+                    alert(data.message);
+                }
+            } else {
+                $(data).appendTo($('body')).remove();
+            }
+        });
+    }
+
+    function editUser() {
+        var formData = $('input,select,textarea').serializeObject();
+        clearErrors();
+        showLoading();
+        $('').launchDownload('@Html.Raw(Url.Action("EditResident", "InfoCenter"))', { 'keyID': '@(_model.UID.EncryptKey())' });
+    }
+
+    function deleteLine(lineID) {
+        var $target = $(event.target);
+        if (!confirm('確定刪除此接收警報Line ID?')) {
+            return;
+        }
+
+        var formData = $('input,select,textarea').serializeObject();
+        clearErrors();
+        showLoading();
+        $.post('@Html.Raw(Url.Action("DeleteLineBinding","InfoCenter"))', { 'keyID': '@(_model.UID.EncryptKey())', 'lineID': lineID }, function (data) {
+            hideLoading();
+            if ($.isPlainObject(data)) {
+                if (data.result) {
+                    $target.closest('div.card.shadow.mb-4').remove();
+                    alert('資料已刪除!!');
+                } else {
+                    alert(data.message);
+                }
+            } else {
+                $(data).appendTo($('body')).remove();
+            }
+        });
+    }
+
+</script>
