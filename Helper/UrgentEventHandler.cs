@@ -11,7 +11,12 @@ namespace WebHome.Helper
 {
     public class UrgentEventHandler
     {
-        private static UrgentEventHandler _instance = new UrgentEventHandler();
+        private static UrgentEventHandler _instance;
+
+        static UrgentEventHandler()
+        {
+            _instance = new UrgentEventHandler();
+        }
 
         private dynamic _message;
 
@@ -24,7 +29,14 @@ namespace WebHome.Helper
         {
             get
             {
-                return _instance;
+                lock(typeof(UrgentEventHandler))
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new UrgentEventHandler();
+                    }
+                    return _instance;
+                }
             }
         }
 

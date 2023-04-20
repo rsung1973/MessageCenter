@@ -132,69 +132,10 @@ namespace WebHome.Controllers
                     return Content("Device not found !");
                 }
 
-                var bindings = item.UserBinding.Where(b => b.LineID != null);
-                if (bindings.Count() > 0)
-                {
-                    using (WebClient client = new WebClient())
-                    {
-                        var encoding = new UTF8Encoding(false);
-                        client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-                        client.Headers.Add("Authorization", $"Bearer {Settings.Default.ChannelToken}");
-
-                        var jsonData = new
-                        {
-                            to = bindings.Select(b => b.LineID).ToArray(),
-                            messages = new[]
-                            {
-                                new
-                                {
-                                    type =  "text",
-                                    text =  alarm
-                                }
-                            }
-                        };
-
-                        var dataItem = JsonConvert.SerializeObject(jsonData);
-                        var result = client.UploadData(Settings.Default.LinePushMulticast, encoding.GetBytes(dataItem));
-
-                        Logger.Info($"push:{dataItem},result:{(result != null ? encoding.GetString(result) : "")}");
-                    }
-                }
-                else if (item.UserProfileExtension?.LineID != null)
-                {
-                    using (WebClient client = new WebClient())
-                    {
-                        var encoding = new UTF8Encoding(false);
-                        client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-                        client.Headers.Add("Authorization", $"Bearer {Settings.Default.ChannelToken}");
-
-                        var jsonData = new
-                        {
-                            to = item.UserProfileExtension.LineID,
-                            messages = new[]
-                            {
-                            new
-                            {
-                                type =  "text",
-                                text =  alarm
-                            }
-                        }
-                        };
-
-                        var dataItem = JsonConvert.SerializeObject(jsonData);
-                        var result = client.UploadData(Settings.Default.LinePushMessage, encoding.GetBytes(dataItem));
-
-                        Logger.Info($"push:{dataItem},result:{(result != null ? encoding.GetString(result) : "")}");
-                    }
-                }
-                else
-                {
-                    Logger.Warn($"device without line ID:{item.PID}");
-                }
+                item.PushToLine(alarm, models);
             }
 
             return Content("OK!");
         }
-
     }
 }

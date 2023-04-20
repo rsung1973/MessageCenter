@@ -22,6 +22,8 @@
 
     _modelState = (ModelStateDictionary)ViewBag.ModelState;
     models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    StorageBoxSettings _model = (StorageBoxSettings)this.Model;
+
     _viewModel = (StorageBoxViewModel)ViewBag.ViewModel;
 
     String _viewID = ViewBag.ViewID = $"msg{DateTime.Now.Ticks}";
@@ -34,7 +36,7 @@
         <table border="0" cellpadding="0" cellspacing="0" class="left_title">
             <tr>
                 <th colspan="2">
-                    物品存放位置：第@(_viewModel.Port/AppSettings.Default.StorageBox.PortCount+1)層，第@(_viewModel.Port % AppSettings.Default.StorageBox.PortCount+1)櫃
+                    物品存放大小：@(_model.BoxSize)，第@(_viewModel.Port + 1)櫃
                 </th>
             </tr>
             <tr>
@@ -44,7 +46,7 @@
                 <td class="tdleft" colspan="3">
                     <input type="text" name="ResidentID" value="" />
                     &nbsp;&nbsp;
-                    <button type="button" onclick="commitStorageItem({ 'ResidentID': $('#@(_viewID) input[name=\'ResidentID\']').val(), 'Port': @(_viewModel.Port), 'ActionType': 1 });$('#@(_viewID)').dialog('close');">確定</button>
+                    <button type="button" onclick="commitStorageItem({ 'ResidentID': $('#@(_viewID) input[name=\'ResidentID\']').val(), 'Port': @(_viewModel.Port), 'ActionType': 1, 'BoxDeviceIndex': @(_viewModel.BoxDeviceIndex) });$('#@(_viewID)').dialog('close');">確定</button>
                 </td>
             </tr>
         </table>

@@ -32,6 +32,11 @@ namespace WebHome.Properties
 
         }
 
+        public static void Reload()
+        {
+            _default = Initialize<AppSettings>(typeof(AppSettings).Namespace);
+        }
+
         public void Save()
         {
             String fileName = "App.settings.json";
@@ -155,8 +160,28 @@ namespace WebHome.Properties
         public TaiwanTaxiSettings TaiwanTaxi { get; set; } = new TaiwanTaxiSettings { };
         public BuildingLocation Location { get; set; } = new BuildingLocation { };
         public YoxiSettings YoxiTaxi { get; set; } = new YoxiSettings { };
-        public StorageBoxSettings StorageBox { get; set; } = new StorageBoxSettings { };
-
+        public StorageBoxSettings[] StorageBoxArray { get; set; } =
+                {
+                    new StorageBoxSettings
+                        {
+                            BoxSize = StorageBoxSize.小,
+                        },
+                    new StorageBoxSettings
+                        {
+                            BoxSize = StorageBoxSize.中,
+                        },
+                    new StorageBoxSettings
+                        {
+                            BoxSize = StorageBoxSize.大,
+                        },                    
+                    new StorageBoxSettings
+                        {
+                            BoxSize = StorageBoxSize.餐盒,
+                        },
+                };
+        public int? BuildingFloors { get; set; }
+        public int? ElevatorCount { get; set; }
+        public StorageBoxSettings[] ElevatorBoxArray { get; set; }
     }
 
     public partial class TaiwanTaxiAuthRequest
@@ -211,10 +236,23 @@ namespace WebHome.Properties
 
     public partial class StorageBoxSettings
     {
-        public String StorageBoxUrl { get; set; } = "http://192.168.68.18";
+        public String StorageBoxUrl { get; set; } = "192.168.68.18";
         public String UserID { get; set; } = "admin";
         public String Password { get; set; } = "123456";
         public int PortCount { get; set; } = 16;
+        public StorageBoxSize BoxSize { get; set; } = StorageBoxSize.小;
+        public bool Enabled { get; set; }
+        public int RelayTiming { get; set; } = 3000;
+        public String No { get; set; }
+
+    }
+
+    public enum StorageBoxSize
+    {
+        小 = 1,
+        中 = 2,
+        大 = 3,
+        餐盒 = 4,
     }
 
 

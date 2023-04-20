@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel.Composition.Primitives;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -63,15 +64,28 @@ namespace WebHome.Controllers
 
         public ActionResult InitStorageBox(StorageBoxViewModel viewModel)
         {
-            ViewBag.ViewModel = StorageBoxAgent.Instance.ViewModel;
+            ViewBag.ViewModel = viewModel;
             ViewBag.InquiryView = "~/Views/DeviceEvents/Module/InitStorageBox.cshtml";
+            return View("~/Views/DeviceEvents/Index.cshtml");
+        }
+
+        public ActionResult InitElevatorBox(ElevatorBoxViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+            ViewBag.InquiryView = "~/Views/DeviceEvents/Module/InitElevatorBox.cshtml";
             return View("~/Views/DeviceEvents/Index.cshtml");
         }
 
         public ActionResult ShowStorageBox(StorageBoxViewModel viewModel)
         {
-            ViewBag.ViewModel = StorageBoxAgent.Instance.ViewModel;
-            return View("~/Views/DeviceEvents/Module/StorageBox.cshtml");
+            ViewBag.ViewModel = viewModel;
+            var agent = StorageBoxAgent.AcquireAgent(viewModel.BoxDeviceIndex);
+            if (agent == null)
+            {
+                return Json(new { result = false,message = "郵箱設備未設定!!" }, JsonRequestBehavior.AllowGet); 
+            }
+
+            return View("~/Views/DeviceEvents/Module/StorageBox.cshtml", agent.ViewModel);
         }
 
 
@@ -524,19 +538,25 @@ namespace WebHome.Controllers
 
         }
 
-        public ActionResult CommitStorageBox(StorageBoxViewModel viewModel)
+        public ActionResult CommitAccessQRCode(InfoQueryViewModel viewModel)
         {
             ViewBag.ViewModel = viewModel;
+
+            viewModel.ElevatorNo = viewModel.ElevatorNo.GetEfficientString();
+            if (viewModel.ElevatorNo == null)
+            {
+                this.ModelState.AddModelError("ElevatorNo", "請選擇門牌號碼!!");
+            }
+
+            if (!viewModel.Floor.HasValue)
+            {
+                this.ModelState.AddModelError("Floor", "請選擇樓層!!");
+            }
 
             viewModel.ResidentID = viewModel.ResidentID.GetEfficientString();
             if (viewModel.ResidentID == null)
             {
-                this.ModelState.AddModelError("ResidentID", "請輸入管理員戶號!!");
-            }
-
-            if (!(viewModel.LayerCount > 0))
-            {
-                this.ModelState.AddModelError("LayerCount", "請輸入郵箱層數!!");
+                this.ModelState.AddModelError("ResidentID", "請輸入識別碼!!");
             }
 
             if (!ModelState.IsValid)
@@ -545,9 +565,52 @@ namespace WebHome.Controllers
                 return View("~/Views/Shared/ReportInputError.cshtml");
             }
 
-            var agent = StorageBoxAgent.Instance;
-            agent.ViewModel.ResidentID = viewModel.ResidentID;
-            agent.InitializeLayer(viewModel.LayerCount.Value);
+            var item = AppSettings.Default.ElevatorBoxArray.Where(l => l.No == viewModel.ElevatorNo)
+                            .Skip(viewModel.Floor.Value / 16)
+                            .FirstOrDefault();
+
+            if (item != null)
+            {
+                int boxSize = Array.IndexOf<StorageBoxSettings>(AppSettings.Default.ElevatorBoxArray, item);
+                int boxPort = viewModel.Floor.Value % 16;
+                String message = $"{DateTime.Now:yyyy/MM/dd HH:mm}，歡迎搭乘{viewModel.ElevatorNo}號電梯至第{viewModel.Floor + 1}樓。";
+                PushBoxStorageMessageToLine(viewModel.ResidentID, boxSize, boxPort, "訪客通行證", message);
+            }
+
+            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult CommitStorageBox(StorageBoxViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+
+            if (!viewModel.BoxSize.HasValue)
+            {
+                this.ModelState.AddModelError("BoxSize", "請選擇郵箱櫃大小!!");
+            }
+
+            viewModel.StorageBoxUrl = viewModel.StorageBoxUrl.GetEfficientString();
+            if (viewModel.StorageBoxUrl == null)
+            {
+                this.ModelState.AddModelError("StorageBoxUrl", "請輸入郵箱控制盒IP!!");
+            }
+
+            var agent = StorageBoxAgent.AcquireAgent(viewModel.BoxDeviceIndex);
+            if (agent == null)
+            {
+                this.ModelState.AddModelError("Message", "郵箱設備未設定!!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ModelState = this.ModelState;
+                return View("~/Views/Shared/ReportInputError.cshtml");
+            }
+
+            agent.ViewModel.StorageBoxUrl = viewModel.StorageBoxUrl;
+            agent.ViewModel.BoxSize = viewModel.BoxSize.Value;
+            agent.ViewModel.Enabled = agent.GetBoxPortList() != null;
             agent.Save();
 
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
@@ -557,9 +620,12 @@ namespace WebHome.Controllers
         public ActionResult ResetStorageBox(StorageBoxViewModel viewModel)
         {
             ViewBag.ViewModel = viewModel;
-
-            var agent = StorageBoxAgent.Instance;
-            agent.ResetLayer();
+            var agent = StorageBoxAgent.AcquireAgent(viewModel.BoxDeviceIndex);
+            if (agent == null)
+            {
+                return Json(new { result = false, message = "郵箱設備未設定!!" }, JsonRequestBehavior.AllowGet);
+            }
+            agent.ResetBox();
 
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
 
@@ -574,13 +640,19 @@ namespace WebHome.Controllers
                 this.ModelState.AddModelError("Message", "存放櫃資料錯誤!!");
             }
 
+            var agent = StorageBoxAgent.AcquireAgent(viewModel.BoxDeviceIndex);
+            if (agent == null)
+            {
+                this.ModelState.AddModelError("Message", "郵箱設備未設定!!");
+            }
+
             if (!ModelState.IsValid)
             {
                 ViewBag.ModelState = this.ModelState;
                 return View("~/Views/Shared/ReportInputError.cshtml");
             }
 
-            return View("~/Views/DeviceEvents/Module/PrepareToStoreItem.cshtml");
+            return View("~/Views/DeviceEvents/Module/PrepareToStoreItem.cshtml", agent.ViewModel);
 
         }
 
@@ -599,23 +671,213 @@ namespace WebHome.Controllers
                 this.ModelState.AddModelError("Message", "存放櫃資料錯誤!!");
             }
 
+            var agent = StorageBoxAgent.AcquireAgent(viewModel.BoxDeviceIndex);
+            if (agent == null)
+            {
+                this.ModelState.AddModelError("Message", "郵箱設備未設定!!");
+            }
+
             if (!ModelState.IsValid)
             {
                 ViewBag.ModelState = this.ModelState;
                 return View("~/Views/Shared/ReportInputError.cshtml");
             }
 
-            var agent = StorageBoxAgent.Instance;
             if (viewModel.ActionType == 1)
             {
-                agent.StoreItem(viewModel.Port.Value, viewModel.ResidentID);
+                agent.AddBoxItem(viewModel.Port.Value, viewModel.ResidentID);
+                PushBoxStorageItemToLine(viewModel.ResidentID, agent.ViewModel.BoxSize, viewModel.Port.Value);
             }
-            else
+            else if(viewModel.ActionType == 0)
             {
-                agent.RemoveItem(viewModel.Port.Value, viewModel.ResidentID, agent.ViewModel.Administrator);
+                agent.RemoveBoxItem(viewModel.Port.Value, viewModel.ResidentID);
+                models.ExecuteCommand(@"UPDATE  BoxStorageLog
+                    SET        PopDate = GETDATE()
+                    FROM     UserProfile INNER JOIN
+                                 BoxStorageLog ON UserProfile.UID = BoxStorageLog.UID
+                    WHERE   (UserProfile.PID = {0}) AND (BoxStorageLog.BoxSize = {1}) AND (BoxStorageLog.BoxPort = {2})",
+                    viewModel.ResidentID, (int)agent.ViewModel.BoxSize, viewModel.Port.Value);
             }
 
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult BookingStorageItem(StorageBoxViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+
+            viewModel.ResidentID = viewModel.ResidentID.GetEfficientString();
+            if (viewModel.ResidentID == null)
+            {
+                this.ModelState.AddModelError("Message", "請輸入存放戶號!!");
+            }
+
+            if (!viewModel.BoxSize.HasValue)
+            {
+                this.ModelState.AddModelError("Message", "未指定存放櫃大小!!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(new { port = -1, message = ModelState.ErrorMessage() }, JsonRequestBehavior.AllowGet);
+            }
+
+            var agent = StorageBoxAgent.AcquireAgent(viewModel.BoxSize.Value);
+            if (agent == null)
+            {
+                return Json(new { port = -1, message = "郵箱設備未設定!!" }, JsonRequestBehavior.AllowGet);
+            }
+
+            var boxItem = agent.AcquireVacantBox();
+            if (boxItem?.port.HasValue != true)
+            {
+                return Json(new { port = -1, message = "郵箱已滿!!" }, JsonRequestBehavior.AllowGet);
+            }
+
+            agent.AddBoxItem(boxItem.port.Value, viewModel.ResidentID);
+            PushBoxStorageItemToLine(viewModel.ResidentID, agent.ViewModel.BoxSize, boxItem.port.Value);
+
+            return View("~/Views/DeviceEvents/Module/BookingStorageItem.cshtml", boxItem);
+
+        }
+
+
+        private void PushBoxStorageItemToLine(String residentID, StorageBoxSize boxSize, int boxPort)
+        {
+            String message = $"{DateTime.Now:yyyy/MM/dd HH:mm}，有您的快遞寄放於{boxSize}型郵箱第{boxPort + 1}櫃。";
+            PushBoxStorageMessageToLine(residentID, (int)boxSize, boxPort, "快遞通知", message);
+        }
+
+        private void PushBoxStorageMessageToLine(String residentID, int boxSize, int boxPort,String title,String message)
+        {
+            if (string.IsNullOrEmpty(residentID)) 
+            { 
+                return; 
+            }
+
+            UserProfile user;
+            bool lineUser = true;
+            if (residentID.Any(c => c == '-'))
+            {
+                user = models.GetTable<UserProfile>().Where(p => p.PID == residentID).FirstOrDefault();
+            }
+            else
+            {
+                String id = $"-{residentID}";
+                user = models.GetTable<UserProfile>().Where(p => p.PID.Contains(id)).FirstOrDefault();
+                if (user == null)
+                {
+                    lineUser = false;
+                    user = models.GetTable<UserProfile>().Where(p => p.PID == residentID).FirstOrDefault();
+                }
+            }
+
+            if (user != null)
+            {
+                BoxStorageLog logItem = new BoxStorageLog
+                {
+                    UserProfile = user,
+                    BoxSize = boxSize,
+                    BoxPort = boxPort,
+                    PushDate = DateTime.Now,
+                };
+                models.GetTable<BoxStorageLog>().InsertOnSubmit(logItem);
+                models.SubmitChanges();
+
+                if (lineUser)
+                {
+                    String url = $"{AppSettings.Default.LineMessageCenter}/MessageCenter/LineEvents/PushQRCode";
+                    url.PushToLineMessageCenter(new UserAccountQueryViewModel
+                    {
+                        PID = user.PID,
+                        QRCode = logItem.LogID.EncryptKey(),
+                        Title = title,
+                        Message = message
+                    });
+                }
+            }
+        }
+
+        public ActionResult CommitElevatorStep0(ElevatorBoxViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+
+            if (!(viewModel.Floors > 0))
+            {
+                this.ModelState.AddModelError("Floors", "請輸入樓層數!!");
+            }
+
+            if (!(viewModel.ElevatorCount > 0))
+            {
+                this.ModelState.AddModelError("ElevatorCount", "請輸入電梯組數!!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ModelState = this.ModelState;
+                return View("~/Views/Shared/ReportInputError.cshtml");
+            }
+
+            AppSettings.Default.BuildingFloors = viewModel.Floors;
+            AppSettings.Default.ElevatorCount = viewModel.ElevatorCount;
+
+            List<StorageBoxSettings> items = new List<StorageBoxSettings>();
+            if(AppSettings.Default.ElevatorBoxArray!=null)
+            {
+                items.AddRange(AppSettings.Default.ElevatorBoxArray);
+            }
+
+            int total = (viewModel.Floors.Value + 15) / 16 * viewModel.ElevatorCount.Value;
+            for (int i = items.Count; i < total; i++)
+            {
+                items.Add(new StorageBoxSettings { });
+            }
+
+            AppSettings.Default.ElevatorBoxArray = items.Take(total).ToArray();
+            AppSettings.Default.Save();
+
+            return View("~/Views/DeviceEvents/Module/ElevatorBoxStep1.cshtml");
+
+        }
+
+        public ActionResult CommitElevatorStep1(ElevatorBoxViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+
+            if (!(AppSettings.Default.BuildingFloors > 0))
+            {
+                this.ModelState.AddModelError("Floors", "請輸入樓層數!!");
+            }
+
+            if (!(AppSettings.Default.ElevatorCount > 0))
+            {
+                this.ModelState.AddModelError("ElevatorCount", "請輸入電梯組數!!");
+            }
+
+            if (AppSettings.Default.ElevatorBoxArray == null 
+                || viewModel.StorageBoxUrl == null || viewModel.StorageBoxUrl.Length != AppSettings.Default.ElevatorBoxArray.Length
+                || viewModel.No == null || viewModel.No.Length != AppSettings.Default.ElevatorBoxArray.Length)
+            {
+                this.ModelState.AddModelError("Message", "資料錯誤!!");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                ViewBag.ModelState = this.ModelState;
+                return View("~/Views/Shared/ReportInputError.cshtml");
+            }
+
+            for (int i = 0; i < AppSettings.Default.ElevatorBoxArray.Length; i++)
+            {
+                var item = AppSettings.Default.ElevatorBoxArray[i];
+                item.No = viewModel.No[i].GetEfficientString();
+                item.StorageBoxUrl = viewModel.StorageBoxUrl[i].GetEfficientString();
+            }
+
+            AppSettings.Default.Save();
+
+            return View("~/Views/DeviceEvents/Module/ElevatorBoxStep2.cshtml");
 
         }
 

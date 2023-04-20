@@ -29,7 +29,7 @@ using WebHome.Properties;
 
 namespace WebHome.Controllers
 {
-    public class LineEventsController : SampleController<UserProfile>
+    public class LineEventsController : SampleController<LiveDevice>
     {
         // GET: LineEvents
         public async Task<ActionResult> Index(/*[FromBody]String content*/)
@@ -152,5 +152,27 @@ namespace WebHome.Controllers
             String result = await async.Content.ReadAsStringAsync();
             return Content(result, "application/json");
         }
+
+        public ActionResult PushQRCode(UserAccountQueryViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+
+            viewModel.PID = viewModel.PID.GetEfficientString();
+            var item = models.GetTable<UserProfile>()
+                        .Where(u => u.PID == viewModel.PID)
+                        .FirstOrDefault();
+
+            if (item == null)
+            {
+                return Content("User not found !");
+            }
+
+            var jsonData = this.RenderViewToString("~/Views/LineEvents/Message/PushQRCode.cshtml", item);
+            Logger.Debug(jsonData);
+            jsonData.PushLineMessage();
+
+            return Content("OK!");
+        }
+
     }
 }

@@ -1,0 +1,91 @@
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.DataPort
+@using WebHome.Properties
+@using Utility
+@using Newtonsoft.Json
+@functions
+{
+    ModelSource<LiveDevice> models;
+    UserProfile _model;
+}
+@{
+
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    _model = this.Model as UserProfile;
+    UserAccountQueryViewModel _viewModel = ViewBag.ViewModel as UserAccountQueryViewModel;
+
+    String[] to = null;
+    if (_model.UserBinding.Any(b => b.LineID != null) == true)
+    {
+        to = _model.UserBinding.Where(b => b.LineID != null).Select(b => b.LineID).ToArray();
+    }
+    else if (_model.UserProfileExtension?.LineID != null)
+    {
+        to = new string[]
+        {
+            _model.UserProfileExtension.LineID
+        };
+    }
+
+    Response.ContentType = "application/json";
+
+}
+@if (to != null)
+{
+    var message = _viewModel.Message;
+    <text>{
+        "to": @Html.Raw(to.JsonStringify()),
+        "messages": [
+            {
+                "type": "flex",
+                "altText": "@(_viewModel.Title ?? "快遞通知")",
+                "contents": {
+                    "type": "bubble",
+                    "hero": {
+                        "type": "image",
+                        "url": "@($"https://s1.awtek-security.com.tw/MessageCenter/InfoCenter/GetQRCode?content={HttpUtility.UrlEncode(_viewModel.QRCode)}")",
+                        "size": "full",
+                        "aspectMode": "cover",
+                        "offsetTop": "10px"
+                    },
+                    "body": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "margin": "lg",
+                                "spacing": "sm",
+                                "contents": [
+                                    {
+                                        "type": "box",
+                                        "layout": "baseline",
+                                        "spacing": "sm",
+                                        "contents": [
+                                            {
+                                                "type": "text",
+                                                "text": "@(message)",
+                                                "flex": 8,
+                                                "wrap": true
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+    </text>
+}

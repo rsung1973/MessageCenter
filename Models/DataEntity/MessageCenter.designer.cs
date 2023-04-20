@@ -18,6 +18,7 @@ namespace WebHome.Models.DataEntity
 	using System.Reflection;
 	using System.Linq;
 	using System.Linq.Expressions;
+	using System.Runtime.Serialization;
 	using System.ComponentModel;
 	using System;
 	
@@ -69,6 +70,15 @@ namespace WebHome.Models.DataEntity
     partial void InsertGasUsageReport(GasUsageReport instance);
     partial void UpdateGasUsageReport(GasUsageReport instance);
     partial void DeleteGasUsageReport(GasUsageReport instance);
+    partial void InsertFCMToken(FCMToken instance);
+    partial void UpdateFCMToken(FCMToken instance);
+    partial void DeleteFCMToken(FCMToken instance);
+    partial void InsertUserAccessCard(UserAccessCard instance);
+    partial void UpdateUserAccessCard(UserAccessCard instance);
+    partial void DeleteUserAccessCard(UserAccessCard instance);
+    partial void InsertBoxStorageLog(BoxStorageLog instance);
+    partial void UpdateBoxStorageLog(BoxStorageLog instance);
+    partial void DeleteBoxStorageLog(BoxStorageLog instance);
     #endregion
 		
 		public MessageCenterDataContext() : 
@@ -204,9 +214,34 @@ namespace WebHome.Models.DataEntity
 				return this.GetTable<GasUsageReport>();
 			}
 		}
+		
+		public System.Data.Linq.Table<FCMToken> FCMToken
+		{
+			get
+			{
+				return this.GetTable<FCMToken>();
+			}
+		}
+		
+		public System.Data.Linq.Table<UserAccessCard> UserAccessCard
+		{
+			get
+			{
+				return this.GetTable<UserAccessCard>();
+			}
+		}
+		
+		public System.Data.Linq.Table<BoxStorageLog> BoxStorageLog
+		{
+			get
+			{
+				return this.GetTable<BoxStorageLog>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DeviceCommand")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class DeviceCommand : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -232,10 +267,11 @@ namespace WebHome.Models.DataEntity
 		
 		public DeviceCommand()
 		{
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LogID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public int LogID
 		{
 			get
@@ -256,6 +292,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommandID", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public int CommandID
 		{
 			get
@@ -276,6 +313,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TokenID", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
 		public string TokenID
 		{
 			get
@@ -314,9 +352,22 @@ namespace WebHome.Models.DataEntity
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void Initialize()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserRegister")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class UserRegister : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -330,6 +381,8 @@ namespace WebHome.Models.DataEntity
 		
 		private EntityRef<UserProfile> _UserProfile;
 		
+		private bool serializing;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -342,12 +395,11 @@ namespace WebHome.Models.DataEntity
 		
 		public UserRegister()
 		{
-			this._LiveDevice = new EntitySet<LiveDevice>(new Action<LiveDevice>(this.attach_LiveDevice), new Action<LiveDevice>(this.detach_LiveDevice));
-			this._UserProfile = default(EntityRef<UserProfile>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public int UID
 		{
 			get
@@ -372,6 +424,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceUri", DbType="NVarChar(64)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public string DeviceUri
 		{
 			get
@@ -392,10 +445,16 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserRegister_LiveDevice", Storage="_LiveDevice", ThisKey="UID", OtherKey="UID")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3, EmitDefaultValue=false)]
 		public EntitySet<LiveDevice> LiveDevice
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._LiveDevice.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._LiveDevice;
 			}
 			set
@@ -469,9 +528,38 @@ namespace WebHome.Models.DataEntity
 			this.SendPropertyChanging();
 			entity.UserRegister = null;
 		}
+		
+		private void Initialize()
+		{
+			this._LiveDevice = new EntitySet<LiveDevice>(new Action<LiveDevice>(this.attach_LiveDevice), new Action<LiveDevice>(this.detach_LiveDevice));
+			this._UserProfile = default(EntityRef<UserProfile>);
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializedAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DeviceEventLog")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class DeviceEventLog : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -493,6 +581,8 @@ namespace WebHome.Models.DataEntity
 		
 		private EntityRef<LiveDevice> _LiveDevice;
 		
+		private bool serializing;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -513,12 +603,11 @@ namespace WebHome.Models.DataEntity
 		
 		public DeviceEventLog()
 		{
-			this._DeviceEventReport = new EntitySet<DeviceEventReport>(new Action<DeviceEventReport>(this.attach_DeviceEventReport), new Action<DeviceEventReport>(this.detach_DeviceEventReport));
-			this._LiveDevice = default(EntityRef<LiveDevice>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LogID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public int LogID
 		{
 			get
@@ -539,6 +628,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LogDate", DbType="DateTime")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public System.Nullable<System.DateTime> LogDate
 		{
 			get
@@ -559,6 +649,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventCode", DbType="NVarChar(16)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
 		public string EventCode
 		{
 			get
@@ -579,6 +670,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tx", DbType="NVarChar(256)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
 		public string Tx
 		{
 			get
@@ -599,6 +691,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Rx", DbType="NVarChar(256)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
 		public string Rx
 		{
 			get
@@ -619,6 +712,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LiveID", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6)]
 		public System.Nullable<int> LiveID
 		{
 			get
@@ -643,10 +737,16 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeviceEventLog_DeviceEventReport", Storage="_DeviceEventReport", ThisKey="LogID", OtherKey="LogID")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=7, EmitDefaultValue=false)]
 		public EntitySet<DeviceEventReport> DeviceEventReport
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._DeviceEventReport.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._DeviceEventReport;
 			}
 			set
@@ -720,9 +820,38 @@ namespace WebHome.Models.DataEntity
 			this.SendPropertyChanging();
 			entity.DeviceEventLog = null;
 		}
+		
+		private void Initialize()
+		{
+			this._DeviceEventReport = new EntitySet<DeviceEventReport>(new Action<DeviceEventReport>(this.attach_DeviceEventReport), new Action<DeviceEventReport>(this.detach_DeviceEventReport));
+			this._LiveDevice = default(EntityRef<LiveDevice>);
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializedAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DeviceEventReport")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class DeviceEventReport : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -762,13 +891,11 @@ namespace WebHome.Models.DataEntity
 		
 		public DeviceEventReport()
 		{
-			this._DeviceEventLog = default(EntityRef<DeviceEventLog>);
-			this._LevelExpression = default(EntityRef<LevelExpression>);
-			this._LiveDevice = default(EntityRef<LiveDevice>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public int ReportID
 		{
 			get
@@ -789,6 +916,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LevelID", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public int LevelID
 		{
 			get
@@ -813,6 +941,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportDate", DbType="DateTime")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
 		public System.Nullable<System.DateTime> ReportDate
 		{
 			get
@@ -833,6 +962,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LogID", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
 		public System.Nullable<int> LogID
 		{
 			get
@@ -857,6 +987,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LiveID", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
 		public int LiveID
 		{
 			get
@@ -1001,9 +1132,25 @@ namespace WebHome.Models.DataEntity
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void Initialize()
+		{
+			this._DeviceEventLog = default(EntityRef<DeviceEventLog>);
+			this._LevelExpression = default(EntityRef<LevelExpression>);
+			this._LiveDevice = default(EntityRef<LiveDevice>);
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LevelExpression")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class LevelExpression : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -1019,6 +1166,8 @@ namespace WebHome.Models.DataEntity
 		
 		private EntitySet<LiveDevice> _LiveDevice;
 		
+		private bool serializing;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1033,12 +1182,11 @@ namespace WebHome.Models.DataEntity
 		
 		public LevelExpression()
 		{
-			this._DeviceEventReport = new EntitySet<DeviceEventReport>(new Action<DeviceEventReport>(this.attach_DeviceEventReport), new Action<DeviceEventReport>(this.detach_DeviceEventReport));
-			this._LiveDevice = new EntitySet<LiveDevice>(new Action<LiveDevice>(this.attach_LiveDevice), new Action<LiveDevice>(this.detach_LiveDevice));
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LevelID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public int LevelID
 		{
 			get
@@ -1059,6 +1207,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Expression", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public string Expression
 		{
 			get
@@ -1079,6 +1228,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(50)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
 		public string Description
 		{
 			get
@@ -1099,10 +1249,16 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LevelExpression_DeviceEventReport", Storage="_DeviceEventReport", ThisKey="LevelID", OtherKey="LevelID")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4, EmitDefaultValue=false)]
 		public EntitySet<DeviceEventReport> DeviceEventReport
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._DeviceEventReport.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._DeviceEventReport;
 			}
 			set
@@ -1112,10 +1268,16 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LevelExpression_LiveDevice", Storage="_LiveDevice", ThisKey="LevelID", OtherKey="CurrentLevel")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5, EmitDefaultValue=false)]
 		public EntitySet<LiveDevice> LiveDevice
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._LiveDevice.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._LiveDevice;
 			}
 			set
@@ -1167,9 +1329,38 @@ namespace WebHome.Models.DataEntity
 			this.SendPropertyChanging();
 			entity.LevelExpression = null;
 		}
+		
+		private void Initialize()
+		{
+			this._DeviceEventReport = new EntitySet<DeviceEventReport>(new Action<DeviceEventReport>(this.attach_DeviceEventReport), new Action<DeviceEventReport>(this.detach_DeviceEventReport));
+			this._LiveDevice = new EntitySet<LiveDevice>(new Action<LiveDevice>(this.attach_LiveDevice), new Action<LiveDevice>(this.detach_LiveDevice));
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializedAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LiveDevice")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class LiveDevice : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -1193,6 +1384,8 @@ namespace WebHome.Models.DataEntity
 		
 		private EntityRef<UserRegister> _UserRegister;
 		
+		private bool serializing;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1211,14 +1404,11 @@ namespace WebHome.Models.DataEntity
 		
 		public LiveDevice()
 		{
-			this._DeviceEventLog = new EntitySet<DeviceEventLog>(new Action<DeviceEventLog>(this.attach_DeviceEventLog), new Action<DeviceEventLog>(this.detach_DeviceEventLog));
-			this._DeviceEventReport = new EntitySet<DeviceEventReport>(new Action<DeviceEventReport>(this.attach_DeviceEventReport), new Action<DeviceEventReport>(this.detach_DeviceEventReport));
-			this._LevelExpression = default(EntityRef<LevelExpression>);
-			this._UserRegister = default(EntityRef<UserRegister>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LiveID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public int LiveID
 		{
 			get
@@ -1239,6 +1429,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceID", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public int DeviceID
 		{
 			get
@@ -1259,6 +1450,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceUri", DbType="NVarChar(64)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
 		public string DeviceUri
 		{
 			get
@@ -1279,6 +1471,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CurrentLevel", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
 		public System.Nullable<int> CurrentLevel
 		{
 			get
@@ -1303,6 +1496,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
 		public System.Nullable<int> UID
 		{
 			get
@@ -1327,10 +1521,16 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LiveDevice_DeviceEventLog", Storage="_DeviceEventLog", ThisKey="LiveID", OtherKey="LiveID")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6, EmitDefaultValue=false)]
 		public EntitySet<DeviceEventLog> DeviceEventLog
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._DeviceEventLog.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._DeviceEventLog;
 			}
 			set
@@ -1340,10 +1540,16 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LiveDevice_DeviceEventReport", Storage="_DeviceEventReport", ThisKey="LiveID", OtherKey="LiveID")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=7, EmitDefaultValue=false)]
 		public EntitySet<DeviceEventReport> DeviceEventReport
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._DeviceEventReport.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._DeviceEventReport;
 			}
 			set
@@ -1463,9 +1669,40 @@ namespace WebHome.Models.DataEntity
 			this.SendPropertyChanging();
 			entity.LiveDevice = null;
 		}
+		
+		private void Initialize()
+		{
+			this._DeviceEventLog = new EntitySet<DeviceEventLog>(new Action<DeviceEventLog>(this.attach_DeviceEventLog), new Action<DeviceEventLog>(this.detach_DeviceEventLog));
+			this._DeviceEventReport = new EntitySet<DeviceEventReport>(new Action<DeviceEventReport>(this.attach_DeviceEventReport), new Action<DeviceEventReport>(this.detach_DeviceEventReport));
+			this._LevelExpression = default(EntityRef<LevelExpression>);
+			this._UserRegister = default(EntityRef<UserRegister>);
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializedAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserFCM")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class UserFCM : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -1493,11 +1730,11 @@ namespace WebHome.Models.DataEntity
 		
 		public UserFCM()
 		{
-			this._UserProfile = default(EntityRef<UserProfile>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TokenID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public int TokenID
 		{
 			get
@@ -1518,6 +1755,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public int UID
 		{
 			get
@@ -1542,6 +1780,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FCMToken", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
 		public string FCMToken
 		{
 			get
@@ -1614,9 +1853,23 @@ namespace WebHome.Models.DataEntity
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void Initialize()
+		{
+			this._UserProfile = default(EntityRef<UserProfile>);
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserProfile")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class UserProfile : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -1674,9 +1927,15 @@ namespace WebHome.Models.DataEntity
 		
 		private EntitySet<GasUsageReport> _GasUsageReport;
 		
+		private EntitySet<UserAccessCard> _UserAccessCard;
+		
+		private EntitySet<BoxStorageLog> _BoxStorageLog;
+		
 		private EntityRef<UserProfile> _UserProfile1;
 		
 		private EntityRef<UserProfile> _UserProfile3;
+		
+		private bool serializing;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1724,19 +1983,11 @@ namespace WebHome.Models.DataEntity
 		
 		public UserProfile()
 		{
-			this._UserRegister = default(EntityRef<UserRegister>);
-			this._UserFCM = new EntitySet<UserFCM>(new Action<UserFCM>(this.attach_UserFCM), new Action<UserFCM>(this.detach_UserFCM));
-			this._UserProfile2 = new EntitySet<UserProfile>(new Action<UserProfile>(this.attach_UserProfile2), new Action<UserProfile>(this.detach_UserProfile2));
-			this._UserProfile4 = new EntitySet<UserProfile>(new Action<UserProfile>(this.attach_UserProfile4), new Action<UserProfile>(this.detach_UserProfile4));
-			this._UserBinding = new EntitySet<UserBinding>(new Action<UserBinding>(this.attach_UserBinding), new Action<UserBinding>(this.detach_UserBinding));
-			this._UserProfileExtension = default(EntityRef<UserProfileExtension>);
-			this._GasUsageReport = new EntitySet<GasUsageReport>(new Action<GasUsageReport>(this.attach_GasUsageReport), new Action<GasUsageReport>(this.detach_GasUsageReport));
-			this._UserProfile1 = default(EntityRef<UserProfile>);
-			this._UserProfile3 = default(EntityRef<UserProfile>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public int UID
 		{
 			get
@@ -1757,6 +2008,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(40)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public string UserName
 		{
 			get
@@ -1777,6 +2029,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PID", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
 		public string PID
 		{
 			get
@@ -1797,6 +2050,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(64)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
 		public string Password
 		{
 			get
@@ -1817,6 +2071,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExternalID", DbType="NVarChar(64)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
 		public string ExternalID
 		{
 			get
@@ -1837,6 +2092,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Expiration", DbType="DateTime")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6)]
 		public System.Nullable<System.DateTime> Expiration
 		{
 			get
@@ -1857,6 +2113,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Creator", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=7)]
 		public System.Nullable<int> Creator
 		{
 			get
@@ -1881,6 +2138,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AuthID", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=8)]
 		public System.Nullable<int> AuthID
 		{
 			get
@@ -1905,6 +2163,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LevelID", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=9)]
 		public System.Nullable<int> LevelID
 		{
 			get
@@ -1925,6 +2184,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThemeName", DbType="NVarChar(16)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=10)]
 		public string ThemeName
 		{
 			get
@@ -1945,6 +2205,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password2", DbType="NVarChar(64)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=11)]
 		public string Password2
 		{
 			get
@@ -1965,6 +2226,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MemberCode", DbType="NVarChar(16)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=12)]
 		public string MemberCode
 		{
 			get
@@ -1985,6 +2247,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PictureID", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=13)]
 		public System.Nullable<int> PictureID
 		{
 			get
@@ -2005,6 +2268,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RealName", DbType="NVarChar(40)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=14)]
 		public string RealName
 		{
 			get
@@ -2025,6 +2289,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(128)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=15)]
 		public string Address
 		{
 			get
@@ -2045,6 +2310,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="NVarChar(32)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=16)]
 		public string Phone
 		{
 			get
@@ -2065,6 +2331,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecentStatus", DbType="NVarChar(MAX)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=17)]
 		public string RecentStatus
 		{
 			get
@@ -2085,6 +2352,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Birthday", DbType="Date")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=18)]
 		public System.Nullable<System.DateTime> Birthday
 		{
 			get
@@ -2105,6 +2373,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SubscribedAlarm", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=19)]
 		public System.Nullable<int> SubscribedAlarm
 		{
 			get
@@ -2125,10 +2394,16 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserRegister", Storage="_UserRegister", ThisKey="UID", OtherKey="UID", IsUnique=true, IsForeignKey=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=20, EmitDefaultValue=false)]
 		public UserRegister UserRegister
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._UserRegister.HasLoadedOrAssignedValue == false)))
+				{
+					return null;
+				}
 				return this._UserRegister.Entity;
 			}
 			set
@@ -2154,10 +2429,16 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserFCM", Storage="_UserFCM", ThisKey="UID", OtherKey="UID")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=21, EmitDefaultValue=false)]
 		public EntitySet<UserFCM> UserFCM
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._UserFCM.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._UserFCM;
 			}
 			set
@@ -2167,10 +2448,16 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserProfile", Storage="_UserProfile2", ThisKey="UID", OtherKey="Creator")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=22, EmitDefaultValue=false)]
 		public EntitySet<UserProfile> UserProfile2
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._UserProfile2.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._UserProfile2;
 			}
 			set
@@ -2180,10 +2467,16 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserProfile1", Storage="_UserProfile4", ThisKey="UID", OtherKey="AuthID")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=23, EmitDefaultValue=false)]
 		public EntitySet<UserProfile> UserProfile4
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._UserProfile4.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._UserProfile4;
 			}
 			set
@@ -2193,10 +2486,16 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserBinding", Storage="_UserBinding", ThisKey="UID", OtherKey="UID")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=24, EmitDefaultValue=false)]
 		public EntitySet<UserBinding> UserBinding
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._UserBinding.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._UserBinding;
 			}
 			set
@@ -2206,10 +2505,16 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserProfileExtension", Storage="_UserProfileExtension", ThisKey="UID", OtherKey="UID", IsUnique=true, IsForeignKey=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=25, EmitDefaultValue=false)]
 		public UserProfileExtension UserProfileExtension
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._UserProfileExtension.HasLoadedOrAssignedValue == false)))
+				{
+					return null;
+				}
 				return this._UserProfileExtension.Entity;
 			}
 			set
@@ -2235,15 +2540,59 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_GasUsageReport", Storage="_GasUsageReport", ThisKey="UID", OtherKey="UID")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=26, EmitDefaultValue=false)]
 		public EntitySet<GasUsageReport> GasUsageReport
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._GasUsageReport.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._GasUsageReport;
 			}
 			set
 			{
 				this._GasUsageReport.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserAccessCard", Storage="_UserAccessCard", ThisKey="UID", OtherKey="UID")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=27, EmitDefaultValue=false)]
+		public EntitySet<UserAccessCard> UserAccessCard
+		{
+			get
+			{
+				if ((this.serializing 
+							&& (this._UserAccessCard.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
+				return this._UserAccessCard;
+			}
+			set
+			{
+				this._UserAccessCard.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_BoxStorageLog", Storage="_BoxStorageLog", ThisKey="UID", OtherKey="UID")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=28, EmitDefaultValue=false)]
+		public EntitySet<BoxStorageLog> BoxStorageLog
+		{
+			get
+			{
+				if ((this.serializing 
+							&& (this._BoxStorageLog.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
+				return this._BoxStorageLog;
+			}
+			set
+			{
+				this._BoxStorageLog.Assign(value);
 			}
 		}
 		
@@ -2394,9 +2743,71 @@ namespace WebHome.Models.DataEntity
 			this.SendPropertyChanging();
 			entity.UserProfile = null;
 		}
+		
+		private void attach_UserAccessCard(UserAccessCard entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserProfile = this;
+		}
+		
+		private void detach_UserAccessCard(UserAccessCard entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserProfile = null;
+		}
+		
+		private void attach_BoxStorageLog(BoxStorageLog entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserProfile = this;
+		}
+		
+		private void detach_BoxStorageLog(BoxStorageLog entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserProfile = null;
+		}
+		
+		private void Initialize()
+		{
+			this._UserRegister = default(EntityRef<UserRegister>);
+			this._UserFCM = new EntitySet<UserFCM>(new Action<UserFCM>(this.attach_UserFCM), new Action<UserFCM>(this.detach_UserFCM));
+			this._UserProfile2 = new EntitySet<UserProfile>(new Action<UserProfile>(this.attach_UserProfile2), new Action<UserProfile>(this.detach_UserProfile2));
+			this._UserProfile4 = new EntitySet<UserProfile>(new Action<UserProfile>(this.attach_UserProfile4), new Action<UserProfile>(this.detach_UserProfile4));
+			this._UserBinding = new EntitySet<UserBinding>(new Action<UserBinding>(this.attach_UserBinding), new Action<UserBinding>(this.detach_UserBinding));
+			this._UserProfileExtension = default(EntityRef<UserProfileExtension>);
+			this._GasUsageReport = new EntitySet<GasUsageReport>(new Action<GasUsageReport>(this.attach_GasUsageReport), new Action<GasUsageReport>(this.detach_GasUsageReport));
+			this._UserAccessCard = new EntitySet<UserAccessCard>(new Action<UserAccessCard>(this.attach_UserAccessCard), new Action<UserAccessCard>(this.detach_UserAccessCard));
+			this._BoxStorageLog = new EntitySet<BoxStorageLog>(new Action<BoxStorageLog>(this.attach_BoxStorageLog), new Action<BoxStorageLog>(this.detach_BoxStorageLog));
+			this._UserProfile1 = default(EntityRef<UserProfile>);
+			this._UserProfile3 = default(EntityRef<UserProfile>);
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializedAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserBinding")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class UserBinding : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -2428,11 +2839,11 @@ namespace WebHome.Models.DataEntity
 		
 		public UserBinding()
 		{
-			this._UserProfile = default(EntityRef<UserProfile>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BindingID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public int BindingID
 		{
 			get
@@ -2453,6 +2864,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public int UID
 		{
 			get
@@ -2477,6 +2889,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LineID", DbType="NVarChar(64)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
 		public string LineID
 		{
 			get
@@ -2497,6 +2910,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LineUser", DbType="NVarChar(40)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
 		public string LineUser
 		{
 			get
@@ -2569,9 +2983,23 @@ namespace WebHome.Models.DataEntity
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void Initialize()
+		{
+			this._UserProfile = default(EntityRef<UserProfile>);
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Community")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class Community : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -2584,6 +3012,8 @@ namespace WebHome.Models.DataEntity
 		private string _CommunityName;
 		
 		private EntitySet<UserProfileExtension> _UserProfileExtension;
+		
+		private bool serializing;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2599,11 +3029,11 @@ namespace WebHome.Models.DataEntity
 		
 		public Community()
 		{
-			this._UserProfileExtension = new EntitySet<UserProfileExtension>(new Action<UserProfileExtension>(this.attach_UserProfileExtension), new Action<UserProfileExtension>(this.detach_UserProfileExtension));
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public int CommunityID
 		{
 			get
@@ -2624,6 +3054,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityNo", DbType="NVarChar(16) NOT NULL", CanBeNull=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public string CommunityNo
 		{
 			get
@@ -2644,6 +3075,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityName", DbType="NVarChar(64) NOT NULL", CanBeNull=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
 		public string CommunityName
 		{
 			get
@@ -2664,10 +3096,16 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Community_UserProfileExtension", Storage="_UserProfileExtension", ThisKey="CommunityID", OtherKey="CommunityID")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4, EmitDefaultValue=false)]
 		public EntitySet<UserProfileExtension> UserProfileExtension
 		{
 			get
 			{
+				if ((this.serializing 
+							&& (this._UserProfileExtension.HasLoadedOrAssignedValues == false)))
+				{
+					return null;
+				}
 				return this._UserProfileExtension;
 			}
 			set
@@ -2707,9 +3145,37 @@ namespace WebHome.Models.DataEntity
 			this.SendPropertyChanging();
 			entity.Community = null;
 		}
+		
+		private void Initialize()
+		{
+			this._UserProfileExtension = new EntitySet<UserProfileExtension>(new Action<UserProfileExtension>(this.attach_UserProfileExtension), new Action<UserProfileExtension>(this.detach_UserProfileExtension));
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerializing(StreamingContext context)
+		{
+			this.serializing = true;
+		}
+		
+		[global::System.Runtime.Serialization.OnSerializedAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnSerialized(StreamingContext context)
+		{
+			this.serializing = false;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserProfileExtension")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class UserProfileExtension : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -2747,12 +3213,11 @@ namespace WebHome.Models.DataEntity
 		
 		public UserProfileExtension()
 		{
-			this._Community = default(EntityRef<Community>);
-			this._UserProfile = default(EntityRef<UserProfile>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public int UID
 		{
 			get
@@ -2777,6 +3242,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LineID", DbType="NVarChar(64)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public string LineID
 		{
 			get
@@ -2797,6 +3263,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InstanceID", DbType="NVarChar(64)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
 		public string InstanceID
 		{
 			get
@@ -2817,6 +3284,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityID", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
 		public System.Nullable<int> CommunityID
 		{
 			get
@@ -2841,6 +3309,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DefenceStatus", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
 		public System.Nullable<int> DefenceStatus
 		{
 			get
@@ -2947,9 +3416,24 @@ namespace WebHome.Models.DataEntity
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void Initialize()
+		{
+			this._Community = default(EntityRef<Community>);
+			this._UserProfile = default(EntityRef<UserProfile>);
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.MessageBoard")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class MessageBoard : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -2975,10 +3459,11 @@ namespace WebHome.Models.DataEntity
 		
 		public MessageBoard()
 		{
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InstanceID", DbType="NVarChar(64) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public string InstanceID
 		{
 			get
@@ -2999,6 +3484,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MessageDate", DbType="DateTime NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public System.DateTime MessageDate
 		{
 			get
@@ -3019,6 +3505,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Defence", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
 		public System.Nullable<int> Defence
 		{
 			get
@@ -3057,9 +3544,22 @@ namespace WebHome.Models.DataEntity
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void Initialize()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GasUsageReport")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
 	public partial class GasUsageReport : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -3099,11 +3599,11 @@ namespace WebHome.Models.DataEntity
 		
 		public GasUsageReport()
 		{
-			this._UserProfile = default(EntityRef<UserProfile>);
-			OnCreated();
+			this.Initialize();
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
 		public int ReportID
 		{
 			get
@@ -3124,6 +3624,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
 		public int UID
 		{
 			get
@@ -3148,6 +3649,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportDate", DbType="DateTime")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
 		public System.Nullable<System.DateTime> ReportDate
 		{
 			get
@@ -3168,6 +3670,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Year", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
 		public int Year
 		{
 			get
@@ -3188,6 +3691,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Month", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
 		public int Month
 		{
 			get
@@ -3208,6 +3712,7 @@ namespace WebHome.Models.DataEntity
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Usage", DbType="Decimal(18,2) NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6)]
 		public decimal Usage
 		{
 			get
@@ -3279,6 +3784,479 @@ namespace WebHome.Models.DataEntity
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void Initialize()
+		{
+			this._UserProfile = default(EntityRef<UserProfile>);
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FCMToken")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
+	public partial class FCMToken : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _Token;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTokenChanging(string value);
+    partial void OnTokenChanged();
+    #endregion
+		
+		public FCMToken()
+		{
+			this.Initialize();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Token", DbType="NVarChar(256) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+		public string Token
+		{
+			get
+			{
+				return this._Token;
+			}
+			set
+			{
+				if ((this._Token != value))
+				{
+					this.OnTokenChanging(value);
+					this.SendPropertyChanging();
+					this._Token = value;
+					this.SendPropertyChanged("Token");
+					this.OnTokenChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void Initialize()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserAccessCard")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
+	public partial class UserAccessCard : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _UID;
+		
+		private string _CardID;
+		
+		private EntityRef<UserProfile> _UserProfile;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(int value);
+    partial void OnUIDChanged();
+    partial void OnCardIDChanging(string value);
+    partial void OnCardIDChanged();
+    #endregion
+		
+		public UserAccessCard()
+		{
+			this.Initialize();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int NOT NULL")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+		public int UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					if (this._UserProfile.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardID", DbType="NVarChar(32) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+		public string CardID
+		{
+			get
+			{
+				return this._CardID;
+			}
+			set
+			{
+				if ((this._CardID != value))
+				{
+					this.OnCardIDChanging(value);
+					this.SendPropertyChanging();
+					this._CardID = value;
+					this.SendPropertyChanged("CardID");
+					this.OnCardIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserAccessCard", Storage="_UserProfile", ThisKey="UID", OtherKey="UID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public UserProfile UserProfile
+		{
+			get
+			{
+				return this._UserProfile.Entity;
+			}
+			set
+			{
+				UserProfile previousValue = this._UserProfile.Entity;
+				if (((previousValue != value) 
+							|| (this._UserProfile.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserProfile.Entity = null;
+						previousValue.UserAccessCard.Remove(this);
+					}
+					this._UserProfile.Entity = value;
+					if ((value != null))
+					{
+						value.UserAccessCard.Add(this);
+						this._UID = value.UID;
+					}
+					else
+					{
+						this._UID = default(int);
+					}
+					this.SendPropertyChanged("UserProfile");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void Initialize()
+		{
+			this._UserProfile = default(EntityRef<UserProfile>);
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.BoxStorageLog")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
+	public partial class BoxStorageLog : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _LogID;
+		
+		private System.Nullable<int> _UID;
+		
+		private System.Nullable<int> _BoxSize;
+		
+		private System.Nullable<int> _BoxPort;
+		
+		private System.Nullable<System.DateTime> _PushDate;
+		
+		private System.Nullable<System.DateTime> _PopDate;
+		
+		private EntityRef<UserProfile> _UserProfile;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnLogIDChanging(int value);
+    partial void OnLogIDChanged();
+    partial void OnUIDChanging(System.Nullable<int> value);
+    partial void OnUIDChanged();
+    partial void OnBoxSizeChanging(System.Nullable<int> value);
+    partial void OnBoxSizeChanged();
+    partial void OnBoxPortChanging(System.Nullable<int> value);
+    partial void OnBoxPortChanged();
+    partial void OnPushDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnPushDateChanged();
+    partial void OnPopDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnPopDateChanged();
+    #endregion
+		
+		public BoxStorageLog()
+		{
+			this.Initialize();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LogID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+		public int LogID
+		{
+			get
+			{
+				return this._LogID;
+			}
+			set
+			{
+				if ((this._LogID != value))
+				{
+					this.OnLogIDChanging(value);
+					this.SendPropertyChanging();
+					this._LogID = value;
+					this.SendPropertyChanged("LogID");
+					this.OnLogIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+		public System.Nullable<int> UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					if (this._UserProfile.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BoxSize", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=3)]
+		public System.Nullable<int> BoxSize
+		{
+			get
+			{
+				return this._BoxSize;
+			}
+			set
+			{
+				if ((this._BoxSize != value))
+				{
+					this.OnBoxSizeChanging(value);
+					this.SendPropertyChanging();
+					this._BoxSize = value;
+					this.SendPropertyChanged("BoxSize");
+					this.OnBoxSizeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BoxPort", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=4)]
+		public System.Nullable<int> BoxPort
+		{
+			get
+			{
+				return this._BoxPort;
+			}
+			set
+			{
+				if ((this._BoxPort != value))
+				{
+					this.OnBoxPortChanging(value);
+					this.SendPropertyChanging();
+					this._BoxPort = value;
+					this.SendPropertyChanged("BoxPort");
+					this.OnBoxPortChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PushDate", DbType="DateTime")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=5)]
+		public System.Nullable<System.DateTime> PushDate
+		{
+			get
+			{
+				return this._PushDate;
+			}
+			set
+			{
+				if ((this._PushDate != value))
+				{
+					this.OnPushDateChanging(value);
+					this.SendPropertyChanging();
+					this._PushDate = value;
+					this.SendPropertyChanged("PushDate");
+					this.OnPushDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PopDate", DbType="DateTime")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6)]
+		public System.Nullable<System.DateTime> PopDate
+		{
+			get
+			{
+				return this._PopDate;
+			}
+			set
+			{
+				if ((this._PopDate != value))
+				{
+					this.OnPopDateChanging(value);
+					this.SendPropertyChanging();
+					this._PopDate = value;
+					this.SendPropertyChanged("PopDate");
+					this.OnPopDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_BoxStorageLog", Storage="_UserProfile", ThisKey="UID", OtherKey="UID", IsForeignKey=true, DeleteRule="CASCADE")]
+		public UserProfile UserProfile
+		{
+			get
+			{
+				return this._UserProfile.Entity;
+			}
+			set
+			{
+				UserProfile previousValue = this._UserProfile.Entity;
+				if (((previousValue != value) 
+							|| (this._UserProfile.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserProfile.Entity = null;
+						previousValue.BoxStorageLog.Remove(this);
+					}
+					this._UserProfile.Entity = value;
+					if ((value != null))
+					{
+						value.BoxStorageLog.Add(this);
+						this._UID = value.UID;
+					}
+					else
+					{
+						this._UID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("UserProfile");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void Initialize()
+		{
+			this._UserProfile = default(EntityRef<UserProfile>);
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
 		}
 	}
 }

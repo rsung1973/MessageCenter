@@ -98,6 +98,11 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.4.3.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.4.3\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
@@ -114,8 +119,8 @@
       <HintPath>..\packages\System.ComponentModel.Annotations.4.4.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Configuration.ConfigurationManager, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Configuration.ConfigurationManager.5.0.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    <Reference Include="System.Configuration.ConfigurationManager, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.7.0.0\lib\net462\System.Configuration.ConfigurationManager.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -231,8 +236,8 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
-    <Reference Include="System.Security.AccessControl, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.AccessControl.5.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
@@ -254,8 +259,8 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Security.Permissions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Permissions.5.0.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    <Reference Include="System.Security.Permissions, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Permissions.7.0.0\lib\net462\System.Security.Permissions.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
@@ -2705,7 +2710,6 @@
     <Content Include="vendor\raphael\raphael.js" />
     <Content Include="vendor\raphael\raphael.min.js" />
     <Content Include="Views\InfoCenter\AppIndex.aspx" />
-    <Content Include="Views\InfoCenter\Index.aspx" />
     <Content Include="Views\InfoCenter\Module\InfoQuery.ascx" />
     <Content Include="Views\Outbound\ResidentInfo.aspx" />
     <Content Include="Views\Outbound\DevicesInfo.aspx" />
@@ -2782,6 +2786,7 @@
     <Compile Include="Helper\Jobs\TouchLifeDispatcher.cs" />
     <Compile Include="Helper\LineEvent\LineMessageHandler.cs" />
     <Compile Include="Helper\LoginExtension.cs" />
+    <Compile Include="Helper\MessageExtensions.cs" />
     <Compile Include="Helper\MvcExtensions.cs" />
     <Compile Include="Helper\UrgentEventHandler.cs" />
     <Compile Include="Models\DataEntity\DataDefinition.cs" />
@@ -3130,6 +3135,16 @@
     <Content Include="Views\DeviceEvents\Module\InitStorageBox.cshtml" />
     <Content Include="Views\DeviceEvents\Module\StorageBox.cshtml" />
     <Content Include="Views\DeviceEvents\Module\PrepareToStoreItem.cshtml" />
+    <Content Include="Views\DeviceEvents\Module\StorageBoxDevice.cshtml" />
+    <Content Include="Views\Account\Module\ListCardID.cshtml" />
+    <Content Include="Views\Account\Module\CardItem.cshtml" />
+    <Content Include="Views\DeviceEvents\Module\BookingStorageItem.cshtml" />
+    <Content Include="Views\LineEvents\Message\PushQRCode.cshtml" />
+    <Content Include="Views\DeviceEvents\Module\InitElevatorBox.cshtml" />
+    <Content Include="Views\DeviceEvents\Module\ElevatorBoxStep0.cshtml" />
+    <Content Include="Views\DeviceEvents\Module\ElevatorBoxStep1.cshtml" />
+    <Content Include="Views\DeviceEvents\Module\ElevatorBoxStep2.cshtml" />
+    <Content Include="Views\InfoCenter\Index.cshtml" />
     <None Include="Web References\BA_Service\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

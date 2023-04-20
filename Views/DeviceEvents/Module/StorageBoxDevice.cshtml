@@ -1,0 +1,58 @@
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.DataPort
+@using WebHome.Properties
+@using Utility
+@using Newtonsoft.Json
+@{
+
+    ModelSource<LiveDevice> models;
+    StorageBoxViewModel _viewModel;
+
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    StorageBoxSettings _model = (StorageBoxSettings)this.Model;
+    _viewModel = (StorageBoxViewModel)ViewBag.ViewModel;
+        
+}
+
+<div class="border_gray">
+    <!--表格 開始-->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="left_title queryArea">
+        <tr>
+            <th>
+                郵箱控制盒IP：
+            </th>
+            <td class="tdleft">
+                <input type="text" name="StorageBoxUrl" value="@(_model?.StorageBoxUrl)" />
+            </td>
+            <th>
+                郵箱大小
+            </th>
+            <td class="tdleft">
+                <select name="BoxSize">
+                    <option value="@((int)StorageBoxSize.小)" selected="@(_model.BoxSize == StorageBoxSize.小)">小</option>
+                    <option value="@((int)StorageBoxSize.中)" selected="@(_model.BoxSize == StorageBoxSize.中)">中</option>
+                    <option value="@((int)StorageBoxSize.大)" selected="@(_model.BoxSize == StorageBoxSize.大)">大</option>
+                    <option value="@((int)StorageBoxSize.餐盒)" selected="@(_model.BoxSize == StorageBoxSize.餐盒)">餐盒</option>
+                </select>
+                <button type="button" onclick="commitStorageBox(@(_viewModel.BoxDeviceIndex));">確定</button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <button type="button" onclick="resetStorageBox(@(_viewModel.BoxDeviceIndex));">重置郵箱</button>
+            </td>
+        </tr>
+    </table>
+    <!--表格 結束-->
+    @{
+        Html.RenderPartial("~/Views/DeviceEvents/Module/StorageBox.cshtml");
+    }
+</div>

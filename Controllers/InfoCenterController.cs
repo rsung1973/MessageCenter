@@ -17,6 +17,8 @@ using WebHome.Helper;
 using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 using System.Net;
+using QRCoder;
+using System.Drawing;
 
 namespace WebHome.Controllers
 {
@@ -799,9 +801,11 @@ namespace WebHome.Controllers
                 return Content(data, "application/json");
             }
 
-            if (viewModel.DefenceStatus.HasValue)
+            if (viewModel.DefenceStatus.HasValue && UrgentEventHandler.Instance != null)
             {
-                var statusItem = UrgentEventHandler.Instance.DeviceStatusList.Where(d => d.InstanceID == viewModel.InstanceID).FirstOrDefault();
+                var statusItem = UrgentEventHandler.Instance.DeviceStatusList
+                        .Where(d => d != null && d.InstanceID == viewModel.InstanceID)
+                        .FirstOrDefault();
                 if (statusItem == null)
                 {
                     statusItem = new DeviceStatus
@@ -860,7 +864,8 @@ namespace WebHome.Controllers
             viewModel.ResidentID = viewModel.ResidentID.GetEfficientString();
             if (viewModel.ResidentID != null)
             {
-                var statusItem = UrgentEventHandler.Instance.DeviceStatusList.Where(d => d.InstanceID == viewModel.InstanceID).FirstOrDefault();
+                var statusItem = UrgentEventHandler.Instance.DeviceStatusList
+                    .Where(d => d != null && d.InstanceID == viewModel.InstanceID).FirstOrDefault();
                 return Content($"{(int?)statusItem?.DefenceStatus ?? -1}");
             }
             else
@@ -969,6 +974,28 @@ namespace WebHome.Controllers
 
         }
 
+        public ActionResult PushFCMToken(String token)
+        {
+            token = token.GetEfficientString();
+            FCMToken item = null;
+            if (token != null)
+            {
+                item = models.GetTable<FCMToken>().Where(t => t.Token == token).FirstOrDefault();
+                if (item == null)
+                {
+                    item = new FCMToken
+                    {
+                        Token = token,
+                    };
+                    models.GetTable<FCMToken>().InsertOnSubmit(item);
+                    models.SubmitChanges();
+                }
+            }
+
+            return Json(new { result = item != null }, JsonRequestBehavior.AllowGet);
+
+        }
+
         public ActionResult UserGuide(UserGuideQueryViewModel viewModel)
         {
             ViewBag.ViewModel = viewModel;
@@ -1015,6 +1042,62 @@ namespace WebHome.Controllers
             }).JsonStringify());
         }
 
+        public ActionResult ReloadSettings()
+        {
+            AppSettings.Reload();
+            return Json(AppSettings.Default, JsonRequestBehavior.AllowGet);
+        }
 
+        public ActionResult PushToLine(UserProfileQueryViewModel viewModel)
+        {
+            Request.SaveAs(Path.Combine(Logger.LogDailyPath, $"{DateTime.Now.Ticks}.txt"), true);
+
+            if (AppSettings.Default.PushToLineMessageCenter)
+            {
+                String url = $"{AppSettings.Default.LineMessageCenter}{Request.RawUrl}";
+                url.PushToLineMessageCenter(viewModel);
+            }
+            else
+            {
+                var item = models.GetTable<UserProfile>()
+                            .Where(u => u.PID == viewModel.PID)
+                            .FirstOrDefault();
+
+                if (item == null)
+                {
+                    return Content("Device not found !");
+                }
+
+                viewModel.Message = viewModel.Message.GetEfficientString();
+                if(viewModel.Message!=null)
+                {
+                    item.PushToLine(viewModel.Message, models);
+                }
+            }
+
+            return Content("OK!");
+        }
+
+        public ActionResult GetQRCode(String content)
+        {
+            // 建立 QRCodeGenerator 物件
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+
+            // 建立 QRCodeData 物件，將字串設為內容
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(HttpUtility.UrlEncode(content), QRCodeGenerator.ECCLevel.Q);
+
+            // 建立 QRCode 物件，設定大小及內容
+            using (QRCode qrCode = new QRCode(qrCodeData))
+            {
+                using (Bitmap qrCodeImage = qrCode.GetGraphic(20))
+                {
+                    Response.Clear();
+                    Response.ContentType = "image/png";
+                    // 將 QR Code 輸出成檔案
+                    qrCodeImage.Save(Response.OutputStream, System.Drawing.Imaging.ImageFormat.Png);
+                }
+            }
+            return new EmptyResult { };
+        }
     }
 }

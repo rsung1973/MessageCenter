@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="MessageCenter" Class="MessageCenterDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=VM-Venus\sqlexpress,1433;Initial Catalog=MessageCenter;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="MessageCenterConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="MessageCenter" Class="MessageCenterDataContext" Serialization="Unidirectional" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=VM-Titan\sqlexpress,1433;Initial Catalog=MessageCenter;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="MessageCenterConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.DeviceCommand" Member="DeviceCommand">
     <Type Name="DeviceCommand">
       <Column Name="LogID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -97,6 +97,8 @@
       <Association Name="UserProfile_UserBinding" Member="UserBinding" ThisKey="UID" OtherKey="UID" Type="UserBinding" />
       <Association Name="UserProfile_UserProfileExtension" Member="UserProfileExtension" ThisKey="UID" OtherKey="UID" Type="UserProfileExtension" Cardinality="One" />
       <Association Name="UserProfile_GasUsageReport" Member="GasUsageReport" ThisKey="UID" OtherKey="UID" Type="GasUsageReport" />
+      <Association Name="UserProfile_UserAccessCard" Member="UserAccessCard" ThisKey="UID" OtherKey="UID" Type="UserAccessCard" />
+      <Association Name="UserProfile_BoxStorageLog" Member="BoxStorageLog" ThisKey="UID" OtherKey="UID" Type="BoxStorageLog" />
       <Association Name="UserProfile_UserProfile" Member="UserProfile1" ThisKey="Creator" OtherKey="UID" Type="UserProfile" IsForeignKey="true" />
       <Association Name="UserProfile_UserProfile1" Member="UserProfile3" ThisKey="AuthID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" />
     </Type>
@@ -145,6 +147,29 @@
       <Column Name="Month" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Usage" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
       <Association Name="UserProfile_GasUsageReport" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FCMToken" Member="FCMToken">
+    <Type Name="FCMToken">
+      <Column Name="Token" Type="System.String" DbType="NVarChar(256) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserAccessCard" Member="UserAccessCard">
+    <Type Name="UserAccessCard">
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CardID" Type="System.String" DbType="NVarChar(32) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="UserProfile_UserAccessCard" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BoxStorageLog" Member="BoxStorageLog">
+    <Type Name="BoxStorageLog">
+      <Column Name="LogID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BoxSize" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BoxPort" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PushDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PopDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="UserProfile_BoxStorageLog" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" />
     </Type>
   </Table>
 </Database>

@@ -7,14 +7,15 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>G:\Project\Published\MessageCenter</_PublishTargetUrl>
-    <History>True|2022-08-24T07:34:23.7376122Z;True|2022-03-23T10:56:28.8281756+08:00;True|2022-03-10T10:33:39.0379088+08:00;True|2022-01-04T16:26:07.4298780+08:00;False|2021-11-16T14:35:00.0083327+08:00;True|2021-08-26T15:52:44.9740354+08:00;False|2021-08-08T11:01:56.8414053+08:00;True|2021-08-03T15:40:21.0473025+08:00;False|2021-08-03T15:39:37.0314719+08:00;True|2021-07-25T23:00:53.3845272+08:00;False|2021-07-25T22:58:05.4564631+08:00;True|2021-06-28T15:58:22.6939622+08:00;False|2021-06-02T20:22:19.9293297+08:00;</History>
+    <History>True|2023-04-19T13:04:56.3179798Z;True|2023-03-30T11:16:46.4820774+08:00;True|2023-03-21T23:28:39.5359036+08:00;True|2023-03-03T12:04:55.7385413+08:00;True|2022-12-24T12:47:13.8578808+08:00;True|2022-12-12T22:32:22.5807547+08:00;True|2022-12-09T10:22:36.8324220+08:00;True|2022-08-24T15:34:23.7376122+08:00;True|2022-03-23T10:56:28.8281756+08:00;True|2022-03-10T10:33:39.0379088+08:00;True|2022-01-04T16:26:07.4298780+08:00;False|2021-11-16T14:35:00.0083327+08:00;True|2021-08-26T15:52:44.9740354+08:00;False|2021-08-08T11:01:56.8414053+08:00;True|2021-08-03T15:40:21.0473025+08:00;False|2021-08-03T15:39:37.0314719+08:00;True|2021-07-25T23:00:53.3845272+08:00;False|2021-07-25T22:58:05.4564631+08:00;True|2021-06-28T15:58:22.6939622+08:00;False|2021-06-02T20:22:19.9293297+08:00;</History>
+    <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
     <File Include=".browserslistrc">
       <publishTime>01/06/2020 22:06:02</publishTime>
     </File>
     <File Include=".gitignore">
-      <publishTime>01/06/2020 22:06:02</publishTime>
+      <publishTime>01/02/2022 17:50:06</publishTime>
     </File>
     <File Include=".travis.yml">
       <publishTime>01/06/2020 22:06:03</publishTime>
@@ -110,34 +111,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/18/2018 08:56:38</publishTime>
     </File>
     <File Include="bin/CommonLib.dll">
-      <publishTime>11/05/2022 19:39:42</publishTime>
+      <publishTime>03/30/2023 11:16:15</publishTime>
     </File>
     <File Include="bin/CommonLib.dll.config">
       <publishTime>10/02/2021 21:28:41</publishTime>
     </File>
     <File Include="bin/CommonLib.Logger.dll">
-      <publishTime>11/05/2022 19:39:41</publishTime>
+      <publishTime>03/30/2023 11:16:14</publishTime>
     </File>
     <File Include="bin/CommonLib.Logger.dll.config">
       <publishTime>01/15/2019 15:32:10</publishTime>
     </File>
     <File Include="bin/CommonLib.Logger.pdb">
-      <publishTime>11/05/2022 19:39:41</publishTime>
+      <publishTime>03/30/2023 11:16:14</publishTime>
     </File>
     <File Include="bin/CommonLib.pdb">
-      <publishTime>11/05/2022 19:39:42</publishTime>
+      <publishTime>03/30/2023 11:16:15</publishTime>
     </File>
     <File Include="bin/CommonLib.PlugInAdapter.dll">
-      <publishTime>11/05/2022 19:39:39</publishTime>
+      <publishTime>03/30/2023 11:16:13</publishTime>
     </File>
     <File Include="bin/CommonLib.PlugInAdapter.pdb">
-      <publishTime>11/05/2022 19:39:39</publishTime>
+      <publishTime>03/30/2023 11:16:13</publishTime>
     </File>
     <File Include="bin/CommonLib.Utility.dll">
-      <publishTime>11/05/2022 19:39:41</publishTime>
+      <publishTime>03/30/2023 11:16:14</publishTime>
     </File>
     <File Include="bin/CommonLib.Utility.pdb">
-      <publishTime>11/05/2022 19:39:41</publishTime>
+      <publishTime>03/30/2023 11:16:14</publishTime>
     </File>
     <File Include="bin/DocumentFormat.OpenXml.dll">
       <publishTime>03/12/2019 23:55:14</publishTime>
@@ -167,10 +168,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/12/2019 17:26:56</publishTime>
     </File>
     <File Include="bin/MessageCenter.dll">
-      <publishTime>11/05/2022 19:39:52</publishTime>
+      <publishTime>03/30/2023 11:16:26</publishTime>
     </File>
     <File Include="bin/MessageCenter.pdb">
-      <publishTime>11/05/2022 19:39:52</publishTime>
+      <publishTime>03/30/2023 11:16:26</publishTime>
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>09/05/2018 16:10:50</publishTime>
@@ -183,6 +184,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>03/18/2021 04:03:36</publishTime>
+    </File>
+    <File Include="bin/QRCoder.dll">
+      <publishTime>12/12/2021 20:30:50</publishTime>
     </File>
     <File Include="bin/Renci.SshNet.dll">
       <publishTime>10/16/2017 20:53:06</publishTime>
@@ -404,13 +408,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/12/2014 10:46:15</publishTime>
     </File>
     <File Include="bin/WKPdfWrapper.dll">
-      <publishTime>11/05/2022 19:39:40</publishTime>
+      <publishTime>03/30/2023 11:16:14</publishTime>
     </File>
     <File Include="bin/WKPdfWrapper.dll.config">
       <publishTime>10/16/2021 11:32:27</publishTime>
     </File>
     <File Include="bin/WKPdfWrapper.pdb">
-      <publishTime>11/05/2022 19:39:40</publishTime>
+      <publishTime>03/30/2023 11:16:14</publishTime>
     </File>
     <File Include="blank.html">
       <publishTime>01/06/2020 22:09:22</publishTime>
@@ -1136,7 +1140,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/24/2021 11:12:01</publishTime>
     </File>
     <File Include="Models/DataEntity/MessageCenter.dbml">
-      <publishTime>11/26/2020 22:23:06</publishTime>
+      <publishTime>03/02/2023 12:18:22</publishTime>
     </File>
     <File Include="Module/Common/CommonScriptInclude.ascx">
       <publishTime>01/07/2020 01:21:33</publishTime>
@@ -1148,7 +1152,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/06/2020 22:06:03</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>11/16/2021 14:36:10</publishTime>
+      <publishTime>03/03/2023 00:57:02</publishTime>
     </File>
     <File Include="Privacy.html">
       <publishTime>03/14/2021 23:04:44</publishTime>
@@ -8134,17 +8138,23 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="vendor/raphael/raphael.min.js">
       <publishTime>09/04/2018 18:59:31</publishTime>
     </File>
+    <File Include="Views/Account/Module/CardItem.cshtml">
+      <publishTime>12/24/2022 11:15:26</publishTime>
+    </File>
     <File Include="Views/Account/Module/DataItem.cshtml">
-      <publishTime>05/14/2019 10:13:16</publishTime>
+      <publishTime>12/24/2022 11:00:42</publishTime>
     </File>
     <File Include="Views/Account/Module/ItemList.cshtml">
-      <publishTime>05/13/2019 12:27:20</publishTime>
+      <publishTime>12/24/2022 09:33:30</publishTime>
+    </File>
+    <File Include="Views/Account/Module/ListCardID.cshtml">
+      <publishTime>12/24/2022 11:13:25</publishTime>
     </File>
     <File Include="Views/Account/Module/QueryResult.cshtml">
       <publishTime>05/13/2019 12:07:34</publishTime>
     </File>
     <File Include="Views/Account/UserIndex.cshtml">
-      <publishTime>05/14/2019 10:25:33</publishTime>
+      <publishTime>12/24/2022 11:02:30</publishTime>
     </File>
     <File Include="Views/DataQuery/DataItem.cshtml">
       <publishTime>11/29/2020 18:28:25</publishTime>
@@ -8177,10 +8187,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2017 23:19:38</publishTime>
     </File>
     <File Include="Views/DeviceEvents/Index.cshtml">
-      <publishTime>01/07/2021 18:35:17</publishTime>
+      <publishTime>11/07/2022 18:00:41</publishTime>
     </File>
     <File Include="Views/DeviceEvents/Module/AccessCard.cshtml">
       <publishTime>11/05/2022 19:34:16</publishTime>
+    </File>
+    <File Include="Views/DeviceEvents/Module/BookingStorageItem.cshtml">
+      <publishTime>03/25/2023 00:10:15</publishTime>
     </File>
     <File Include="Views/DeviceEvents/Module/BuildingTaxiOrder.cshtml">
       <publishTime>11/10/2021 23:09:21</publishTime>
@@ -8200,6 +8213,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/DeviceEvents/Module/DeviceQuery.cshtml">
       <publishTime>01/07/2021 18:37:16</publishTime>
     </File>
+    <File Include="Views/DeviceEvents/Module/InitStorageBox.cshtml">
+      <publishTime>12/11/2022 12:28:11</publishTime>
+    </File>
     <File Include="Views/DeviceEvents/Module/ItemList.ascx">
       <publishTime>05/12/2017 17:00:42</publishTime>
     </File>
@@ -8208,6 +8224,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Views/DeviceEvents/Module/MoreServices.cshtml">
       <publishTime>11/05/2022 19:47:44</publishTime>
+    </File>
+    <File Include="Views/DeviceEvents/Module/PrepareToStoreItem.cshtml">
+      <publishTime>12/11/2022 11:41:40</publishTime>
     </File>
     <File Include="Views/DeviceEvents/Module/QueryResult.ascx">
       <publishTime>05/06/2019 18:10:41</publishTime>
@@ -8220,6 +8239,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Views/DeviceEvents/Module/ResidentEventLogs.cshtml">
       <publishTime>01/09/2021 20:09:28</publishTime>
+    </File>
+    <File Include="Views/DeviceEvents/Module/StorageBox.cshtml">
+      <publishTime>12/11/2022 12:12:31</publishTime>
+    </File>
+    <File Include="Views/DeviceEvents/Module/StorageBoxDevice.cshtml">
+      <publishTime>02/01/2023 18:24:39</publishTime>
     </File>
     <File Include="Views/DeviceEvents/Module/TaxiOrder.cshtml">
       <publishTime>11/10/2021 10:07:21</publishTime>
@@ -8332,6 +8357,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Views/InfoCenter/UserGuide/InfoPage.cshtml">
       <publishTime>07/29/2021 10:48:58</publishTime>
     </File>
+    <File Include="Views/LineEvents/Message/PushQRCode.cshtml">
+      <publishTime>03/04/2023 12:34:26</publishTime>
+    </File>
+    <File Include="Views/LineEvents/Message/PushStorageBoxLog.cshtml">
+      <publishTime>03/03/2023 12:04:26</publishTime>
+    </File>
     <File Include="Views/Outbound/BuildingInfo.aspx">
       <publishTime>03/08/2017 18:11:09</publishTime>
     </File>
@@ -8387,7 +8418,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/10/2021 20:14:19</publishTime>
     </File>
     <File Include="Views/Shared/MessageViewTemplate.cshtml">
-      <publishTime>04/10/2021 20:14:19</publishTime>
+      <publishTime>11/08/2022 14:44:08</publishTime>
     </File>
     <File Include="Views/Shared/MvcBlankPage.cshtml">
       <publishTime>02/28/2021 09:42:41</publishTime>
@@ -8426,7 +8457,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/22/2017 11:03:15</publishTime>
     </File>
     <File Include="Views/SiteAction/UserMenu.cshtml">
-      <publishTime>10/09/2022 18:21:05</publishTime>
+      <publishTime>11/07/2022 17:56:46</publishTime>
     </File>
     <File Include="Views/SiteAction/YoxiMenu.cshtml">
       <publishTime>10/09/2022 23:55:32</publishTime>
@@ -8453,7 +8484,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/10/2022 00:50:48</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/01/2022 22:32:04</publishTime>
+      <publishTime>03/03/2023 12:04:49</publishTime>
     </File>
     <File Include="_test/WebDump.ashx">
       <publishTime>09/03/2018 23:54:08</publishTime>

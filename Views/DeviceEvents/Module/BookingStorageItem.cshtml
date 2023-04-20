@@ -1,0 +1,47 @@
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.DataPort
+@using WebHome.Properties
+@using Utility
+@using Newtonsoft.Json
+@functions
+{
+    StorageBoxAgent.BoxItemPort _model;
+    ModelSource<LiveDevice> models;
+    StorageBoxViewModel _viewModel;
+}
+@{
+
+
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    _model = (StorageBoxAgent.BoxItemPort)this.Model;
+    StorageBoxAgent.BoxItemPort boxItem = _model;
+    _viewModel = (StorageBoxViewModel)ViewBag.ViewModel;
+
+    Guid storeID = Guid.NewGuid();
+    String receipt = Path.Combine(Logger.LogDailyPath, $"{storeID}.htm");
+    File.WriteAllText(receipt, BuildRecipt().ToHtmlString());
+    File.WriteAllText(Path.Combine(Path.Combine(Logger.LogPath, "PrintQueue").CheckStoredPath(), $"{storeID}.txt"), receipt);
+
+    Response.ContentType = "application/json";
+    Response.Write((new { port = boxItem.port.Value, message = $"請將物品放在第{boxItem.port + 1}格郵箱!!" }).JsonStringify());
+    Response.End();
+
+}
+
+@helper BuildRecipt()
+{
+    <div>郵箱存放收據</div>
+    <div>時間：<span>@(DateTime.Now)</span></div>
+    <div>戶號：<span>@(_viewModel.ResidentID)</span></div>
+    <div>櫃位：<span>@($"{_viewModel.BoxSize}型郵箱第{_model.port + 1}櫃")</span></div>
+    <div><img src="../Receipt.png" style="max-width:120px;" /></div>
+}
+

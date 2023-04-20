@@ -56,5 +56,7 @@ namespace WebHome.Models.ViewModel
 
         public Naming.SensorType? Sensor { get; set; }
         public int? Io { get; set; }
+        public String Message { get; set; }
+
     }
 }

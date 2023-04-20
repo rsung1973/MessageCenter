@@ -48,6 +48,12 @@ namespace WebHome.Controllers
                 items = items.Where(t => t.UserName.Contains(viewModel.UserName));
             }
 
+            viewModel.CardID = viewModel.CardID.GetEfficientString();
+            if (viewModel.CardID != null)
+            {
+                items = items.Where(t => t.UserAccessCard.Any(a => a.CardID == viewModel.CardID));
+            }
+
             if (viewModel.PageIndex.HasValue)
             {
                 viewModel.PageIndex = viewModel.PageIndex - 1;
@@ -81,10 +87,178 @@ namespace WebHome.Controllers
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ListCardID(UserAccountQueryViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+            var item = models.GetTable<UserProfile>().Where(i => i.UID == viewModel.UID).FirstOrDefault();
+            if (item == null)
+            {
+                return View("~/Views/Shared/MessageView.cshtml", model: "資料錯誤!!");
+            }
+
+            return View("~/Views/Account/Module/ListCardID.cshtml", item);
+        }
+
+        public ActionResult ApplyCardID(UserAccountQueryViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+            var item = models.GetTable<UserProfile>().Where(i => i.UID == viewModel.UID).FirstOrDefault();
+            if (item == null)
+            {
+                return View("~/Views/Shared/MessageView.cshtml", model: "資料錯誤!!");
+            }
+
+            viewModel.CardID = viewModel.CardID.GetEfficientString();
+            if (viewModel.CardID == null)
+            {
+                return View("~/Views/Shared/MessageView.cshtml", model: "請輸入卡號!!");
+            }
+
+            var card = models.GetTable<UserAccessCard>().Where(c => c.CardID == viewModel.CardID)
+                                .FirstOrDefault();
+            if (card != null)
+            {
+                return View("~/Views/Shared/MessageView.cshtml", model: "卡號重複!!");
+            }
+
+            card = new UserAccessCard
+            {
+                UID = item.UID,
+                CardID = viewModel.CardID,
+            };
+
+            models.GetTable<UserAccessCard>().InsertOnSubmit(card);
+            models.SubmitChanges();
+
+            return View("~/Views/Account/Module/CardItem.cshtml", card);
+        }
+
+        public ActionResult DeleteCardID(UserAccountQueryViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+            var item = models.GetTable<UserProfile>().Where(i => i.UID == viewModel.UID).FirstOrDefault();
+            if (item == null)
+            {
+                return View("~/Views/Shared/MessageView.cshtml", model: "資料錯誤!!");
+            }
+
+            var count = models.ExecuteCommand("delete UserAccessCard where UID = {0} and CardID = {1}",
+                                    viewModel.UID, viewModel.CardID);
+
+            return Json(new { result = count > 0 }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult AllSettings()
         {
             return Json(AppSettings.Default, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult PopBoxItem(UserAccountQueryViewModel viewModel)
+        {
+            //ViewBag.HasQuery = true;
+
+            ViewBag.ViewModel = viewModel;
+
+            viewModel.CardID = viewModel.CardID.GetEfficientString();
+            bool result = false;
+
+            viewModel.KeyID = viewModel.QRCode = viewModel.QRCode.GetEfficientString();
+            if (viewModel.KeyID != null)
+            {
+                viewModel.LogID = viewModel.DecryptKeyValue();
+            }
+
+            String[] pid = null;
+            if(viewModel.LogID.HasValue) 
+            {
+                var logItem = models.GetTable<BoxStorageLog>().Where(b => b.LogID == viewModel.LogID).FirstOrDefault();
+                if (logItem != null && !logItem.PopDate.HasValue) 
+                {
+                    models.ExecuteCommand(@"UPDATE  BoxStorageLog
+                        SET        PopDate = GETDATE()
+                        FROM     UserProfile INNER JOIN
+                                     BoxStorageLog ON UserProfile.UID = BoxStorageLog.UID
+                        WHERE   (BoxStorageLog.PopDate IS NULL) AND (BoxStorageLog.UID = {0})", logItem.UID);
+
+                    pid = logItem.UserProfile?.PID.Split('-');
+                }
+            }
+            else
+            {
+                var cardItem = models.GetTable<UserAccessCard>().Where(a => a.CardID == viewModel.CardID)
+                                    .FirstOrDefault();
+                if (cardItem != null)
+                {
+                    pid = cardItem.UserProfile.PID.Split('-');
+                }
+            }
+
+            if (pid != null) 
+            {
+                if (pid.Length > 1)
+                {
+                    result = StorageBoxAgent.RetrieveAll(pid[1]);
+                }
+                else
+                {
+                    result = StorageBoxAgent.RetrieveAll(pid[0]);
+                }
+            }
+
+            return Json(new { result = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CheckAccess(UserAccountQueryViewModel viewModel)
+        {
+            //ViewBag.HasQuery = true;
+
+            ViewBag.ViewModel = viewModel;
+
+            viewModel.KeyID = viewModel.QRCode = viewModel.QRCode.GetEfficientString();
+            if (viewModel.KeyID != null)
+            {
+                viewModel.LogID = viewModel.DecryptKeyValue();
+            }
+
+            var logItem = models.GetTable<BoxStorageLog>().Where(b => b.LogID == viewModel.LogID).FirstOrDefault();
+            if (logItem != null && !logItem.PopDate.HasValue)
+            {
+                return Json(new { result = 1 }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { result = 0 }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult RequestAccess(UserAccountQueryViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+
+            viewModel.KeyID = viewModel.QRCode = viewModel.QRCode.GetEfficientString();
+            if (viewModel.KeyID != null)
+            {
+                viewModel.LogID = viewModel.DecryptKeyValue();
+            }
+
+            var logItem = models.GetTable<BoxStorageLog>().Where(b => b.LogID == viewModel.LogID).FirstOrDefault();
+            if (logItem != null && (!logItem.PopDate.HasValue || logItem.PopDate.Value.AddMinutes(15) >= DateTime.Now))
+            {
+                logItem.PopDate = DateTime.Now;
+                models.SubmitChanges();
+
+                if (logItem.BoxSize >= 0 && logItem.BoxSize < AppSettings.Default.ElevatorBoxArray?.Length)
+                {
+                    var agent = new StorageBoxAgent(AppSettings.Default.ElevatorBoxArray[logItem.BoxSize.Value]);
+                    agent.TriggerBoxPort(logItem.BoxPort.Value);
+
+                    return Json(new { result = 1 }, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            return Json(new { result = 0 }, JsonRequestBehavior.AllowGet);
+
+        }
+
 
     }
 }

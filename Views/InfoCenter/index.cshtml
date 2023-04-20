@@ -10,24 +10,22 @@
 @using WebHome.Models.Locale
 @using WebHome.Models.ViewModel
 @using Utility
-
-
-@section headContent { 
- 
-}
-@section formContent { 
-@{ Html.RenderPartial(_inquiryView);}
- 
-}
-<script runat="server">
-
+@{
+    Layout = "~/Views/Shared/MvcMainPage.cshtml";
     String _inquiryView;
 
-    protected override void OnInit(EventArgs e)
-    {
-        base.OnInit(e);
-        ViewBag.ActionName = "首頁 > 住戶資訊查詢";
-        _inquiryView = (String)ViewBag.InquiryView ?? "~/Views/InfoCenter/Module/InfoQuery.ascx";
-    }
+    ViewBag.ActionName = "首頁 > 住戶資訊查詢";
+    _inquiryView = (String)ViewBag.InquiryView ?? "~/Views/InfoCenter/Module/InfoQuery.ascx";
+}
 
-</script>
+@section headContent
+{
+
+}
+@section formContent
+{
+    @{
+        Html.RenderPartial(_inquiryView);
+    }
+}
+

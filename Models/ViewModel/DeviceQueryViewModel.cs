@@ -19,17 +19,19 @@ namespace WebHome.Models.ViewModel
 
     public class StorageBoxViewModel : InfoQueryViewModel
     {
-        [JsonIgnore]
-        public string Administrator 
-        {
-            get => ResidentID;
-            set => ResidentID = value;
-        }
-
-        public int? LayerCount { get; set; }
-        public String[] StorageItem { get; set; }
+        public string StorageBoxUrl { get; set; }
+        public int BoxDeviceIndex { get; set; } = 0;
+        public StorageBoxSize? BoxSize { get; set; }
         public int? Port { get; set; }
         public int? ActionType { get; set; }
+    }
+
+    public class ElevatorBoxViewModel : InfoQueryViewModel
+    {
+        public int? ElevatorCount { get; set; }
+        public int? Floors { get; set; }
+        public string[] StorageBoxUrl { get; set; }
+        public string[] No { get; set; }
     }
 
     public class QueryViewModel
@@ -95,6 +97,10 @@ namespace WebHome.Models.ViewModel
         public int? Cards { get; set; }
         public String Caller { get => ResidentID; set => ResidentID = value; }
         public String Callee { get => BranchNo; set => BranchNo = value; }
+        public String Message { get; set; }
+        public String Title { get; set; }
+        public int? Floor { get; set; }
+        public String ElevatorNo { get; set; }
     }
 
     public class TaiwanTaxiAgentViewModel : DeviceQueryViewModel
@@ -124,7 +130,6 @@ namespace WebHome.Models.ViewModel
         public String JobID { get; set; }
         public decimal? Longitude { get; set; }
         public decimal? Latitude { get; set; }
-        public int? Floor { get; set; }
         public int? UnitNo { get; set; }
         public String spotAccount { get; set; }
     }
@@ -157,6 +162,9 @@ namespace WebHome.Models.ViewModel
         public string Password2 { get; set; }
         public int? UID { get; set; }
         public String RealName { get; set; }
+        public String CardID { get; set; }
+        public int? LogID { get; set; }
+        public String QRCode { get; set; }
     }
 
     public class DefenceQueryViewModel : InfoQueryViewModel
@@ -187,7 +195,6 @@ namespace WebHome.Models.ViewModel
         public String JobID { get; set; }
         public decimal? Longitude { get; set; }
         public decimal? Latitude { get; set; }
-        public int? Floor { get; set; }
         public int? UnitNo { get; set; }
     }
 

@@ -11,6 +11,7 @@ using WebHome.Properties;
 using WebHome.Models.ViewModel;
 using WebHome.Models.DataEntity;
 using WebHome.Helper;
+using CommonLib.DataAccess;
 
 namespace WebHome.Helper.LineEvent
 {
@@ -31,7 +32,7 @@ namespace WebHome.Helper.LineEvent
         private Event lineEvent;
         private LineClient lineClient = new LineClient(Settings.Default.ChannelToken);
 
-        public LineMessageHandler(Event lineEvent,ModelSource<UserProfile> models)
+        public LineMessageHandler(Event lineEvent, GenericManager<MessageCenterDataContext> models)
         {
             this.lineEvent = lineEvent;
             this.models = models;
@@ -43,7 +44,7 @@ namespace WebHome.Helper.LineEvent
             private set;
         }
 
-        private ModelSource<UserProfile> models;
+        private GenericManager<MessageCenterDataContext> models;
 
         public async Task HandleBeaconEvent()
         {

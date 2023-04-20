@@ -1,0 +1,60 @@
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.DataPort
+@using WebHome.Properties
+@using Utility
+@using Newtonsoft.Json
+@{
+
+    ModelSource<LiveDevice> models;
+    ElevatorBoxViewModel _viewModel;
+
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    StorageBoxSettings _model = (StorageBoxSettings)this.Model;
+    _viewModel = (ElevatorBoxViewModel)ViewBag.ViewModel;
+
+}
+
+<div class="border_gray" id="step1">
+    <!--表格 開始-->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="left_title queryArea">
+        @{
+            int idx = 0;
+        }
+        @for (int i = 0; i < AppSettings.Default.ElevatorCount; i++)
+        {
+            for (int j = 0; j < (AppSettings.Default.BuildingFloors + 15) / 16; j++)
+            {
+                var item = AppSettings.Default.ElevatorBoxArray[idx];
+                <tr>
+                    <th>
+                        電梯控制盒IP：
+                    </th>
+                    <td class="tdleft">
+                        <input type="text" name="StorageBoxUrl" value="@(item?.StorageBoxUrl)" />
+                    </td>
+                    <th>
+                        電梯門號(樓層:@(j*16+1)~@(j*16+16))
+                    </th>
+                    <td class="tdleft">
+                        <input type="text" name="No" value="@(item?.No)" />
+                    </td>
+                </tr>
+                idx++;
+            }
+        }
+        <tr>
+            <td colspan="4">
+                <button type="button" class="btn" onclick="commitStep1();">step 2</button>
+            </td>
+        </tr>
+    </table>
+    <!--表格 結束-->
+</div>

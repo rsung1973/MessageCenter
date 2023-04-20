@@ -47,7 +47,8 @@
                     住戶社區名稱:@(_model.UserProfileExtension.Community?.CommunityName)<br />
                     住戶名稱:@(_model.PID)<br />
                     @{
-                        var statusItem = UrgentEventHandler.Instance.DeviceStatusList.Where(d => d.InstanceID == _model.UserProfileExtension.InstanceID).FirstOrDefault();
+                        var statusItem = UrgentEventHandler.Instance.DeviceStatusList
+                            .Where(d => d != null && d.InstanceID == _model.UserProfileExtension.InstanceID).FirstOrDefault();
                         if (statusItem != null)
                         {
                             <text>保全狀態：</text>

@@ -1,0 +1,48 @@
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.DataPort
+@using WebHome.Properties
+@using Utility
+@using Newtonsoft.Json
+@{
+
+    ModelSource<LiveDevice> models;
+    ElevatorBoxViewModel _viewModel;
+
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    _viewModel = (ElevatorBoxViewModel)ViewBag.ViewModel;
+
+}
+
+<div class="border_gray" id="step2">
+    <!--表格 開始-->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="left_title queryArea">
+        @foreach (var item in AppSettings.Default.ElevatorBoxArray)
+        {
+            StorageBoxAgent agent = new StorageBoxAgent(item);
+            var box = agent.GetBoxPortList();
+            <tr>
+                <th>
+                    電梯控制盒IP：
+                </th>
+                <td class="tdleft">
+                    @(item?.StorageBoxUrl)
+                </td>
+                <th>
+                    電梯門號(@(item?.No))
+                </th>
+                <td class="tdleft">
+                    @(box!=null ? "設定完成" : "設備未設定")
+                </td>
+            </tr>
+        }
+    </table>
+    <!--表格 結束-->
+</div>

@@ -8,6 +8,7 @@
 @using WebHome.Models.Locale
 @using WebHome.Models.ViewModel
 @using WebHome.DataPort
+@using WebHome.Properties
 @using Utility
 @using Newtonsoft.Json
 @{
@@ -17,7 +18,6 @@
 
     models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
     _viewModel = (StorageBoxViewModel)ViewBag.ViewModel;
-
 }
 
 <!--交易畫面標題-->
@@ -25,38 +25,14 @@
     Html.RenderPartial("~/Views/SiteAction/FunctionTitleBar.cshtml", "智慧郵箱管理");
 }
 
-<div class="border_gray queryAction">
-    <!--表格 開始-->
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="left_title">
-        <tr>
-            <th>
-                管理員戶號
-            </th>
-            <td class="tdleft">
-                <input type="text" name="ResidentID" value="@(_viewModel.Administrator)" />
-            </td>
-            <th>
-                郵箱層數
-            </th>
-            <td class="tdleft" colspan="3">
-                <input type="text" name="LayerCount" value="@(_viewModel.LayerCount)" />
-                &nbsp;&nbsp;
-                <button type="button" onclick="commitStorageBox();">確定</button>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="4">
-                <button type="button" onclick="resetStorageBox();">重置郵箱</button>
-            </td>
-        </tr>
-    </table>
-    <!--表格 結束-->
-</div>
-<div class="border_gray" id="storageBox">
-    @{
-        Html.RenderPartial("~/Views/DeviceEvents/Module/StorageBox.cshtml");
+@if (AppSettings.Default.StorageBoxArray != null && AppSettings.Default.StorageBoxArray.Length > 0)
+{
+    for (int i = 0; i < AppSettings.Default.StorageBoxArray.Length; i++)
+    {
+        _viewModel.BoxDeviceIndex = i;
+        Html.RenderPartial("~/Views/DeviceEvents/Module/StorageBoxDevice.cshtml", AppSettings.Default.StorageBoxArray[i]);
     }
-</div>
+}
 
 <!--按鈕-->
 @{
@@ -68,8 +44,11 @@
     uiDeviceQuery.viewModel = @Html.Raw(JsonConvert.SerializeObject(_viewModel));
 </script>
 <script>
-    function commitStorageBox() {
-        var formData = $('input,select,textarea').serializeObject();
+    function commitStorageBox(idx) {
+        var event = event || window.event;
+        var $queryArea = $(event.target).closest('table.queryArea');
+        var formData = $queryArea.find('input,select,textarea').serializeObject();
+        formData.BoxDeviceIndex = idx;
         clearErrors();
         showLoading();
         $.post('@Html.Raw(Url.Action("CommitStorageBox", "DeviceEvents"))', formData, function (data) {
@@ -77,7 +56,7 @@
             if ($.isPlainObject(data)) {
                 if (data.result) {
                     alert("郵箱設定完成!!");
-                    showStorageBox();
+                    showStorageBox($queryArea, formData);
                 } else {
                     alert("郵箱設定失敗!!");
                 }
@@ -87,16 +66,20 @@
         });
     }
 
-    function resetStorageBox() {
+    function resetStorageBox(idx) {
         if (confirm('確定清除所有郵箱？')) {
+            var event = event || window.event;
+            var $queryArea = $(event.target).closest('table.queryArea');
+            var formData = {};
+            formData.BoxDeviceIndex = idx;
             clearErrors();
             showLoading();
-            $.post('@Html.Raw(Url.Action("ResetStorageBox", "DeviceEvents"))', null, function (data) {
+            $.post('@Html.Raw(Url.Action("ResetStorageBox", "DeviceEvents"))', formData, function (data) {
                 hideLoading();
                 if ($.isPlainObject(data)) {
                     if (data.result) {
                         alert("郵箱重設完成!!");
-                        showStorageBox();
+                        showStorageBox($queryArea, formData);
                     } else {
                         alert("郵箱重設失敗!!");
                     }
@@ -107,29 +90,35 @@
         }
     }
 
-    function showStorageBox() {
+    function showStorageBox($queryArea, formData) {
         clearErrors();
         showLoading();
-        $.post('@Html.Raw(Url.Action("ShowStorageBox", "DeviceEvents"))', null, function (data) {
+        $.post('@Html.Raw(Url.Action("ShowStorageBox", "DeviceEvents"))', formData, function (data) {
             hideLoading();
             if ($.isPlainObject(data)) {
                 if (data.result) {
-                    alert("郵箱設定完成!!");
                 } else {
-                    alert("郵箱設定失敗!!");
+                    alert(data.message);
                 }
             } else {
-                $('#storageBox')
-                    .empty()
-                    .append($(data));
+                $queryArea.next().remove();
+                $queryArea.after($(data));
             }
         });
     }
 
-    function prepareToStore(port) {
+    function prepareToStore(idx, port) {
+
+        var event = event || window.event;
+        var $queryArea = $(event.target).closest('div').find('table.queryArea');
+        uiDeviceQuery.queryArea = $queryArea;
+
+        var formData = {};
+        formData.BoxDeviceIndex = idx;
+        formData.Port = port;
         clearErrors();
         showLoading();
-        $.post('@Html.Raw(Url.Action("PrepareToStoreItem", "DeviceEvents"))', { 'Port': port }, function (data) {
+        $.post('@Html.Raw(Url.Action("PrepareToStoreItem", "DeviceEvents"))', formData, function (data) {
             hideLoading();
             if ($.isPlainObject(data)) {
                 if (data.result) {
@@ -152,7 +141,7 @@
             if ($.isPlainObject(data)) {
                 if (data.result) {
                     alert("郵箱設定完成!!");
-                    showStorageBox();
+                    showStorageBox(uiDeviceQuery.queryArea, viewModel);
                 } else {
                     alert("郵箱設定失敗!!");
                 }
@@ -164,6 +153,8 @@
 
     function removeStorageItem(viewModel) {
         if (confirm('確定取件?')) {
+            var $queryArea = $(event.target).closest('div').find('table.queryArea');
+            uiDeviceQuery.queryArea = $queryArea;
             commitStorageItem(viewModel);
         }
     }

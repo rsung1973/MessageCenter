@@ -119,18 +119,17 @@ namespace WebHome.Helper.Jobs
                             Schedule = DateTime.Today.Add(new TimeSpan(0, 20, 0))
                         });
                     }
-                }
 
-                if (jobList == null || !jobList.Any(j => j.AssemblyQualifiedName == typeof(DeviceEventDispatcher).AssemblyQualifiedName))
-                {
-                    JobScheduler.AddJob(new JobItem
+                    if (jobList == null || !jobList.Any(j => j.AssemblyQualifiedName == typeof(DeviceEventDispatcher).AssemblyQualifiedName))
                     {
-                        AssemblyQualifiedName = typeof(DeviceEventDispatcher).AssemblyQualifiedName,
-                        Description = "檢查設備端警報",
-                        Schedule = DateTime.Today.Add(new TimeSpan(0, 30, 0))
-                    });
+                        JobScheduler.AddJob(new JobItem
+                        {
+                            AssemblyQualifiedName = typeof(DeviceEventDispatcher).AssemblyQualifiedName,
+                            Description = "檢查設備端警報",
+                            Schedule = DateTime.Today.Add(new TimeSpan(0, 30, 0))
+                        });
+                    }
                 }
-
             }
 
         }

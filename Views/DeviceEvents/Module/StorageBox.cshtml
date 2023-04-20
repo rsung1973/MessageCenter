@@ -17,40 +17,52 @@
     StorageBoxViewModel _viewModel;
 
     models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
-    _viewModel = (StorageBoxViewModel)ViewBag.ViewModel;
+    StorageBoxSettings _model = (StorageBoxSettings)this.Model;
 
+    _viewModel = (StorageBoxViewModel)ViewBag.ViewModel;
+    StorageBoxAgent.BoxPortList box = null;
 }
 
+@if (_model != null && _model.StorageBoxUrl != null && _model.Enabled == true)
+{
+    StorageBoxAgent agent = new StorageBoxAgent(_model);
+    box = agent.GetBoxPortList();
+}
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0" class="left_title">
-    <tr>
-        <th colspan="@(AppSettings.Default.StorageBox.PortCount)" class="Head_style_a">
-            郵箱管理
-        </th>
-    </tr>
-    <tr>
-        @for (int port = 0; port < AppSettings.Default.StorageBox.PortCount; port++)
-        {
-            <th style="text-align:center;">@(port+1)</th>
-        }
-    </tr>
-    @for (int layer = 0; layer < (_viewModel.LayerCount ?? 0); layer++)
-    {
+@if (box != null && box.ports != null && box.ports.Length > 0)
+{
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="left_title">
         <tr>
-            @for (int port = 0; port < AppSettings.Default.StorageBox.PortCount; port++)
+            <th colspan="@(box.ports.Length)" class="Head_style_a">
+                郵箱管理
+            </th>
+        </tr>
+        <tr>
+            @for (int port = 0; port < box.ports.Length; port++)
             {
-                int idx = layer * AppSettings.Default.StorageBox.PortCount + port;
-                if (_viewModel.StorageItem[idx] == _viewModel.ResidentID)
+                <th style="text-align:center;">@(port+1)</th>
+            }
+        </tr>
+        <tr>
+            @foreach (var item in box.ports)
+            {
+                if (item.room == null)
                 {
-                    <td><a href="javascript:prepareToStore(@(idx));">空</a></td>
+                    <td><a href="#" onclick="javascript:prepareToStore(@(_viewModel.BoxDeviceIndex), @(item.port));">空</a></td>
                 }
                 else
                 {
-                    <td><a href="javascript:removeStorageItem({ 'ResidentID': '@(_viewModel.StorageItem[idx])', 'Port': @(idx), 'ActionType': 0 });">@(_viewModel.StorageItem[idx])</a></td>
+                    <td><a href="#" onclick="javascript:removeStorageItem({ 'ResidentID': '@(item.room)', 'Port': @(item.port), 'ActionType': 0, 'BoxDeviceIndex': @(_viewModel.BoxDeviceIndex) });">@(item.room)</a></td>
                 }
             }
         </tr>
-    }
-</table>
+    </table>
+}
+else
+{
+    <div>郵箱設備未設定!!</div>
+}
+
+
 
 

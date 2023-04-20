@@ -576,9 +576,12 @@ namespace WebHome.Helper
 
         public static void PushCallAlarm(this UserProfile item,String caller, ModelSource<LiveDevice> models)
         {
-
             String alarm = $"注意！！網路電話 {caller} 撥入，請接聽！";
+            item.PushToLine(alarm, models);
+        }
 
+        public static void PushToLine(this UserProfile item, string message, ModelSource<LiveDevice> models)
+        {
             var bindings = item.UserBinding.Where(b => b.LineID != null);
             if (bindings.Count() > 0)
             {
@@ -596,7 +599,7 @@ namespace WebHome.Helper
                                 new
                                 {
                                     type =  "text",
-                                    text =  alarm
+                                    text =  message
                                 }
                             }
                     };
@@ -623,7 +626,7 @@ namespace WebHome.Helper
                             new
                             {
                                 type =  "text",
-                                text =  alarm
+                                text =  message
                             }
                         }
                     };
@@ -639,6 +642,7 @@ namespace WebHome.Helper
                 Logger.Warn($"device without line ID:{item.PID}");
             }
         }
+
 
         public static Naming.DeviceLevelDefinition AWTEKSensorToSECOM(this Naming.SensorType? sensor)
         {
@@ -672,6 +676,7 @@ namespace WebHome.Helper
             {
                 using (WebClient client = new WebClient())
                 {
+                    client.Encoding = Encoding.UTF8;
                     String jsonData = viewModel.JsonStringify();
                     client.Headers.Add("Content-Type", "application/json");
                     String data = client.UploadString(url, jsonData);

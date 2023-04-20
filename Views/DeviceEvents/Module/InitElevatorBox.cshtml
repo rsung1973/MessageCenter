@@ -1,0 +1,35 @@
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.DataPort
+@using WebHome.Properties
+@using Utility
+@using Newtonsoft.Json
+@{
+
+    ModelSource<LiveDevice> models;
+    ElevatorBoxViewModel _viewModel;
+
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    _viewModel = (ElevatorBoxViewModel)ViewBag.ViewModel;
+}
+
+<!--交易畫面標題-->
+@{
+    Html.RenderPartial("~/Views/SiteAction/FunctionTitleBar.cshtml", "智慧梯控設定");
+}
+
+@{
+    Html.RenderPartial("~/Views/DeviceEvents/Module/ElevatorBoxStep0.cshtml");
+}
+
+
+
+
+

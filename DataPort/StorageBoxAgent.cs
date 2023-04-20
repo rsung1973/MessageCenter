@@ -18,165 +18,278 @@ namespace WebHome.DataPort
 {
     public class StorageBoxAgent
     {
-        public static StorageBoxAgent Instance
-                { get; } = new StorageBoxAgent();
-
-        private StorageBoxAgent()
+        public StorageBoxAgent(StorageBoxSettings settings)
         {
-            ViewModel = QueryViewModel.LoadData<StorageBoxViewModel>();
+            ViewModel = settings;
+        }
+
+        public static StorageBoxAgent AcquireAgent(int boxIndex)
+        {
+            if (AppSettings.Default.StorageBoxArray != null && AppSettings.Default.StorageBoxArray.Length > 0
+                && AppSettings.Default.StorageBoxArray.Length > boxIndex && boxIndex >= 0)
+            {
+                var settings = AppSettings.Default.StorageBoxArray[boxIndex];
+                return new StorageBoxAgent(settings);
+            }
+            return null;
+        }
+
+        public static StorageBoxAgent AcquireAgent(StorageBoxSize size)
+        {
+            if (AppSettings.Default.StorageBoxArray != null && AppSettings.Default.StorageBoxArray.Length > 0)
+            {
+                var settings = AppSettings.Default.StorageBoxArray
+                    .Where(s => s.Enabled == true)
+                    .Where(s => s.BoxSize == size).FirstOrDefault();
+                if (settings != null)
+                {
+                    return new StorageBoxAgent(settings);
+                }
+            }
+            return null;
+        }
+
+        public static bool RetrieveAll(String userID)
+        {
+            int uid;
+            bool result = false;
+            if (!int.TryParse(userID, out uid))
+            {
+                uid = BitConverter.ToInt32(Encoding.Default.GetBytes(userID), 0);
+            }
+
+            for (int idx = 0; idx < AppSettings.Default.StorageBoxArray.Length; idx++)
+            {
+                var agent = AcquireAgent(idx);
+                if (agent != null && agent.ViewModel.Enabled)
+                {
+                    var items = agent.GetBoxPortList();
+                    if (items?.ports?.Any(p => p.room == uid) == true)
+                    {
+                        var ports = items.ports.Where(p => p.room == uid);
+
+                        BoxPortAction boxValues = new BoxPortAction
+                        {
+                            action = "del",
+                            ports = ports.Select(p => new BoxItemPort
+                            {
+                                port = p.port,
+                                room = uid,
+                            }).ToArray()
+                        };
+
+                        agent.DoBox(boxValues);
+
+                        BoxPortRelay relayValues = new BoxPortRelay
+                        {
+                            relays = ports.Select(p => new PortRelay
+                            {
+                                id = p.port.Value,
+                                timing = agent.ViewModel.RelayTiming,
+                            }).ToArray()
+                        };
+
+                        agent.TriggerBox(relayValues);
+                        result = true;
+                    }
+                }
+            }
+
+            return result;
         }
 
         public void Save()
         {
-            ViewModel.SaveData();
+            AppSettings.Default.Save();
         }
 
-        public void InitializeLayer(int layerCount)
-        {
-            if (layerCount > 0)
-            {
-                ViewModel.LayerCount = layerCount;
-                var storageItem = ViewModel.StorageItem;
-                Array.Resize<String>(ref storageItem, layerCount * AppSettings.Default.StorageBox.PortCount);
-                ViewModel.StorageItem = storageItem;
-                for (int i = 0; i < ViewModel.StorageItem.Length; i++)
-                {
-                    if (ViewModel.StorageItem[i] == null)
-                    {
-                        ViewModel.StorageItem[i] = ViewModel.ResidentID;
-                        AddBoxItem(i % AppSettings.Default.StorageBox.PortCount, ViewModel.StorageItem[i]);
-                    }
-                }
-
-                Save();
-            }
-        }
-
-        public void ResetLayer()
-        {
-            ViewModel.StorageItem.SetValue(ViewModel.ResidentID, 0);
-            ResetBox();
-            Save();
-        }
-
-        public StorageBoxViewModel ViewModel 
+        public StorageBoxSettings ViewModel 
         { 
             get; 
             private set; 
         }
 
+        public class BoxItemPort
+        {
+            public int? port { get; set; }
+            public int? room { get; set; }
+        }
+
+        public class BoxPortList
+        {
+            public BoxItemPort[] ports { get; set; }
+        }
+
+        public class BoxPortAction
+        {
+            public string action { get; set; }
+            public BoxItemPort[] ports { get; set; }
+        }
+
+        public BoxPortList GetBoxPortList()
+        {
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    client.Encoding = Encoding.UTF8;
+                    client.Credentials = new NetworkCredential(ViewModel.UserID, ViewModel.Password);
+
+                    String url = $"http://{ViewModel.StorageBoxUrl}/cgi-bin/webapi.cgi?api=ports";
+                    var data = client.DownloadString(url);
+
+                    Logger.Info(url);
+                    Logger.Info(data);
+
+                    return JsonConvert.DeserializeObject<BoxPortList>(data);
+                }
+            }
+            catch(Exception ex)
+            {
+                Logger.Error(ex);
+            }
+
+            return null;
+        }
+
         public void AddBoxItem(int port, String userID)
         {
-            using (WebClient client = new WebClient())
-            {
-                client.Encoding = Encoding.UTF8;
-                client.Credentials = new NetworkCredential(AppSettings.Default.StorageBox.UserID, AppSettings.Default.StorageBox.Password);
-                NameValueCollection values = new NameValueCollection();
-                values["port"] = $"{port}";
-                values["room"] = userID;
-                values["roomAct"] = "3";
+            DoBoxItem(port, userID, "add");
+        }
 
-                var data = client.UploadValues($"{AppSettings.Default.StorageBox.StorageBoxUrl}/cgi-bin/advanced.cgi", values);
-                Logger.Info(Encoding.UTF8.GetString(data));
+        private void DoBoxItem(int port, String userID,String action)
+        {
+            int uid;
+            if (!int.TryParse(userID, out uid))
+            {
+                uid = BitConverter.ToInt32(Encoding.Default.GetBytes(userID), 0);
+            }
+
+            BoxPortAction values = new BoxPortAction
+            {
+                action = action,
+                ports = new BoxItemPort[]
+                {
+                        new BoxItemPort
+                        {
+                            port = port,
+                            room = uid,
+                        }
+                }
+            };
+
+            DoBox(values);
+
+            TriggerBoxPort(port, ViewModel.RelayTiming);
+
+        }
+
+        private void DoBox(BoxPortAction values)
+        {
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    client.Encoding = Encoding.UTF8;
+                    client.Credentials = new NetworkCredential(ViewModel.UserID, ViewModel.Password);
+                    client.Headers[HttpRequestHeader.ContentType] = "text/plain";
+
+                    String url = $"http://{ViewModel.StorageBoxUrl}/cgi-bin/webapi.cgi?api=ports";
+
+                    var data = values.JsonStringify();
+                    var result = client.UploadString(url, data);
+                    Logger.Info(data);
+                    Logger.Info(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
 
         public void RemoveBoxItem(int port, String userID)
         {
-            using (WebClient client = new WebClient())
-            {
-                client.Encoding = Encoding.UTF8;
-                client.Credentials = new NetworkCredential(AppSettings.Default.StorageBox.UserID, AppSettings.Default.StorageBox.Password);
-                NameValueCollection values = new NameValueCollection();
-                values["port"] = $"{port}";
-                values["room"] = userID;
-                values["roomAct"] = "2";
+            if (port < 0)
+                return;
 
-                var data = client.UploadValues($"{AppSettings.Default.StorageBox.StorageBoxUrl}/cgi-bin/advanced.cgi", values);
-                Logger.Info(Encoding.UTF8.GetString(data));
-            }
-        }
-
-        public void ResetBox()
-        {
-            using (WebClient client = new WebClient())
-            {
-                client.Encoding = Encoding.UTF8;
-                client.Credentials = new NetworkCredential(AppSettings.Default.StorageBox.UserID, AppSettings.Default.StorageBox.Password);
-                NameValueCollection values = new NameValueCollection();
-                values["port"] = "0";
-                values["room"] = "";
-                values["roomAct"] = "1";
-
-                var data = client.UploadValues($"{AppSettings.Default.StorageBox.StorageBoxUrl}/cgi-bin/advanced.cgi", values);
-                Logger.Info(Encoding.UTF8.GetString(data));
-            }
-
-            for (int i = 0; i < ViewModel.StorageItem.Length; i++)
-            {
-                ViewModel.StorageItem[i] = ViewModel.ResidentID;
-                AddBoxItem(i % AppSettings.Default.StorageBox.PortCount, ViewModel.StorageItem[i]);
-            }
-        }
-
-        public void RemoveItem(int port, String userID, String replacementID)
-        {
-            if (!(port < ViewModel.StorageItem.Length
-                    && ViewModel.StorageItem[port] == userID))
+            var items = GetBoxPortList();
+            if (items == null || items.ports == null || port >= items.ports.Length)
             {
                 return;
             }
 
-            ViewModel.StorageItem[port] = replacementID;
-
-            int arrayLessCount = 0;
-            int arrayGreatCount = 0;
-            int arrayPort = port % AppSettings.Default.StorageBox.PortCount;
-            for (int i = 0; i < ViewModel.StorageItem.Length; i++)
+            if ($"{items.ports[port].room}" != userID)
             {
-                if (i % AppSettings.Default.StorageBox.PortCount == arrayPort)
-                {
-                    if (ViewModel.StorageItem[i] == userID)
-                    {
-                        if (i < port)
-                        {
-                            arrayLessCount++;
-                        }
-                        else if (i > port)
-                        {
-                            arrayGreatCount++;
-                        }
-                    }
-                }
+                return;
             }
 
-            RemoveBoxItem(port, userID);
-
-            if (arrayLessCount > 0)
-            {
-                for (int i = 0; i < arrayLessCount; i++)
-                {
-                    AddBoxItem(port, userID);
-                }
-            }
-
-            AddBoxItem(port, replacementID);
-
-            if (arrayGreatCount > 0)
-            {
-                for (int i = 0; i < arrayGreatCount; i++)
-                {
-                    AddBoxItem(port, userID);
-                }
-            }
-
-            Save();
+            DoBoxItem(port, userID, "del");
 
         }
 
-        public void StoreItem(int port, String userID)
+        public BoxItemPort AcquireVacantBox()
         {
-            RemoveItem(port, ViewModel.ResidentID, userID);
+            return GetBoxPortList()?.ports?.Where(b => !b.room.HasValue)
+                .FirstOrDefault();
+        }
+
+        public void ResetBox()
+        {
+            DoBox(new BoxPortAction { action = "delall" });
+        }
+
+        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+        public class PortRelay
+        {
+            public int id { get; set; }
+            public int timing { get; set; }
+        }
+
+        public class BoxPortRelay
+        {
+            public PortRelay[] relays { get; set; }
+        }
+
+        public void TriggerBoxPort(int port,int timing = 3000)
+        {
+            BoxPortRelay values = new BoxPortRelay
+            {
+                relays = new PortRelay[]
+                {
+                    new PortRelay
+                    {
+                        id = port,
+                        timing = timing,
+                    }
+                }
+            };
+
+            TriggerBox(values);
+        }
+
+        private void TriggerBox(BoxPortRelay values)
+        {
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    client.Encoding = Encoding.UTF8;
+                    client.Credentials = new NetworkCredential(ViewModel.UserID, ViewModel.Password);
+                    client.Headers[HttpRequestHeader.ContentType] = "text/plain";
+
+                    String url = $"http://{ViewModel.StorageBoxUrl}/cgi-bin/webapi.cgi?api=relays";
+
+                    var data = values.JsonStringify();
+                    var result = client.UploadString(url, data);
+                    Logger.Info(data);
+                    Logger.Info(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
 
     }

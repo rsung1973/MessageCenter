@@ -22,12 +22,19 @@
                 </td>
             </tr>
             <tr>
-                <th width="120">
+                <th>
                     住戶姓名
                 </th>
                 <td class="tdleft">
                     <input name="UserName" type="text" class="form-control" />
-                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    感應卡號
+                </th>
+                <td class="tdleft">
+                    <input name="CardID" type="text" class="form-control" />
                 </td>
             </tr>
         </tbody>
@@ -96,9 +103,54 @@
                     $(data).appendTo($('body'));
                 }
             });
-           
+
         };
 
+        uiUserAccount.listCardID = function (value) {
+            var event = event || window.event;
+            showLoading();
+            $.post('@(Url.Action("ListCardID", "Account"))', { 'UID': value }, function (data) {
+                hideLoading();
+                if ($.isPlainObject(data)) {
+                } else {
+                    $(data).appendTo($('body'));
+                }
+            });
+        };
+
+        uiUserAccount.applyCard = function (value) {
+            var event = event || window.event;
+            var $tr = $(event.target).closest('tr');
+            var cardID = $tr.find('input[name="CardID"]').val();
+            showLoading();
+            $.post('@(Url.Action("ApplyCardID", "Account"))', { 'UID': value, 'CardID': cardID }, function (data) {
+                hideLoading();
+                if ($.isPlainObject(data)) {
+                } else {
+                    var $data = $(data);
+                    if ($data.is('tr')) {
+                        $tr.before($data);
+                    } else {
+                        $data.appendTo($('body'));
+                    }
+                }
+            });
+        };
+
+        uiUserAccount.deleteCard = function (viewModel) {
+            var event = event || window.event;
+            if (confirm('確定刪除?')) {
+                $.post('@Url.Action("DeleteCardID","Account")', viewModel, function (data) {
+                    if ($.isPlainObject(data)) {
+                        if (data.result) {
+                            $(event.target).closest('tr').remove();
+                        }
+                    } else {
+                        $(data).appendTo($('body'));
+                    }
+                });
+            }
+        };
 
         uiUserAccount.deleteItem = function (value) {
             var event = event || window.event;

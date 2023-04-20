@@ -49,11 +49,91 @@
       "LoggingPath": "C:\\Project\\HomeNet\\MessageCenter\\MasterWeb\\logs\\YoxiOrder",
       "DefaultSpotAccount": "00002"
     },
-    "StorageBox": {
-      "StorageBoxUrl": "http://localhost:8080",
-      "UserID": "admin",
-      "Password": "123456",
-      "PortCount": 16
-    }
+    "StorageBoxArray": [
+      {
+        "StorageBoxUrl": "localhost:8080",
+        "UserID": "admin",
+        "Password": "123456",
+        "PortCount": 16,
+        "BoxSize": 1,
+        "Enabled": false,
+        "RelayTiming": 3000,
+        "No": null
+      },
+      {
+        "StorageBoxUrl": "192.168.68.18",
+        "UserID": "admin",
+        "Password": "123456",
+        "PortCount": 16,
+        "BoxSize": 2,
+        "Enabled": false,
+        "RelayTiming": 3000,
+        "No": null
+      },
+      {
+        "StorageBoxUrl": "192.168.68.18",
+        "UserID": "admin",
+        "Password": "123456",
+        "PortCount": 16,
+        "BoxSize": 3,
+        "Enabled": false,
+        "RelayTiming": 3000,
+        "No": null
+      },
+      {
+        "StorageBoxUrl": "192.168.68.18",
+        "UserID": "admin",
+        "Password": "123456",
+        "PortCount": 16,
+        "BoxSize": 4,
+        "Enabled": false,
+        "RelayTiming": 3000,
+        "No": null
+      }
+    ],
+    "BuildingFloors": 18,
+    "ElevatorCount": 2,
+    "ElevatorBoxArray": [
+      {
+        "StorageBoxUrl": "192.168.68.18",
+        "UserID": "admin",
+        "Password": "123456",
+        "PortCount": 16,
+        "BoxSize": 1,
+        "Enabled": false,
+        "RelayTiming": 3000,
+        "No": "201"
+      },
+      {
+        "StorageBoxUrl": "192.168.68.19",
+        "UserID": "admin",
+        "Password": "123456",
+        "PortCount": 16,
+        "BoxSize": 1,
+        "Enabled": false,
+        "RelayTiming": 3000,
+        "No": "201"
+      },
+      {
+        "StorageBoxUrl": "192.168.68.20",
+        "UserID": "admin",
+        "Password": "123456",
+        "PortCount": 16,
+        "BoxSize": 1,
+        "Enabled": false,
+        "RelayTiming": 3000,
+        "No": "202"
+      },
+      {
+        "StorageBoxUrl": "192.168.68.21",
+        "UserID": "admin",
+        "Password": "123456",
+        "PortCount": 16,
+        "BoxSize": 1,
+        "Enabled": false,
+        "RelayTiming": 3000,
+        "No": "202"
+      }
+    ]
   }
 }
