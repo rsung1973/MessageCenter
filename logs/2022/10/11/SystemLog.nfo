@@ -1,8 +1,0 @@
-﻿2022/10/11 23:02:06
-RefreshAccessToken{"CustPhone":"0922123456","CustName":"王小美","CustTitle":"先生","Amount":1,"PaidType":0,"City":"新北市","District":"永和區","Road":"竹林路","No":"204","Longitude":121.52068,"Latitude":25.00867,"Floor":1,"spotAccount":"00001","ResidentID":"00001-1011111","Caller":"00001-1011111","PageSize":50}
-2022/10/11 23:02:08
-RefreshAccessToken{"success":true,"error":null,"data":{"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NLZXkiOiJBV1RFS19TRVJWRVIiLCJSaWRlcklkIjoxNjkzLCJQaG9uZSI6IjQ2NjAxMDAwMDEiLCJpYXQiOjE2NjU1MDA1MjYsImV4cCI6MTY2ODA5MjUyNn0.LemxFy7_vM65V_EcBzNPjewzkA7HIzXINrI5LWjAJK63vBZA1r66tvwhjSvkPK5hPtTWusLfI88fBEn3L2UsixyYA82RsP4agzAKlyvqTXuhg4_kw4ZDgD1HOVzW40Mz9OuPnC14Ce93snYI6G922AusLR2IeVSwDbB8SPVzpMeB4nZ0e-lGpv1KFviPZ73ucYnS6V5lMAr4XZL7SkQngk4E0X2uHVu0-GnT-FeR1iWbZ_Jmx4U1rT6Gn5Vuf2Q_7-wL60J2hdfWkW_OoIgiMXy9NRvtWKbZ60Gm_6B3KgeGZ8TYtS6IT_34WxoVX9xDklcK-qGu-zO8kUntp7gn1Q"}}
-2022/10/11 23:02:08
-DispatchOrder{"spotAccount":"00001","riderName":"王小美","riderPhone":"0922123456","carNumber":1}
-2022/10/11 23:02:08
-DispatchOrder{"success":true,"error":null,"data":[{"carIndex":1,"spotAccount":"4660100001","hashId":"7463cfe583"}]}

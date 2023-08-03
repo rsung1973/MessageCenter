@@ -1,8 +1,0 @@
-﻿2022/09/30 17:01:54
-{"CompanyId":53,"ServiceToken":"r+MA4bH9Ht0pC9bvF2VJknd/q4A=","CompanySecret":"85hAg1hyDhNZxOFJZXuWhT/Ij8M=","Signature":"ZLdouiDyFRNPUtJomVH3s9+jca0=","UserId":"00001-1011111"}
-2022/09/30 17:01:55
-{"AccessToken":"2e87b1ce705a487fa6ece9765be643d1","Expired":"2022-09-30T18:41:54.167","ExpiredUTCT":1664534514167,"ServerUTCT":1664528514170,"Result":{"State":0,"Msg":"成功"}}
-2022/09/30 17:01:55
-{"UserId":"00001-1011111","AccessToken":"2e87b1ce705a487fa6ece9765be643d1","Signature":"Se41x9gHqBhlp+AW2ZMC67ICbfA="}
-2022/09/30 17:01:55
-{"Vehicles":[],"Result":{"State":0,"Msg":"成功"}}
