@@ -836,12 +836,32 @@ namespace WebHome.Controllers
             if (UrgentEventHandler.Instance.CurrentFire)
             {
                 result.EventCode = DeviceTransactionViewModel.UrgentEventDefinition.火災;
-                hasResult = true;
+                if (AppSettings.Default.CheckPublicAlarmSettings)
+                {
+                    hasResult = models.GetTable<UserProfile>()
+                        .Where(u => u.PID == viewModel.InstanceID)
+                        .Where(u => u.SubscribedAlarm == (int)Naming.AlarmSubscription.公共設施)
+                        .Any();
+                }
+                else
+                {
+                    hasResult = true;
+                }
             }
             else if (UrgentEventHandler.Instance.CurrentEarthquake)
             {
                 result.EventCode = DeviceTransactionViewModel.UrgentEventDefinition.地震;
-                hasResult = true;
+                if (AppSettings.Default.CheckPublicAlarmSettings)
+                {
+                    hasResult = models.GetTable<UserProfile>()
+                        .Where(u => u.PID == viewModel.InstanceID)
+                        .Where(u => u.SubscribedAlarm == (int)Naming.AlarmSubscription.公共設施)
+                        .Any();
+                }
+                else
+                {
+                    hasResult = true;
+                }
             }
             else if (UrgentEventHandler.Instance.Clear)
             {

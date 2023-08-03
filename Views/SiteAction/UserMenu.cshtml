@@ -28,7 +28,7 @@
                 <a href="@(Url.Action("UserIndex","Account"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>住戶管理</a>
             </li>
             <li>
-                <a href="@(Url.Action("EnergyIndex","InfoCenter"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>瓦斯度數維護</a>
+                <a href="javascript:$('').launchDownload('@Html.Raw(Url.Action("EnergyIndex","InfoCenter"))', $global.viewModel);"><i class="fa fa-hand-o-right" aria-hidden="true"></i>瓦斯度數維護</a>
             </li>
             <li>
                 <a href="@(Url.Action("BuildingLocationIndex","InfoCenter"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>社區地址維護(台灣大車隊)</a>
@@ -43,7 +43,7 @@
                 Html.RenderPartial("~/Views/SiteAction/YoxiQueryMenu.cshtml");
             }
             <li>
-                <a href="#" onclick="$.post('@(Url.Action("UrgentCall","InfoCenter",new { reset = true }))', {}, function (data) { if ($.isPlainObject(data)) { alert('警報已解除!!'); } else { $(data).appendTo($('body')); } });"><i class="fa fa-hand-o-right" aria-hidden="true"></i>解除地震警報</a>
+                <a href="#" onclick="$.post('@(Url.Action("UrgentCall","InfoCenter",new { reset = true }))', {}, function (data) { if ($.isPlainObject(data)) { alert('警報已解除!!'); } else { $(data).appendTo($('body')); } });"><i class="fa fa-hand-o-right" aria-hidden="true"></i>解除社區公共警報</a>
             </li>
             <li>
                 <a href="@(Url.Action("InitStorageBox","DeviceEvents"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>智慧郵箱</a>

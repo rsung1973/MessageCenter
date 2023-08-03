@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.IO;
 using WebHome.Models.ViewModel;
 using System.Collections.Specialized;
+using DocumentFormat.OpenXml.Vml.Spreadsheet;
 
 namespace WebHome.DataPort
 {
@@ -21,6 +22,19 @@ namespace WebHome.DataPort
         public StorageBoxAgent(StorageBoxSettings settings)
         {
             ViewModel = settings;
+        }
+
+        public static void AddStorageBox()
+        {
+            lock(typeof(StorageBoxAgent))
+            {
+                List<StorageBoxSettings> items = new List<StorageBoxSettings>(AppSettings.Default.StorageBoxArray);
+                items.Add(new StorageBoxSettings 
+                {
+                    BoxSize = StorageBoxSize.小,
+                });
+                AppSettings.Default.StorageBoxArray = items.ToArray();
+            }
         }
 
         public static StorageBoxAgent AcquireAgent(int boxIndex)
@@ -33,6 +47,17 @@ namespace WebHome.DataPort
             }
             return null;
         }
+
+        public static void RemoveStorageBox(int boxIndex)
+        {
+            lock (typeof(StorageBoxAgent))
+            {
+                List<StorageBoxSettings> items = new List<StorageBoxSettings>(AppSettings.Default.StorageBoxArray);
+                items.RemoveAt(boxIndex);
+                AppSettings.Default.StorageBoxArray = items.ToArray();
+            }
+        }
+
 
         public static StorageBoxAgent AcquireAgent(StorageBoxSize size)
         {
@@ -230,8 +255,24 @@ namespace WebHome.DataPort
 
         public BoxItemPort AcquireVacantBox()
         {
-            return GetBoxPortList()?.ports?.Where(b => !b.room.HasValue)
-                .FirstOrDefault();
+            var items = GetBoxPortList()?.ports;
+            if (items != null && items.Length > 0)
+            {
+                for (int i = 0; i < items.Length; i++)
+                {
+                    if (ViewModel.Disabled.Contains(i))
+                    {
+                        continue;
+                    }
+
+                    var port = items[i];
+                    if (!port.room.HasValue)
+                    {
+                        return port;
+                    }
+                }
+            }
+            return null;
         }
 
         public void ResetBox()

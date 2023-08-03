@@ -33,6 +33,9 @@
         Html.RenderPartial("~/Views/DeviceEvents/Module/StorageBoxDevice.cshtml", AppSettings.Default.StorageBoxArray[i]);
     }
 }
+<div class="border_gray">
+    <button type="button" onclick="addStorageBox();">新增郵箱</button>
+</div>
 
 <!--按鈕-->
 @{
@@ -44,6 +47,24 @@
     uiDeviceQuery.viewModel = @Html.Raw(JsonConvert.SerializeObject(_viewModel));
 </script>
 <script>
+    function addStorageBox() {
+        var event = event || window.event;
+        showLoading();
+        $.post('@Html.Raw(Url.Action("AddStorageBox", "DeviceEvents"))', {}, function (data) {
+            hideLoading();
+            if ($.isPlainObject(data)) {
+                if (data.result) {
+                    alert("郵箱新增完成!!");
+                    window.location.reload();
+                } else {
+                    alert("郵箱新增失敗!!");
+                }
+            } else {
+                $(data).appendTo($('body')).remove();
+            }
+        });
+    }
+
     function commitStorageBox(idx) {
         var event = event || window.event;
         var $queryArea = $(event.target).closest('table.queryArea');
@@ -90,6 +111,29 @@
         }
     }
 
+    function removeStorageBox(idx) {
+        if (confirm('確定刪除此郵箱設備？')) {
+            var event = event || window.event;
+            var formData = {};
+            formData.BoxDeviceIndex = idx;
+            clearErrors();
+            showLoading();
+            $.post('@Html.Raw(Url.Action("RemoveStorageBox", "DeviceEvents"))', formData, function (data) {
+                hideLoading();
+                if ($.isPlainObject(data)) {
+                    if (data.result) {
+                        alert("郵箱已刪除!!");
+                        window.location.reload();
+                    } else {
+                        alert("郵箱刪除失敗!!");
+                    }
+                } else {
+                    $(data).appendTo($('body')).remove();
+                }
+            });
+        }
+    }
+
     function showStorageBox($queryArea, formData) {
         clearErrors();
         showLoading();
@@ -123,6 +167,34 @@
             if ($.isPlainObject(data)) {
                 if (data.result) {
                     alert("郵箱設定完成!!");
+                } else {
+                    alert("郵箱設定失敗!!");
+                }
+            } else {
+                $('body')
+                    .append($(data));
+            }
+        });
+    }
+
+    function setBoxStatus(idx, port, disabled) {
+
+        var event = event || window.event;
+        var $queryArea = $(event.target).closest('div').find('table.queryArea');
+        uiDeviceQuery.queryArea = $queryArea;
+
+        var formData = {};
+        formData.BoxDeviceIndex = idx;
+        formData.Port = port;
+        formData.Disabled = disabled;
+        clearErrors();
+        showLoading();
+        $.post('@Html.Raw(Url.Action("SetBoxStatus", "DeviceEvents"))', formData, function (data) {
+            hideLoading();
+            if ($.isPlainObject(data)) {
+                if (data.result) {
+                    alert("郵箱設定完成!!");
+                    showStorageBox(uiDeviceQuery.queryArea, formData);
                 } else {
                     alert("郵箱設定失敗!!");
                 }

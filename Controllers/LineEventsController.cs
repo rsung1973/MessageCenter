@@ -174,5 +174,25 @@ namespace WebHome.Controllers
             return Content("OK!");
         }
 
+        public ActionResult PushMessage(UserAccountQueryViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+
+            viewModel.PID = viewModel.PID.GetEfficientString();
+            var item = models.GetTable<UserProfile>()
+                        .Where(u => u.PID == viewModel.PID)
+                        .FirstOrDefault();
+
+            if (item == null)
+            {
+                return Content("User not found !");
+            }
+
+            var jsonData = this.RenderViewToString("~/Views/LineEvents/Message/PushMessage.cshtml", item);
+            Logger.Debug(jsonData);
+            jsonData.PushLineMessage();
+
+            return Content("OK!");
+        }
     }
 }

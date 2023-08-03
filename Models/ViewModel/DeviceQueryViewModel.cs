@@ -24,6 +24,9 @@ namespace WebHome.Models.ViewModel
         public StorageBoxSize? BoxSize { get; set; }
         public int? Port { get; set; }
         public int? ActionType { get; set; }
+        public String Print { get; set; }
+        public int? LogID { get; set; }
+        public bool? Disabled { get; set; }
     }
 
     public class ElevatorBoxViewModel : InfoQueryViewModel

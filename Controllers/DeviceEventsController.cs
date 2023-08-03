@@ -617,6 +617,16 @@ namespace WebHome.Controllers
 
         }
 
+        public ActionResult AddStorageBox(StorageBoxViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+
+            StorageBoxAgent.AddStorageBox();
+            AppSettings.Default.Save();
+
+            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult ResetStorageBox(StorageBoxViewModel viewModel)
         {
             ViewBag.ViewModel = viewModel;
@@ -629,6 +639,15 @@ namespace WebHome.Controllers
 
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult RemoveStorageBox(StorageBoxViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+            StorageBoxAgent.RemoveStorageBox(viewModel.BoxDeviceIndex);
+            AppSettings.Default.Save();
+
+            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult PrepareToStoreItem(StorageBoxViewModel viewModel)
@@ -652,9 +671,40 @@ namespace WebHome.Controllers
                 return View("~/Views/Shared/ReportInputError.cshtml");
             }
 
+            ViewBag.BoxAgent = agent;
             return View("~/Views/DeviceEvents/Module/PrepareToStoreItem.cshtml", agent.ViewModel);
 
         }
+
+        public ActionResult SetBoxStatus(StorageBoxViewModel viewModel)
+        {
+            var result = PrepareToStoreItem(viewModel);
+            StorageBoxAgent agent = ViewBag.BoxAgent as StorageBoxAgent;
+            if (agent == null)
+            {
+                return result;
+            }
+
+            if (viewModel.Disabled == true)
+            {
+                if(!agent.ViewModel.Disabled.Contains(viewModel.Port.Value))
+                {
+                    agent.ViewModel.Disabled.Add(viewModel.Port.Value);
+                }
+            }
+            else
+            {
+                if (agent.ViewModel.Disabled.Contains(viewModel.Port.Value))
+                {
+                    agent.ViewModel.Disabled.Remove(viewModel.Port.Value);
+                }
+            }
+
+            agent.Save();
+            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+
+        }
+
 
         public ActionResult CommitStorageItem(StorageBoxViewModel viewModel)
         {
@@ -691,6 +741,7 @@ namespace WebHome.Controllers
             else if(viewModel.ActionType == 0)
             {
                 agent.RemoveBoxItem(viewModel.Port.Value, viewModel.ResidentID);
+                PushBoxStorageRemovalToLine(viewModel.ResidentID, agent.ViewModel.BoxSize, viewModel.Port.Value);
                 models.ExecuteCommand(@"UPDATE  BoxStorageLog
                     SET        PopDate = GETDATE()
                     FROM     UserProfile INNER JOIN
@@ -703,9 +754,26 @@ namespace WebHome.Controllers
 
         }
 
+        public ActionResult PrintStorageItem(StorageBoxViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+
+            var logItem = models.GetTable<BoxStorageLog>()
+                .Where(l => l.LogID == viewModel.LogID)
+                .FirstOrDefault();
+
+            return View("~/Views/DeviceEvents/Module/PrintStorageItem.cshtml", logItem);
+
+        }
+
         public ActionResult BookingStorageItem(StorageBoxViewModel viewModel)
         {
             ViewBag.ViewModel = viewModel;
+
+            if (viewModel.LogID.HasValue)
+            {
+                return PrintStorageItem(viewModel);
+            }
 
             viewModel.ResidentID = viewModel.ResidentID.GetEfficientString();
             if (viewModel.ResidentID == null)
@@ -736,24 +804,30 @@ namespace WebHome.Controllers
             }
 
             agent.AddBoxItem(boxItem.port.Value, viewModel.ResidentID);
-            PushBoxStorageItemToLine(viewModel.ResidentID, agent.ViewModel.BoxSize, boxItem.port.Value);
+            ViewBag.DataItem = PushBoxStorageItemToLine(viewModel.ResidentID, agent.ViewModel.BoxSize, boxItem.port.Value);
 
             return View("~/Views/DeviceEvents/Module/BookingStorageItem.cshtml", boxItem);
 
         }
 
 
-        private void PushBoxStorageItemToLine(String residentID, StorageBoxSize boxSize, int boxPort)
+        private BoxStorageLog PushBoxStorageItemToLine(String residentID, StorageBoxSize boxSize, int boxPort)
         {
             String message = $"{DateTime.Now:yyyy/MM/dd HH:mm}，有您的快遞寄放於{boxSize}型郵箱第{boxPort + 1}櫃。";
-            PushBoxStorageMessageToLine(residentID, (int)boxSize, boxPort, "快遞通知", message);
+            return PushBoxStorageMessageToLine(residentID, (int)boxSize, boxPort, "快遞通知", message);
         }
 
-        private void PushBoxStorageMessageToLine(String residentID, int boxSize, int boxPort,String title,String message)
+        private BoxStorageLog PushBoxStorageRemovalToLine(String residentID, StorageBoxSize boxSize, int boxPort)
         {
-            if (string.IsNullOrEmpty(residentID)) 
-            { 
-                return; 
+            String message = $"{DateTime.Now:yyyy/MM/dd HH:mm}，您的快遞寄放於{boxSize}型郵箱第{boxPort + 1}櫃已取件。";
+            return PushBoxStorageMessageToLine(residentID, (int)boxSize, boxPort, "快遞取件通知", message, true);
+        }
+
+        private BoxStorageLog PushBoxStorageMessageToLine(String residentID, int boxSize, int boxPort, String title, String message, bool removal = false)
+        {
+            if (string.IsNullOrEmpty(residentID))
+            {
+                return null;
             }
 
             UserProfile user;
@@ -773,30 +847,62 @@ namespace WebHome.Controllers
                 }
             }
 
+            BoxStorageLog logItem = null;
             if (user != null)
             {
-                BoxStorageLog logItem = new BoxStorageLog
+                if (removal)
                 {
-                    UserProfile = user,
-                    BoxSize = boxSize,
-                    BoxPort = boxPort,
-                    PushDate = DateTime.Now,
-                };
-                models.GetTable<BoxStorageLog>().InsertOnSubmit(logItem);
-                models.SubmitChanges();
+                    logItem = models.GetTable<BoxStorageLog>()
+                                    .Where(b => b.UID == user.UID)
+                                    .Where(b => b.BoxPort == boxPort)
+                                    .Where(b => b.BoxSize == boxSize)
+                                    .FirstOrDefault();
 
-                if (lineUser)
-                {
-                    String url = $"{AppSettings.Default.LineMessageCenter}/MessageCenter/LineEvents/PushQRCode";
-                    url.PushToLineMessageCenter(new UserAccountQueryViewModel
+                    if (logItem != null)
                     {
-                        PID = user.PID,
-                        QRCode = logItem.LogID.EncryptKey(),
-                        Title = title,
-                        Message = message
-                    });
+                        logItem.PopDate = DateTime.Now;
+                        models.SubmitChanges();
+                    }
+
+                    if (lineUser)
+                    {
+                        String url = $"{AppSettings.Default.LineMessageCenter}/MessageCenter/LineEvents/PushMessage";
+                        url.PushToLineMessageCenter(new UserAccountQueryViewModel
+                        {
+                            PID = user.PID,
+                            //QRCode = logItem.LogID.EncryptKey(),
+                            Title = title,
+                            Message = message
+                        });
+                    }
+                }
+                else
+                {
+                    logItem = new BoxStorageLog
+                    {
+                        UserProfile = user,
+                        BoxSize = boxSize,
+                        BoxPort = boxPort,
+                        PushDate = DateTime.Now,
+                    };
+                    models.GetTable<BoxStorageLog>().InsertOnSubmit(logItem);
+                    models.SubmitChanges();
+
+                    if (lineUser)
+                    {
+                        String url = $"{AppSettings.Default.LineMessageCenter}/MessageCenter/LineEvents/PushQRCode";
+                        url.PushToLineMessageCenter(new UserAccountQueryViewModel
+                        {
+                            PID = user.PID,
+                            QRCode = logItem.LogID.EncryptKey(),
+                            Title = title,
+                            Message = message
+                        });
+                    }
                 }
             }
+
+            return logItem;
         }
 
         public ActionResult CommitElevatorStep0(ElevatorBoxViewModel viewModel)

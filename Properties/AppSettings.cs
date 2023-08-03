@@ -182,6 +182,7 @@ namespace WebHome.Properties
         public int? BuildingFloors { get; set; }
         public int? ElevatorCount { get; set; }
         public StorageBoxSettings[] ElevatorBoxArray { get; set; }
+        public bool CheckPublicAlarmSettings { get; set;} = false;
     }
 
     public partial class TaiwanTaxiAuthRequest
@@ -244,6 +245,7 @@ namespace WebHome.Properties
         public bool Enabled { get; set; }
         public int RelayTiming { get; set; } = 3000;
         public String No { get; set; }
+        public List<int> Disabled { get; set; } = new List<int>();
 
     }
 

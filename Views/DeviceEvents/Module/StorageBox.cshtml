@@ -20,12 +20,13 @@
     StorageBoxSettings _model = (StorageBoxSettings)this.Model;
 
     _viewModel = (StorageBoxViewModel)ViewBag.ViewModel;
+    StorageBoxAgent agent = null;
     StorageBoxAgent.BoxPortList box = null;
 }
 
 @if (_model != null && _model.StorageBoxUrl != null && _model.Enabled == true)
 {
-    StorageBoxAgent agent = new StorageBoxAgent(_model);
+    agent = new StorageBoxAgent(_model);
     box = agent.GetBoxPortList();
 }
 
@@ -44,9 +45,24 @@
             }
         </tr>
         <tr>
-            @foreach (var item in box.ports)
+            @for (int idx = 0; idx < box.ports.Length; idx++)
             {
-                if (item.room == null)
+                bool disabled = agent.ViewModel.Disabled.Contains(idx);
+                <td>
+                    <a href="#" onclick="javascript:setBoxStatus(@(_viewModel.BoxDeviceIndex), @(idx), @(disabled ? "false" : "true"));">@(disabled ? "啟用" : "停用")</a>
+                </td>
+            }
+        </tr>
+        <tr>
+            @for (int idx = 0; idx < box.ports.Length; idx++)
+            {
+                var item = box.ports[idx];
+                bool disabled = agent.ViewModel.Disabled.Contains(idx);
+                if (disabled)
+                {
+                    <td>X</td>
+                }
+                else if (item.room == null)
                 {
                     <td><a href="#" onclick="javascript:prepareToStore(@(_viewModel.BoxDeviceIndex), @(item.port));">空</a></td>
                 }

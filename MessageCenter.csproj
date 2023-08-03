@@ -3145,6 +3145,8 @@
     <Content Include="Views\DeviceEvents\Module\ElevatorBoxStep1.cshtml" />
     <Content Include="Views\DeviceEvents\Module\ElevatorBoxStep2.cshtml" />
     <Content Include="Views\InfoCenter\Index.cshtml" />
+    <Content Include="Views\DeviceEvents\Module\PrintStorageItem.cshtml" />
+    <Content Include="Views\LineEvents\Message\PushMessage.cshtml" />
     <None Include="Web References\BA_Service\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

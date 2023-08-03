@@ -205,7 +205,7 @@ namespace WebHome.Controllers
                 }
             }
 
-            return Json(new { result = result }, JsonRequestBehavior.AllowGet);
+            return Json(new { result = result ? 1 : 0 }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CheckAccess(UserAccountQueryViewModel viewModel)
@@ -221,7 +221,14 @@ namespace WebHome.Controllers
             }
 
             var logItem = models.GetTable<BoxStorageLog>().Where(b => b.LogID == viewModel.LogID).FirstOrDefault();
-            if (logItem != null && !logItem.PopDate.HasValue)
+            if(logItem == null)
+            {
+                if (models.GetTable<UserProfile>().Any(p => p.PID == viewModel.ResidentID))
+                {
+                    return Json(new { result = 1 }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else if (!logItem.PopDate.HasValue)
             {
                 return Json(new { result = 1 }, JsonRequestBehavior.AllowGet);
             }
@@ -241,7 +248,31 @@ namespace WebHome.Controllers
             }
 
             var logItem = models.GetTable<BoxStorageLog>().Where(b => b.LogID == viewModel.LogID).FirstOrDefault();
-            if (logItem != null && (!logItem.PopDate.HasValue || logItem.PopDate.Value.AddMinutes(15) >= DateTime.Now))
+            if (logItem == null)
+            {
+                var user = models.GetTable<UserProfile>().Where(p => p.PID == viewModel.ResidentID)
+                    .FirstOrDefault();
+                if (user != null)
+                {
+                    String No_Floor = user.PID.Right(4);
+                    String No = No_Floor.Right(2);
+                    int floor = -1;
+                    if (int.TryParse(No_Floor.Substring(0, 2), out floor))
+                    {
+                        floor--;
+                        var elevator = AppSettings.Default.ElevatorBoxArray.Where(e => e.No.EndsWith(No))
+                                        .Skip(floor / 16)
+                                        .FirstOrDefault();
+                        if (elevator != null)
+                        {
+                            var agent = new StorageBoxAgent(elevator);
+                            agent.TriggerBoxPort(floor % 16);
+                            return Json(new { result = 1 }, JsonRequestBehavior.AllowGet);
+                        }
+                    }
+                }
+            }
+            else if (!logItem.PopDate.HasValue || logItem.PopDate.Value.AddMinutes(15) >= DateTime.Now)
             {
                 logItem.PopDate = DateTime.Now;
                 models.SubmitChanges();

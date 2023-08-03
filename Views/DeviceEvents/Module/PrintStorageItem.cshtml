@@ -1,0 +1,45 @@
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.DataPort
+@using WebHome.Properties
+@using Utility
+@using Newtonsoft.Json
+@functions
+{
+    BoxStorageLog _model;
+    ModelSource<LiveDevice> models;
+    StorageBoxViewModel _viewModel;
+}
+@{
+
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    _model = (BoxStorageLog)this.Model;
+    _viewModel = (StorageBoxViewModel)ViewBag.ViewModel;
+    BoxStorageLog logItem = _model;
+
+    if(_model!=null)
+    {
+        Guid storeID = Guid.NewGuid();
+        String receipt = Path.Combine(Logger.LogDailyPath, $"{storeID}.htm");
+        File.WriteAllText(receipt, BuildRecipt().ToHtmlString());
+        File.WriteAllText(Path.Combine(Path.Combine(Logger.LogPath, "PrintQueue").CheckStoredPath(), $"{storeID}.txt"), receipt);
+    }
+
+}
+
+@helper BuildRecipt()
+{
+    <div>郵箱存放收據</div>
+    <div>時間：<span>@(DateTime.Now)</span></div>
+    <div>戶號：<span>@(_model.UserProfile.PID)</span></div>
+    <div>櫃位：<span>@($"{(StorageBoxSize?)_model.BoxSize}型郵箱第{_model.BoxPort + 1}櫃")</span></div>
+    <div><img src="../../../Receipt.png" style="max-width:120px;" /></div>
+}
+

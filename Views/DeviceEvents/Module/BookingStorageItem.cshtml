@@ -19,19 +19,22 @@
 }
 @{
 
-
     models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
     _model = (StorageBoxAgent.BoxItemPort)this.Model;
     StorageBoxAgent.BoxItemPort boxItem = _model;
     _viewModel = (StorageBoxViewModel)ViewBag.ViewModel;
+    BoxStorageLog logItem = ViewBag.DataItem as BoxStorageLog;
 
-    Guid storeID = Guid.NewGuid();
-    String receipt = Path.Combine(Logger.LogDailyPath, $"{storeID}.htm");
-    File.WriteAllText(receipt, BuildRecipt().ToHtmlString());
-    File.WriteAllText(Path.Combine(Path.Combine(Logger.LogPath, "PrintQueue").CheckStoredPath(), $"{storeID}.txt"), receipt);
+    //if(_viewModel.Print == null || _viewModel.Print=="Y" || _viewModel.Print=="y")
+    //{
+    //    Guid storeID = Guid.NewGuid();
+    //    String receipt = Path.Combine(Logger.LogDailyPath, $"{storeID}.htm");
+    //    File.WriteAllText(receipt, BuildRecipt().ToHtmlString());
+    //    File.WriteAllText(Path.Combine(Path.Combine(Logger.LogPath, "PrintQueue").CheckStoredPath(), $"{storeID}.txt"), receipt);
+    //}
 
     Response.ContentType = "application/json";
-    Response.Write((new { port = boxItem.port.Value, message = $"請將物品放在第{boxItem.port + 1}格郵箱!!" }).JsonStringify());
+    Response.Write((new { port = boxItem.port.Value, message = $"請將物品放在第{boxItem.port + 1}格郵箱!!", logID = logItem?.LogID }).JsonStringify());
     Response.End();
 
 }
@@ -42,6 +45,6 @@
     <div>時間：<span>@(DateTime.Now)</span></div>
     <div>戶號：<span>@(_viewModel.ResidentID)</span></div>
     <div>櫃位：<span>@($"{_viewModel.BoxSize}型郵箱第{_model.port + 1}櫃")</span></div>
-    <div><img src="../Receipt.png" style="max-width:120px;" /></div>
+    <div><img src="../../../Receipt.png" style="max-width:120px;" /></div>
 }
 
