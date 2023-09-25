@@ -70,6 +70,11 @@ namespace WebHome.Helper
             }
         }
 
+        public int? MainDoorStatus
+        {
+            get; set;
+        }
+
         public bool CurrentEarthquake
         {
             get

@@ -1,0 +1,129 @@
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.DataPort
+@using Utility
+@using Newtonsoft.Json
+@using EasyModbus
+
+@functions
+{
+    int DefaultPort = 502;
+
+    class DataItem
+    {
+        public string Name { get; set; }
+        public int Address { get; set; }
+        public int Size { get; set; }
+        public string AccessType { get; set; }
+
+        public DataItem(string name, int address, int size, string accessType)
+        {
+            Name = name;
+            Address = address;
+            Size = size;
+            AccessType = accessType;
+        }
+    }
+
+    DataItem[] dataItems = new DataItem[]
+    {
+        new DataItem("VA", 0x2, 2, "R"),
+        new DataItem("VB", 0x4, 2, "R"),
+        new DataItem("VC", 0x6, 2, "R"),
+        new DataItem("Average Volt.", 0x8, 2, "R"),
+        new DataItem("IA", 0xA, 2, "R"),
+        new DataItem("IB", 0xC, 2, "R"),
+        new DataItem("IC", 0xE, 2, "R"),
+        new DataItem("Average Current", 0x10, 2, "R"),
+        new DataItem("WATTA", 0x12, 2, "R"),
+        new DataItem("WATTB", 0x14, 2, "R"),
+        new DataItem("WATTC", 0x16, 2, "R"),
+        new DataItem("WATT_Total", 0x18, 2, "R"),
+        new DataItem("VARA", 0x1A, 2, "R"),
+        new DataItem("VARB", 0x1C, 2, "R"),
+        new DataItem("VARC", 0x1E, 2, "R"),
+        new DataItem("VAR_Total", 0x20, 2, "R"),
+        new DataItem("VA_A", 0x22, 2, "R"),
+        new DataItem("VA_B", 0x24, 2, "R"),
+        new DataItem("VA_C", 0x26, 2, "R"),
+        new DataItem("VA_Total", 0x28, 2, "R"),
+        new DataItem("PFA", 0x2A, 2, "R"),
+        new DataItem("PFB", 0x2C, 2, "R"),
+        new DataItem("PFC", 0x2E, 2, "R"),
+        new DataItem("PF_AVG", 0x30, 2, "R"),
+        new DataItem("KWHA_POS", 0x32, 2, "R/W"),
+        new DataItem("KWHB_POS", 0x34, 2, "R/W"),
+        new DataItem("KWHC_POS", 0x36, 2, "R/W"),
+        new DataItem("KWH_POS_Total", 0x38, 2, "R/W"),
+        new DataItem("KWHA_NEG", 0x3A, 2, "R/W"),
+        new DataItem("KWHB_NEG", 0x3C, 2, "R/W"),
+        new DataItem("KWHC_NEG", 0x3E, 2, "R/W"),
+        new DataItem("KWH_NEG_Total", 0x40, 2, "R/W"),
+    };
+
+    ModbusClient modbusClient;
+    int numberOfRegisters = 2;
+
+    float ReadValue(int registerAddr)
+    {
+        int[] intRegisters = modbusClient.ReadHoldingRegisters(registerAddr, numberOfRegisters);
+        int data = (intRegisters[0] << 16) + intRegisters[1];
+        return BitConverter.ToSingle(BitConverter.GetBytes(data), 0);
+    }
+}
+@{
+    ModelSource<LiveDevice> models;
+    InfoQueryViewModel _viewModel;
+
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    _viewModel = (InfoQueryViewModel)ViewBag.ViewModel;
+    _viewModel.ResidentID = _viewModel.ResidentID.GetEfficientString();
+
+    var profile = models.GetTable<UserProfile>().Where(u => u.PID == _viewModel.ResidentID).FirstOrDefault();
+}
+
+<div class="border_gray queryResult">
+    @if (profile?.UserProfileExtension?.PowerMeterIP != null)
+    {
+        try
+        {
+            modbusClient = new ModbusClient(profile?.UserProfileExtension?.PowerMeterIP, DefaultPort);
+            modbusClient.Connect();
+
+            <!--表格 開始-->
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="left_title">
+                <tr>
+                    @foreach (var item in dataItems)
+                    {
+                        <th>
+                            @(item.Name)
+                        </th>
+                        <td class="tdleft" colspan="3">
+                            @(ReadValue(item.Address))
+                        </td>
+                    }
+                </tr>
+            </table>
+            <!--表格 結束-->
+            modbusClient.Disconnect();
+        }
+        catch (Exception ex)
+        {
+            <text>@Html.Raw(ex.Message)</text>
+        }
+    }
+    else
+    {
+        <text>未指定電錶IP</text>
+    }
+</div>
+
+
+

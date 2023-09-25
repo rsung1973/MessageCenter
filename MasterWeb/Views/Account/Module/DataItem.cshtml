@@ -23,21 +23,24 @@
     <td>@(_model.PID)</td>
     <td>@(_model.UserName)</td>
     <td>
-        <input type="checkbox" onclick="uiUserAccount.updateAlarmSetting(event);" name="SubscribedAlarm" value="@(_model.UID)" @(_model.SubscribedAlarm.HasValue && (_model.SubscribedAlarm.Value & (int)Naming.AlarmSubscription.公共設施)>0 ? "checked" : null) />
+        <input type="checkbox" onclick="uiUserAccount.updateAlarmSetting(event);" name="SubscribedAlarm" value="@(_model.UID)" @(_model.SubscribedAlarm.HasValue && (_model.SubscribedAlarm.Value & (int)Naming.AlarmSubscription.公共設施) > 0 ? "checked" : null) />
         @*<div class="btn-group dropdown" data-toggle="dropdown">
-            <button class="btn bg-color-blueLight" data-toggle="dropdown" aria-expanded="false">請選擇功能</button>
-            <button class="btn bg-color-blueLight dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a class="btn" onclick="uiUserAccount.deleteItem(@(_model.UID));">刪除</a></li>
-            </ul>
-        </div>*@
+                <button class="btn bg-color-blueLight" data-toggle="dropdown" aria-expanded="false">請選擇功能</button>
+                <button class="btn bg-color-blueLight dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a class="btn" onclick="uiUserAccount.deleteItem(@(_model.UID));">刪除</a></li>
+                </ul>
+            </div>*@
+    </td>
+    <td>
+        <input type="text" onchange="uiUserAccount.updatePMIP(@(_model.UID),this.value);" name="IPAddr" value="@(_model.UserProfileExtension?.PowerMeterIP)" />
     </td>
     <td>
         <div class="btn-group dropdown" data-toggle="dropdown">
             <button class="btn bg-color-blueLight" data-toggle="dropdown" aria-expanded="false">請選擇功能</button>
             <button class="btn bg-color-blueLight dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
             <ul class="dropdown-menu">
-                    <li><a class="btn" onclick="uiUserAccount.listCardID(@(_model.UID))">卡號設定</a></li>
+                <li><a class="btn" onclick="uiUserAccount.listCardID(@(_model.UID))">卡號設定</a></li>
             </ul>
         </div>
     </td>

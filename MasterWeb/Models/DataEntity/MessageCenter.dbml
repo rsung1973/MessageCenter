@@ -127,7 +127,8 @@
       <Column Name="InstanceID" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
       <Column Name="CommunityID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="DefenceStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Community_UserProfileExtension" Member="Community" ThisKey="CommunityID" OtherKey="CommunityID" Type="Community" IsForeignKey="true" />
+		<Column Name="PowerMeterIP" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+		<Association Name="Community_UserProfileExtension" Member="Community" ThisKey="CommunityID" OtherKey="CommunityID" Type="Community" IsForeignKey="true" />
       <Association Name="UserProfile_UserProfileExtension" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>

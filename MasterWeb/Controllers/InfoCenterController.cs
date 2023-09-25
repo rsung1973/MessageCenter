@@ -458,6 +458,23 @@ namespace WebHome.Controllers
             return View("~/Views/InfoCenter/EnergyIndex.cshtml");
         }
 
+        public ActionResult PowerMeterIndex(InfoQueryViewModel viewModel,bool? residentOnly = true)
+        {
+            ViewBag.ViewModel = viewModel;
+            ViewBag.ResidentOnly = residentOnly;
+
+            if (viewModel.CustomQuery == "PowerMeterIndex")
+            {
+                return View("~/Views/InfoCenter/Module/PowerMeterReader.cshtml");
+            }
+            else
+            {
+
+                ViewBag.InquiryView = "~/Views/InfoCenter/Module/PowerMeterQuery.cshtml";
+                return View("~/Views/DeviceEvents/Index.cshtml");
+            }
+        }
+
         public ActionResult ReportEnergyDegree(EnergyQueryViewModel viewModel,int actionType)
         {
             var result = MessageOutbound.Instance.ReportEnergyDegree(viewModel,actionType);
@@ -819,8 +836,12 @@ namespace WebHome.Controllers
 
             }
 
-            DeviceTransactionViewModel result = new DeviceTransactionViewModel { };
-            bool hasResult = false;
+            DeviceTransactionViewModel result = new DeviceTransactionViewModel
+            {
+                MainDoor = (DeviceTransactionViewModel.DoorStatus?)UrgentEventHandler.Instance.MainDoorStatus
+            };
+
+            bool hasResult = true;
 
             var item = models.GetTable<MessageBoard>()
                         .Where(d => d.InstanceID == viewModel.InstanceID)

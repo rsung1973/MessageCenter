@@ -51,6 +51,9 @@
             <li>
                 <a href="@(Url.Action("InitElevatorBox","DeviceEvents"))"><i class="fa fa-hand-o-right" aria-hidden="true"></i>智慧梯控</a>
             </li>
+            <li>
+                <a href="javascript:$('').launchDownload('@Html.Raw(Url.Action("PowerMeterIndex","InfoCenter",new {residentOnly = false}))', $global.viewModel);"><i class="fa fa-hand-o-right" aria-hidden="true"></i>電錶資訊查詢</a>
+            </li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

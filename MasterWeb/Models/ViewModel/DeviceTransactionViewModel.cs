@@ -5,6 +5,8 @@
         public DefenceStatus? Defence { get; set; }
         public DeviceTransactionViewModel.UrgentEventDefinition? EventCode { get; set; }
 
+        public DoorStatus? MainDoor { get; set; }
+
         public enum DefenceStatus
         {
             OffGuard = 0,
@@ -18,5 +20,10 @@
             地震 = 14,
         }
 
+        public enum DoorStatus
+        {
+            Opened = 0,
+            Closed = 1,
+        }
     }
 }

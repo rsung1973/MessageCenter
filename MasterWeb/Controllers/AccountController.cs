@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -84,6 +85,35 @@ namespace WebHome.Controllers
                 item.SubscribedAlarm = null;
             }
             models.SubmitChanges();
+            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CommitPowerMeterIP(UserProfileViewModel viewModel,String ipAddr)
+        {
+            ViewBag.ViewModel = viewModel;
+            var item = models.GetTable<UserProfile>().Where(i => i.UID == viewModel.UID).FirstOrDefault();
+            if (item == null)
+            {
+                return View("~/Views/Shared/MessageView.cshtml", model: "資料錯誤!!");
+            }
+
+            ipAddr = ipAddr.GetEfficientString();
+            if (ipAddr != null)
+            {
+                if (!IPAddress.TryParse(ipAddr, out IPAddress addr))
+                {
+                    return View("~/Views/Shared/MessageView.cshtml", model: "IP錯誤!!");
+                }
+            }
+
+            if (item.UserProfileExtension == null)
+            {
+                item.UserProfileExtension = new UserProfileExtension ();
+            }
+
+            item.UserProfileExtension.PowerMeterIP = ipAddr;
+            models.SubmitChanges();
+
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
 

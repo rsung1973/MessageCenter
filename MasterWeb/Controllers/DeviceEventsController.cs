@@ -987,5 +987,15 @@ namespace WebHome.Controllers
 
         }
 
+        public ActionResult Notify(int? door)
+        {
+            if(door.HasValue)
+            {
+                UrgentEventHandler.Instance.MainDoorStatus = door.Value;
+            }
+
+            return Json(new { UrgentEventHandler.Instance.MainDoorStatus }, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

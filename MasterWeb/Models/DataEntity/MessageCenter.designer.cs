@@ -3191,6 +3191,8 @@ namespace WebHome.Models.DataEntity
 		
 		private System.Nullable<int> _DefenceStatus;
 		
+		private string _PowerMeterIP;
+		
 		private EntityRef<Community> _Community;
 		
 		private EntityRef<UserProfile> _UserProfile;
@@ -3209,6 +3211,8 @@ namespace WebHome.Models.DataEntity
     partial void OnCommunityIDChanged();
     partial void OnDefenceStatusChanging(System.Nullable<int> value);
     partial void OnDefenceStatusChanged();
+    partial void OnPowerMeterIPChanging(string value);
+    partial void OnPowerMeterIPChanged();
     #endregion
 		
 		public UserProfileExtension()
@@ -3325,6 +3329,27 @@ namespace WebHome.Models.DataEntity
 					this._DefenceStatus = value;
 					this.SendPropertyChanged("DefenceStatus");
 					this.OnDefenceStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PowerMeterIP", DbType="NVarChar(16)")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=6)]
+		public string PowerMeterIP
+		{
+			get
+			{
+				return this._PowerMeterIP;
+			}
+			set
+			{
+				if ((this._PowerMeterIP != value))
+				{
+					this.OnPowerMeterIPChanging(value);
+					this.SendPropertyChanging();
+					this._PowerMeterIP = value;
+					this.SendPropertyChanged("PowerMeterIP");
+					this.OnPowerMeterIPChanged();
 				}
 			}
 		}

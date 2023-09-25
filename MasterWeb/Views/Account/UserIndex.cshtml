@@ -106,6 +106,18 @@
 
         };
 
+        uiUserAccount.updatePMIP = function (uid, ipAddr) {
+
+            showLoading();
+            $.post('@(Url.Action("CommitPowerMeterIP", "Account"))', { 'UID': uid, 'IPAddr': ipAddr }, function (data) {
+                hideLoading();
+                if ($.isPlainObject(data)) {
+                } else {
+                    $(data).appendTo($('body'));
+                }
+            });
+        };
+
         uiUserAccount.listCardID = function (value) {
             var event = event || window.event;
             showLoading();
