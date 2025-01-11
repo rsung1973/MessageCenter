@@ -77,6 +77,29 @@ namespace WebHome.Controllers
 
         public ActionResult PushAlarm(UserProfileQueryViewModel viewModel)
         {
+            var profile = models.GetTable<UserProfile>()
+                        .Where(u => u.PID == viewModel.PID)
+                        .FirstOrDefault();
+
+            if (profile != null)
+            {
+                if (viewModel.Sensor.HasValue)
+                {
+                    UserAlarm alarm = profile.UserAlarm;
+                    if (alarm == null)
+                    {
+                        alarm = new UserAlarm
+                        {
+                            AlarmID = 0,
+                        };
+                        profile.UserAlarm = alarm;
+                    }
+
+                    alarm.AlarmID &= (1 << (int)viewModel.Sensor.Value);
+                    models.SubmitChanges();
+                }
+            }
+
             if (Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.All || Settings.Default.CommunicationMode == (int)Naming.CommunicationMode.中保)
             {
                 //var names = viewModel.PID?.Split('-');
@@ -88,25 +111,24 @@ namespace WebHome.Controllers
                 //            .Where(u => u.PID == pid || u.PID == viewModel.PID)
                 //            .FirstOrDefault();
 
-                var userProfile = models.GetTable<UserProfile>()
-                            .Where(u => u.PID == viewModel.PID)
-                            .FirstOrDefault();
-
-                UserRegister register = userProfile?.UserRegister;
-                if (register != null && register.DeviceUri!=null)
+                if (profile != null)
                 {
-                    LiveDevice device = register.LiveDevice.Where(d => d.DeviceID == (int)LiveDevice.SpecificDeviceType.MyTablet).FirstOrDefault();
-                    if (device == null)
+                    UserRegister register = profile.UserRegister;
+                    if (register != null && register.DeviceUri != null)
                     {
-                        device = new LiveDevice
+                        LiveDevice device = register.LiveDevice.Where(d => d.DeviceID == (int)LiveDevice.SpecificDeviceType.MyTablet).FirstOrDefault();
+                        if (device == null)
                         {
-                            DeviceID = (int)LiveDevice.SpecificDeviceType.MyTablet,
-                        };
-                        register.LiveDevice.Add(device);
-                        models.SubmitChanges();
-                    }
+                            device = new LiveDevice
+                            {
+                                DeviceID = (int)LiveDevice.SpecificDeviceType.MyTablet,
+                            };
+                            register.LiveDevice.Add(device);
+                            models.SubmitChanges();
+                        }
 
-                    device.ReportDeviceEvent(models, viewModel.Sensor.AWTEKSensorToSECOM(), "1");
+                        device.ReportDeviceEvent(models, viewModel.Sensor.AWTEKSensorToSECOM(), "1");
+                    }
                 }
 
                 if (AppSettings.Default.PushToLineMessageCenter)
@@ -115,11 +137,13 @@ namespace WebHome.Controllers
                     url.PushToLineMessageCenter(viewModel);
                 }
             }
+            else if (AppSettings.Default.PushToLineMessageCenter)
+            {
+                String url = $"{AppSettings.Default.LineMessageCenter}{Request.RawUrl}";
+                url.PushToLineMessageCenter(viewModel);
+            }
             else
             {
-                var item = models.GetTable<UserProfile>()
-                            .Where(u => u.PID == viewModel.PID)
-                            .FirstOrDefault();
 
                 String alarm = "注意！保全警報發生！請立即檢查設備！！";
                 if (viewModel.Sensor.HasValue && viewModel.Io.HasValue)
@@ -127,12 +151,12 @@ namespace WebHome.Controllers
                     alarm = $"注意！保全第{viewModel.Io + 1}迴路{viewModel.Sensor}警報發生！請立即檢查設備！！";
                 }
 
-                if (item == null)
+                if (profile == null)
                 {
                     return Content("Device not found !");
                 }
 
-                item.PushToLine(alarm, models);
+                profile.PushToLine(alarm, models);
             }
 
             return Content("OK!");

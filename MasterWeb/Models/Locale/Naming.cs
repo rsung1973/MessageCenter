@@ -112,7 +112,15 @@ namespace WebHome.Models.Locale
 
         public enum AlarmSubscription
         {
-            公共設施 = 1,
+            公共設施 = -1,
+            迴路一 = 0,
+            迴路二 = 1,
+            迴路三 = 2,
+            迴路四 = 3,
+            迴路五 = 4,
+            迴路六 = 5,
+            迴路七 = 6,
+            迴路八 = 7,
         }
 
         public enum SensorType

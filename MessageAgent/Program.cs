@@ -6,7 +6,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CommonLib.Helper;
+using MessageAgent.Helper;
 using MessageAgent.Helper.Jobs;
+using MessageAgent.Properties;
 
 namespace MessageAgent
 {
@@ -16,8 +18,18 @@ namespace MessageAgent
         static void Main(string[] args)
         {
             //System.Diagnostics.Debugger.Launch();
-            JobLauncher.StartUp();
+            if(Settings.Default.UseJobLauncher)
+            {
+                JobLauncher.StartUp();
+            }
+
+
+
             Console.WriteLine("程式已啟動...");
+
+            ModbusTcpServer server = new ModbusTcpServer();
+            server.Start(Settings.Default.ModbusServerPort); // 標準Modbus TCP端口
+
             //Application.Run();
             while (true)
             {
@@ -25,7 +37,10 @@ namespace MessageAgent
                 var cmd = Console.ReadLine();
                 if (cmd == "r")
                 {
-                    JobScheduler.LaunchImmediately();
+                    if(Settings.Default.UseJobLauncher)
+                    {
+                        JobScheduler.LaunchImmediately();
+                    }
                 }
                 else if(cmd=="q")
                 {
@@ -33,6 +48,11 @@ namespace MessageAgent
                 }
                 //Thread.Yield();
             }
+
+            //        Console.WriteLine("按任意鍵停止服務器...");
+            //        Console.ReadKey();
+
+            server.Stop();
         }
     }
 }

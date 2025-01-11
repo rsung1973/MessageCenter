@@ -79,6 +79,9 @@ namespace WebHome.Models.DataEntity
     partial void InsertBoxStorageLog(BoxStorageLog instance);
     partial void UpdateBoxStorageLog(BoxStorageLog instance);
     partial void DeleteBoxStorageLog(BoxStorageLog instance);
+    partial void InsertUserAlarm(UserAlarm instance);
+    partial void UpdateUserAlarm(UserAlarm instance);
+    partial void DeleteUserAlarm(UserAlarm instance);
     #endregion
 		
 		public MessageCenterDataContext() : 
@@ -236,6 +239,14 @@ namespace WebHome.Models.DataEntity
 			get
 			{
 				return this.GetTable<BoxStorageLog>();
+			}
+		}
+		
+		public System.Data.Linq.Table<UserAlarm> UserAlarm
+		{
+			get
+			{
+				return this.GetTable<UserAlarm>();
 			}
 		}
 	}
@@ -1931,6 +1942,8 @@ namespace WebHome.Models.DataEntity
 		
 		private EntitySet<BoxStorageLog> _BoxStorageLog;
 		
+		private EntityRef<UserAlarm> _UserAlarm;
+		
 		private EntityRef<UserProfile> _UserProfile1;
 		
 		private EntityRef<UserProfile> _UserProfile3;
@@ -2596,6 +2609,41 @@ namespace WebHome.Models.DataEntity
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserAlarm", Storage="_UserAlarm", ThisKey="UID", OtherKey="UID", IsUnique=true, IsForeignKey=false)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=29, EmitDefaultValue=false)]
+		public UserAlarm UserAlarm
+		{
+			get
+			{
+				if ((this.serializing 
+							&& (this._UserAlarm.HasLoadedOrAssignedValue == false)))
+				{
+					return null;
+				}
+				return this._UserAlarm.Entity;
+			}
+			set
+			{
+				UserAlarm previousValue = this._UserAlarm.Entity;
+				if (((previousValue != value) 
+							|| (this._UserAlarm.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserAlarm.Entity = null;
+						previousValue.UserProfile = null;
+					}
+					this._UserAlarm.Entity = value;
+					if ((value != null))
+					{
+						value.UserProfile = this;
+					}
+					this.SendPropertyChanged("UserAlarm");
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserProfile", Storage="_UserProfile1", ThisKey="Creator", OtherKey="UID", IsForeignKey=true)]
 		public UserProfile UserProfile1
 		{
@@ -2779,6 +2827,7 @@ namespace WebHome.Models.DataEntity
 			this._GasUsageReport = new EntitySet<GasUsageReport>(new Action<GasUsageReport>(this.attach_GasUsageReport), new Action<GasUsageReport>(this.detach_GasUsageReport));
 			this._UserAccessCard = new EntitySet<UserAccessCard>(new Action<UserAccessCard>(this.attach_UserAccessCard), new Action<UserAccessCard>(this.detach_UserAccessCard));
 			this._BoxStorageLog = new EntitySet<BoxStorageLog>(new Action<BoxStorageLog>(this.attach_BoxStorageLog), new Action<BoxStorageLog>(this.detach_BoxStorageLog));
+			this._UserAlarm = default(EntityRef<UserAlarm>);
 			this._UserProfile1 = default(EntityRef<UserProfile>);
 			this._UserProfile3 = default(EntityRef<UserProfile>);
 			OnCreated();
@@ -3193,6 +3242,8 @@ namespace WebHome.Models.DataEntity
 		
 		private string _PowerMeterIP;
 		
+		private System.Nullable<int> _Floor;
+		
 		private EntityRef<Community> _Community;
 		
 		private EntityRef<UserProfile> _UserProfile;
@@ -3213,6 +3264,8 @@ namespace WebHome.Models.DataEntity
     partial void OnDefenceStatusChanged();
     partial void OnPowerMeterIPChanging(string value);
     partial void OnPowerMeterIPChanged();
+    partial void OnFloorChanging(System.Nullable<int> value);
+    partial void OnFloorChanged();
     #endregion
 		
 		public UserProfileExtension()
@@ -3350,6 +3403,27 @@ namespace WebHome.Models.DataEntity
 					this._PowerMeterIP = value;
 					this.SendPropertyChanged("PowerMeterIP");
 					this.OnPowerMeterIPChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Floor", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=7)]
+		public System.Nullable<int> Floor
+		{
+			get
+			{
+				return this._Floor;
+			}
+			set
+			{
+				if ((this._Floor != value))
+				{
+					this.OnFloorChanging(value);
+					this.SendPropertyChanging();
+					this._Floor = value;
+					this.SendPropertyChanged("Floor");
+					this.OnFloorChanged();
 				}
 			}
 		}
@@ -4245,6 +4319,148 @@ namespace WebHome.Models.DataEntity
 					else
 					{
 						this._UID = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("UserProfile");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void Initialize()
+		{
+			this._UserProfile = default(EntityRef<UserProfile>);
+			OnCreated();
+		}
+		
+		[global::System.Runtime.Serialization.OnDeserializingAttribute()]
+		[global::System.ComponentModel.EditorBrowsableAttribute(EditorBrowsableState.Never)]
+		public void OnDeserializing(StreamingContext context)
+		{
+			this.Initialize();
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserAlarm")]
+	[global::System.Runtime.Serialization.DataContractAttribute()]
+	public partial class UserAlarm : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _UID;
+		
+		private System.Nullable<int> _AlarmID;
+		
+		private EntityRef<UserProfile> _UserProfile;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUIDChanging(int value);
+    partial void OnUIDChanged();
+    partial void OnAlarmIDChanging(System.Nullable<int> value);
+    partial void OnAlarmIDChanged();
+    #endregion
+		
+		public UserAlarm()
+		{
+			this.Initialize();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=1)]
+		public int UID
+		{
+			get
+			{
+				return this._UID;
+			}
+			set
+			{
+				if ((this._UID != value))
+				{
+					if (this._UserProfile.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UID = value;
+					this.SendPropertyChanged("UID");
+					this.OnUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AlarmID", DbType="Int")]
+		[global::System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+		public System.Nullable<int> AlarmID
+		{
+			get
+			{
+				return this._AlarmID;
+			}
+			set
+			{
+				if ((this._AlarmID != value))
+				{
+					this.OnAlarmIDChanging(value);
+					this.SendPropertyChanging();
+					this._AlarmID = value;
+					this.SendPropertyChanged("AlarmID");
+					this.OnAlarmIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserProfile_UserAlarm", Storage="_UserProfile", ThisKey="UID", OtherKey="UID", IsForeignKey=true, DeleteOnNull=true, DeleteRule="CASCADE")]
+		public UserProfile UserProfile
+		{
+			get
+			{
+				return this._UserProfile.Entity;
+			}
+			set
+			{
+				UserProfile previousValue = this._UserProfile.Entity;
+				if (((previousValue != value) 
+							|| (this._UserProfile.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._UserProfile.Entity = null;
+						previousValue.UserAlarm = null;
+					}
+					this._UserProfile.Entity = value;
+					if ((value != null))
+					{
+						value.UserAlarm = this;
+						this._UID = value.UID;
+					}
+					else
+					{
+						this._UID = default(int);
 					}
 					this.SendPropertyChanged("UserProfile");
 				}

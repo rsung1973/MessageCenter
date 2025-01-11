@@ -20,5 +20,14 @@
     <Setting Name="AWTEK_MQ_Only" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="UseJobLauncher" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="AlarmReportIntervalInSeconds" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="ModbusServerPort" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">5502</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -12,8 +12,8 @@ namespace WebHome.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.9.0.0")]
+    public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
@@ -56,16 +56,6 @@ namespace WebHome.Properties {
         public int ValidTokenDurationInMinutes {
             get {
                 return ((int)(this["ValidTokenDurationInMinutes"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Server=localhost;Port=4406;Database=dnake;Uid=root;Pwd=;charset=utf8;")]
-        public string dnake {
-            get {
-                return ((string)(this["dnake"]));
             }
         }
         
@@ -326,19 +316,29 @@ namespace WebHome.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("4")]
-        public int CommunicationMode {
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int AlertBeforeMinutes {
             get {
-                return ((int)(this["CommunicationMode"]));
+                return ((int)(this["AlertBeforeMinutes"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
-        public int AlertBeforeMinutes {
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Server=localhost;Port=4406;Database=dnake;Uid=root;Pwd=;charset=utf8;")]
+        public string dnake {
             get {
-                return ((int)(this["AlertBeforeMinutes"]));
+                return ((string)(this["dnake"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int CommunicationMode {
+            get {
+                return ((int)(this["CommunicationMode"]));
             }
         }
     }

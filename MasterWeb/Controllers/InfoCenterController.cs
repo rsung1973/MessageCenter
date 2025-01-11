@@ -91,13 +91,13 @@ namespace WebHome.Controllers
 
             if (item == null)
             {
-                return View("RegisterResidentDevice");
+                return Json(new { result = false, message = "資料錯誤!!" }, JsonRequestBehavior.AllowGet);
             }
 
             item.RealName = viewModel.RealName.GetEfficientString();
             models.SubmitChanges();
 
-            return View("ResidentInfo", item);
+            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -120,6 +120,7 @@ namespace WebHome.Controllers
                 return View("RegisterResidentDevice");
             }
 
+            viewModel.KeyID = viewModel.LineID.EncryptKey();
             return View("ResidentIndex", item);
         }
 
@@ -180,6 +181,29 @@ namespace WebHome.Controllers
             }
 
             var item = models.GetTable<UserProfile>().Where(u => u.UID == viewModel.UID).FirstOrDefault();
+            if (item == null)
+            {
+                return View("RegisterResidentDevice");
+            }
+
+            return View("~/Views/InfoCenter/ResidentInfo2021.cshtml", item);
+
+        }
+
+        public ActionResult TuyaInfo(UserAccountQueryViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+            if (viewModel.KeyID != null)
+            {
+                viewModel.UID = viewModel.DecryptKeyValue();
+            }
+
+            var item = models.GetTable<UserProfile>().Where(u => u.UID == viewModel.UID).FirstOrDefault();
+            if (item == null)
+            {
+                item = models.GetTable<UserProfile>().Where(u => u.PID == viewModel.InstanceID).FirstOrDefault();
+            }
+
             if (item == null)
             {
                 return View("RegisterResidentDevice");
@@ -810,7 +834,7 @@ namespace WebHome.Controllers
         public ActionResult CheckDefence(InfoQueryViewModel viewModel)
         {
             ViewBag.ViewModel = viewModel;
-
+            Console.WriteLine($"{DateTime.Now},{viewModel.JsonStringify()}");
             if (AppSettings.Default.PushToLineMessageCenter)
             {
                 String url = $"{AppSettings.Default.LineMessageCenter}{Request.RawUrl}";
@@ -830,18 +854,30 @@ namespace WebHome.Controllers
                         InstanceID = viewModel.InstanceID,
                     };
                     UrgentEventHandler.Instance.DeviceStatusList.Add(statusItem);
+                    Logger.Debug($"CheckDefence DeviceStatus Item: {viewModel.JsonStringify()}");
                 }
 
                 statusItem.DefenceStatus = viewModel.DefenceStatus;
-
+                models.ExecuteCommand(@"DELETE FROM UserAlarm
+                                        FROM     UserProfile INNER JOIN
+                                                     UserAlarm ON UserProfile.UID = UserAlarm.UID
+                                        WHERE   (UserProfile.PID = {0})", viewModel.InstanceID);
             }
 
+            bool hasResult = false;
             DeviceTransactionViewModel result = new DeviceTransactionViewModel
             {
-                MainDoor = (DeviceTransactionViewModel.DoorStatus?)UrgentEventHandler.Instance.MainDoorStatus
+
             };
 
-            bool hasResult = true;
+            if(AppSettings.Default.LocalMessageCenter)
+            {
+                if (UrgentEventHandler.Instance.MainDoorStatus.HasValue)
+                {
+                    result.MainDoor = (DeviceTransactionViewModel.DoorStatus?)UrgentEventHandler.Instance.MainDoorStatus;
+                    hasResult = true;
+                }
+            }
 
             var item = models.GetTable<MessageBoard>()
                         .Where(d => d.InstanceID == viewModel.InstanceID)
@@ -854,44 +890,57 @@ namespace WebHome.Controllers
                 models.ExecuteCommand("delete MessageBoard where InstanceID = {0} ", item.InstanceID);
             }
 
-            if (UrgentEventHandler.Instance.CurrentFire)
+            if(AppSettings.Default.LocalMessageCenter)
             {
-                result.EventCode = DeviceTransactionViewModel.UrgentEventDefinition.火災;
-                if (AppSettings.Default.CheckPublicAlarmSettings)
+                if (UrgentEventHandler.Instance.CurrentFire)
                 {
-                    hasResult = models.GetTable<UserProfile>()
-                        .Where(u => u.PID == viewModel.InstanceID)
-                        .Where(u => u.SubscribedAlarm == (int)Naming.AlarmSubscription.公共設施)
-                        .Any();
+                    result.EventCode = DeviceTransactionViewModel.UrgentEventDefinition.火災;
+                    if (AppSettings.Default.CheckPublicAlarmSettings)
+                    {
+                        var items = models.GetTable<UserProfile>()
+                            .Where(u => u.PID == viewModel.InstanceID);
+
+                        if(UrgentEventHandler.Instance.AlarmLoop.HasValue)
+                        {
+                            items = items.Where(u => u.SubscribedAlarm == (int)Naming.AlarmSubscription.公共設施
+                                || u.SubscribedAlarm == UrgentEventHandler.Instance.AlarmLoop);
+                        }
+                        else
+                        {
+                            items = items.Where(u => u.SubscribedAlarm.HasValue);
+                        }
+                        hasResult = items.Any();
+                    }
+                    else
+                    {
+                        hasResult = true;
+                    }
                 }
-                else
+                else if (UrgentEventHandler.Instance.CurrentEarthquake)
                 {
+                    result.EventCode = DeviceTransactionViewModel.UrgentEventDefinition.地震;
+                    if (AppSettings.Default.CheckPublicAlarmSettings)
+                    {
+                        hasResult = models.GetTable<UserProfile>()
+                            .Where(u => u.PID == viewModel.InstanceID)
+                            .Where(u => u.SubscribedAlarm.HasValue)
+                            .Any();
+                    }
+                    else
+                    {
+                        hasResult = true;
+                    }
+                }
+                else if (UrgentEventHandler.Instance.Clear)
+                {
+                    result.EventCode = DeviceTransactionViewModel.UrgentEventDefinition.Clear;
                     hasResult = true;
                 }
-            }
-            else if (UrgentEventHandler.Instance.CurrentEarthquake)
-            {
-                result.EventCode = DeviceTransactionViewModel.UrgentEventDefinition.地震;
-                if (AppSettings.Default.CheckPublicAlarmSettings)
-                {
-                    hasResult = models.GetTable<UserProfile>()
-                        .Where(u => u.PID == viewModel.InstanceID)
-                        .Where(u => u.SubscribedAlarm == (int)Naming.AlarmSubscription.公共設施)
-                        .Any();
-                }
-                else
-                {
-                    hasResult = true;
-                }
-            }
-            else if (UrgentEventHandler.Instance.Clear)
-            {
-                result.EventCode = DeviceTransactionViewModel.UrgentEventDefinition.Clear;
-                hasResult = true;
             }
 
             if (hasResult)
             {
+                Logger.Debug($"CheckDefence:{viewModel.JsonStringify()}\r\n{result.JsonStringify()}");
                 return Content(result.JsonStringify(), "application/json");
             }
             else
@@ -913,6 +962,12 @@ namespace WebHome.Controllers
             {
                 return Json(UrgentEventHandler.Instance.DeviceStatusList, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public ActionResult ResetDeviceStatus()
+        {
+            UrgentEventHandler.Instance.DeviceStatusList.Clear();
+            return Json(UrgentEventHandler.Instance.DeviceStatusList, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -1048,6 +1103,13 @@ namespace WebHome.Controllers
             return View("~/Views/InfoCenter/UserGuide/InfoPage.cshtml");
         }
 
+        public ActionResult Bulletin(UserGuideQueryViewModel viewModel)
+        {
+            viewModel.ResourceName = "Bulletin";
+            return UserGuide(viewModel);
+        }
+
+
         public ActionResult UserGuidePage(UserGuideQueryViewModel viewModel)
         {
             ViewBag.ViewModel = viewModel;
@@ -1059,7 +1121,7 @@ namespace WebHome.Controllers
                 return new EmptyResult { };
             }
 
-            String userGuideUrl = $"~/UserGuide/{viewModel.UserGuide}";
+            String userGuideUrl = $"~/{viewModel.ResourceName}/{viewModel.UserGuide}";
             var items = Directory.EnumerateFiles(Server.MapPath(userGuideUrl));
 
             var item = items.Skip(Math.Min(items.Count() - 1, viewModel.CurrentIndex ?? 0))

@@ -26,7 +26,7 @@ namespace WebHome.Controllers
         // GET: Account
         public ActionResult UserIndex()
         {
-            return View();
+            return View("~/Views/Account/UserIndex.cshtml");
         }
 
         public ActionResult Inquire(UserAccountQueryViewModel viewModel)
@@ -76,14 +76,32 @@ namespace WebHome.Controllers
                 return View("~/Views/Shared/MessageView.cshtml", model: "資料錯誤!!");
             }
 
-            if(viewModel.EnableAlarm==true)
+            if(viewModel.EnableAlarm.HasValue)
             {
-                item.SubscribedAlarm = (int)Naming.AlarmSubscription.公共設施;
+                item.SubscribedAlarm = viewModel.EnableAlarm.Value;
             }
             else
             {
                 item.SubscribedAlarm = null;
             }
+            models.SubmitChanges();
+            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CommitFloorSetting(UserProfileViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+            var item = models.GetTable<UserProfile>().Where(i => i.UID == viewModel.UID).FirstOrDefault();
+            if (item == null)
+            {
+                return View("~/Views/Shared/MessageView.cshtml", model: "資料錯誤!!");
+            }
+
+            if(item.UserProfileExtension == null)
+            {
+                item.UserProfileExtension = new UserProfileExtension { };
+            }
+            item.UserProfileExtension.Floor = viewModel.Floor;
             models.SubmitChanges();
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
@@ -284,22 +302,53 @@ namespace WebHome.Controllers
                     .FirstOrDefault();
                 if (user != null)
                 {
-                    String No_Floor = user.PID.Right(4);
-                    String No = No_Floor.Right(2);
+                    StorageBoxSettings elevator = null;
                     int floor = -1;
-                    if (int.TryParse(No_Floor.Substring(0, 2), out floor))
+
+                    if (user.UserProfileExtension.Floor.HasValue)
                     {
-                        floor--;
-                        var elevator = AppSettings.Default.ElevatorBoxArray.Where(e => e.No.EndsWith(No))
-                                        .Skip(floor / 16)
-                                        .FirstOrDefault();
-                        if (elevator != null)
+                        floor = user.UserProfileExtension.Floor.Value;
+                        if (AppSettings.Default.ElevatorCount > 0 && floor >= 0)
                         {
-                            var agent = new StorageBoxAgent(elevator);
-                            agent.TriggerBoxPort(floor % 16);
-                            return Json(new { result = 1 }, JsonRequestBehavior.AllowGet);
+                            var idx = (DateTime.Now.Millisecond % AppSettings.Default.ElevatorCount.Value) * (AppSettings.Default.BuildingFloors + 15) / 16
+                                        + (user.UserProfileExtension.Floor / 16);
+                            if (idx >= 0 && idx < AppSettings.Default.ElevatorBoxArray?.Length)
+                            {
+                                elevator = AppSettings.Default.ElevatorBoxArray[idx.Value];
+                            }
                         }
                     }
+                    else
+                    {
+                        String No_Floor = user.PID.Right(4);
+                        String No = No_Floor.Right(2);
+                        if (int.TryParse(No_Floor.Substring(0, 2), out floor))
+                        {
+                            floor--;
+                            elevator = AppSettings.Default.ElevatorBoxArray.Where(e => e.No.EndsWith(No))
+                                            .Skip(floor / 16)
+                                            .FirstOrDefault();
+
+                        }
+                    }
+
+                    if (elevator != null)
+                    {
+                        var agent = new StorageBoxAgent(elevator);
+                        agent.TriggerBoxPort(floor % 16);
+                        return Json(new { result = 1 }, JsonRequestBehavior.AllowGet);
+                    }
+                    else if(floor == -99)
+                    {
+                        var allPorts = Enumerable.Range(0, 16);
+                        foreach (var elev in AppSettings.Default.ElevatorBoxArray)
+                        {
+                            var agent = new StorageBoxAgent(elev);
+                            agent.TriggerMultiBoxPort(allPorts);
+                        }
+                        return Json(new { result = 1 }, JsonRequestBehavior.AllowGet);
+                    }
+
                 }
             }
             else if (!logItem.PopDate.HasValue || logItem.PopDate.Value.AddMinutes(15) >= DateTime.Now)

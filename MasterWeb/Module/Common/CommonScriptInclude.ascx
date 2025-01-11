@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="System.Web.Mvc.ViewUserControl" %>
-<script type="text/javascript" src="<%=VirtualPathUtility.ToAbsolute("~/Scripts/jquery-1.12.4.min.js") %>"></script>
-<script type="text/javascript" src="<%=VirtualPathUtility.ToAbsolute("~/Scripts/jquery-ui-1.12.1.min.js") %>"></script>
+<script type="text/javascript" src="<%=VirtualPathUtility.ToAbsolute("~/Scripts/jquery-3.7.1.min.js") %>"></script>
+<script type="text/javascript" src="<%=VirtualPathUtility.ToAbsolute("~/Scripts/jquery-ui-1.14.1.min.js") %>"></script>
 <script type="text/javascript" src="<%=VirtualPathUtility.ToAbsolute("~/Scripts/bootstrap.js") %>"></script>
 <script type="text/javascript" src="<%=VirtualPathUtility.ToAbsolute("~/Scripts/jquery.ui.datepicker-zh-TW.js") %>"></script>
 <script type="text/javascript" src="<%=VirtualPathUtility.ToAbsolute("~/Scripts/jquery.form.js") %>"></script>

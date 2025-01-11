@@ -46,6 +46,7 @@
                     室內機平板識別碼:@(_model.UserProfileExtension.InstanceID)<br />
                     住戶社區名稱:@(_model.UserProfileExtension.Community?.CommunityName)<br />
                     住戶名稱:@(_model.PID)<br />
+                    <a class="dropdown-item" href="javascript:reload();"><i class="fa fa-refresh fa-6" aria-hidden="true"></i></a><br />
                     @{
                         var statusItem = UrgentEventHandler.Instance.DeviceStatusList
                             .Where(d => d != null && d.InstanceID == _model.UserProfileExtension.InstanceID).FirstOrDefault();
@@ -71,6 +72,7 @@
                     <a class="dropdown-item" href="javascript:resetRegister();"><img src="~/images/Reset_Account.png" class="security-icon" /></a><br />
                     <a class="dropdown-item" href="javascript:setDefence(1);"><img src="~/images/On_Guard.png" class="security-icon" /></a>
                     <a class="dropdown-item" href="javascript:setDefence(0);"><img src="~/images/Off_Guard.png" class="security-icon" /></a>
+                    @*<a class="dropdown-item" href="javascript:setDefence(2);"><img src="~/images/main_btn_elevator.png" class="security-icon" /></a>*@
                     @*<a class="dropdown-item" href="#">Another action</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="#">Something else here</a>*@
@@ -128,6 +130,7 @@
             if ($.isPlainObject(data)) {
                 if (data.result) {
                     alert('設定完成!!');
+                    reload();
                 } else {
                     alert(data.message);
                 }
@@ -135,6 +138,11 @@
                 $(data).appendTo($('body')).remove();
             }
         });
+    }
+
+    function reload() {
+        showLoading();
+        $('').launchDownload('@Html.Raw(Url.Action("ResidentInfo","InfoCenter"))', { 'keyID': '@(_model.UID.EncryptKey())' });
     }
 
     function resetRegister() {

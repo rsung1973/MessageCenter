@@ -13,6 +13,8 @@ using WebHome.BA_Service;
 using WebHome.Models.DataEntity;
 using WebHome.Models.ViewModel;
 using Utility;
+using MySqlX.XDevAPI.Common;
+using LineMessagingAPISDK.Models;
 
 namespace WebHome.DataPort
 {
@@ -58,18 +60,26 @@ namespace WebHome.DataPort
 
             if (AppSettings.Default.UseCustomBA)
             {
-                using (WebClient client = new WebClient())
+                if (AppSettings.Default.CustomBA_DirectToken != null)
                 {
-                    client.Headers[HttpRequestHeader.ContentType] = "application/json";
-                    var json = client.UploadString(Settings.Default.GetAuthToken , queryValues.ToJsonString());
-                    Logger.Info(Settings.Default.GetAuthToken + queryValues.ToQueryString());
-                    Logger.Info(json);
-                    JObject result = JObject.Parse(json);
-                    if (result.ContainsKey("auth_code"))
+                    _authToken = new KeyValuePair<string, DateTime>(AppSettings.Default.CustomBA_DirectToken, DateTime.MaxValue);
+                }
+                else
+                {
+                    using (WebClient client = new WebClient())
                     {
-                        _authToken = new KeyValuePair<string, DateTime>(result.Value<String>("auth_code"), DateTime.MaxValue);
+                        client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                        var json = client.UploadString(Settings.Default.GetAuthToken, queryValues.ToJsonString());
+                        Logger.Info(Settings.Default.GetAuthToken + queryValues.ToQueryString());
+                        Logger.Info(json);
+                        JObject result = JObject.Parse(json);
+                        if (result.ContainsKey("auth_code"))
+                        {
+                            _authToken = new KeyValuePair<string, DateTime>(result.Value<String>("auth_code"), DateTime.MaxValue);
+                        }
                     }
                 }
+
 
             }
             else
@@ -303,16 +313,31 @@ namespace WebHome.DataPort
             if (_authToken.HasValue)
             {
                 if(AppSettings.Default.UseCustomBA)
-                {
-                    String jsonRequest = (new
+                { 
+                    String jsonRequest;
+                    if (AppSettings.Default.CustomBA_DirectToken != null)
                     {
-                        prm_auth_code = _authToken.Value.Key,
-                        l1_device_type = Settings.Default.PRMType,
-                        device_uri = deviceUri,
-                        device_status = status,
-                        device_status_value = "",
-                        status_date = DateTime.Now,
-                    }).JsonStringify();
+                        jsonRequest = (new
+                        {
+                            TokenID = AppSettings.Default.CustomBA_DirectToken,
+                            DeviceType = Settings.Default.PRMType,
+                            DeviceUri = deviceUri,
+                            DeviceStatus = status,
+                            DeviceTime = DateTime.Now,
+                        }).JsonStringify();
+                    }
+                    else
+                    {
+                        jsonRequest = (new
+                        {
+                            prm_auth_code = _authToken.Value.Key,
+                            l1_device_type = Settings.Default.PRMType,
+                            device_uri = deviceUri,
+                            device_status = status,
+                            device_status_value = "",
+                            status_date = DateTime.Now,
+                        }).JsonStringify();
+                    }
 
                     using (WebClient client = new WebClient())
                     {
@@ -344,7 +369,7 @@ namespace WebHome.DataPort
 
         }
 
-        public JArray ReportDeviceEvent(String deviceUri, String status,String eventType)
+        public JArray ReportDeviceEvent(String deviceUri, String status, String eventType, int loop = -1, String pid = null)
         {
             CheckAuthToken();
 
@@ -352,22 +377,47 @@ namespace WebHome.DataPort
             {
                 if (AppSettings.Default.UseCustomBA)
                 {
-                    String jsonRequest = (new
+                    String jsonRequest;
+                    if (AppSettings.Default.CustomBA_DirectToken != null)
                     {
-                        prm_auth_code = _authToken.Value.Key,
-                        l1_device_type = Settings.Default.PRMType,
-                        device_uri = deviceUri,
-                        need_release = true,
-                        event_type = eventType,
-                        event_sub_type = "0",
-                        event_level = 0,
-                        event_timeout = 0,
-                        device_status = status,
-                        card_no = "",
-                        event_detail = "",
-                        isLog = false,
-                        device_time = DateTime.Now,
-                    }).JsonStringify();
+                        jsonRequest = (new
+                        {
+                            TokenID = AppSettings.Default.CustomBA_DirectToken,
+                            DeviceType = Settings.Default.PRMType,
+                            DeviceUri = deviceUri,
+                            SensorID = loop,
+                            UserID = pid,
+                            NeedRelease = true,
+                            EventType = eventType,
+                            EventSubtype = "0",
+                            EventLevel = 0,
+                            EventTimeout = 0,
+                            DeviceStatus = status,
+                            CardNo = "",
+                            EventDetail = "",
+                            isLog = false,
+                            DeviceTime = DateTime.Now,
+                        }).JsonStringify();
+                    }
+                    else
+                    {
+                        jsonRequest = (new
+                        {
+                            prm_auth_code = _authToken.Value.Key,
+                            l1_device_type = Settings.Default.PRMType,
+                            device_uri = deviceUri,
+                            need_release = true,
+                            event_type = eventType,
+                            event_sub_type = "0",
+                            event_level = 0,
+                            event_timeout = 0,
+                            device_status = status,
+                            card_no = "",
+                            event_detail = "",
+                            isLog = false,
+                            device_time = DateTime.Now,
+                        }).JsonStringify();
+                    }
 
                     using (WebClient client = new WebClient())
                     {

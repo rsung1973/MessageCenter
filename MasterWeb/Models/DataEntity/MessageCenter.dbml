@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="MessageCenter" Class="MessageCenterDataContext" Serialization="Unidirectional" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=VM-Titan\sqlexpress,1433;Initial Catalog=MessageCenter;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="MessageCenterConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=VM-Titan\sqlexpress,1433;Initial Catalog=MessageCenter;Integrated Security=True;Encrypt=False;Trust Server Certificate=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="MessageCenterConnectionString" Provider="Microsoft.Data.SqlClient" />
   <Table Name="dbo.DeviceCommand" Member="DeviceCommand">
     <Type Name="DeviceCommand">
       <Column Name="LogID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -99,6 +99,7 @@
       <Association Name="UserProfile_GasUsageReport" Member="GasUsageReport" ThisKey="UID" OtherKey="UID" Type="GasUsageReport" />
       <Association Name="UserProfile_UserAccessCard" Member="UserAccessCard" ThisKey="UID" OtherKey="UID" Type="UserAccessCard" />
       <Association Name="UserProfile_BoxStorageLog" Member="BoxStorageLog" ThisKey="UID" OtherKey="UID" Type="BoxStorageLog" />
+      <Association Name="UserProfile_UserAlarm" Member="UserAlarm" ThisKey="UID" OtherKey="UID" Type="UserAlarm" Cardinality="One" />
       <Association Name="UserProfile_UserProfile" Member="UserProfile1" ThisKey="Creator" OtherKey="UID" Type="UserProfile" IsForeignKey="true" />
       <Association Name="UserProfile_UserProfile1" Member="UserProfile3" ThisKey="AuthID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" />
     </Type>
@@ -127,8 +128,9 @@
       <Column Name="InstanceID" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
       <Column Name="CommunityID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="DefenceStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
-		<Column Name="PowerMeterIP" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
-		<Association Name="Community_UserProfileExtension" Member="Community" ThisKey="CommunityID" OtherKey="CommunityID" Type="Community" IsForeignKey="true" />
+      <Column Name="PowerMeterIP" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="Floor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Community_UserProfileExtension" Member="Community" ThisKey="CommunityID" OtherKey="CommunityID" Type="Community" IsForeignKey="true" />
       <Association Name="UserProfile_UserProfileExtension" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
@@ -171,6 +173,13 @@
       <Column Name="PushDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="PopDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="UserProfile_BoxStorageLog" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserAlarm" Member="UserAlarm">
+    <Type Name="UserAlarm">
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AlarmID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="UserProfile_UserAlarm" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
 </Database>

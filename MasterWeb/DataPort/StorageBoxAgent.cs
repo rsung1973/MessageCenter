@@ -309,6 +309,20 @@ namespace WebHome.DataPort
             TriggerBox(values);
         }
 
+        public void TriggerMultiBoxPort(IEnumerable<int> ports, int timing = 3000)
+        {
+            BoxPortRelay values = new BoxPortRelay
+            {
+                relays = ports.Select(port => new PortRelay
+                {
+                    id = port,
+                    timing = timing,
+                }).ToArray()
+            };
+
+            TriggerBox(values);
+        }
+
         private void TriggerBox(BoxPortRelay values)
         {
             try

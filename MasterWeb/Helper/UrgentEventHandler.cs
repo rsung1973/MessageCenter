@@ -18,7 +18,7 @@ namespace WebHome.Helper
             _instance = new UrgentEventHandler();
         }
 
-        private dynamic _message;
+        private JToken _message;
 
         private UrgentEventHandler()
         {
@@ -66,7 +66,15 @@ namespace WebHome.Helper
         {
             get
             {
-                return _message != null && _message.messageType == "R" && _message.Action == "F";
+                return _message != null && _message.Value<String>("messageType") == "R" && _message.Value<String>("Action") == "F";
+            }
+        }
+
+        public int? AlarmLoop
+        {
+            get
+            {
+                return _message?.Value<int>("Loop");
             }
         }
 
@@ -79,7 +87,7 @@ namespace WebHome.Helper
         {
             get
             {
-                return _message != null && _message.messageType == "R" && _message.Action == "EE";
+                return _message != null && _message.Value<String>("messageType") == "R" && _message.Value<String>("Action") == "EE";
             }
         }
 
@@ -87,7 +95,7 @@ namespace WebHome.Helper
         {
             get
             {
-                return _message != null && _message.messageType == "R" && _message.Action == "Clear";
+                return _message != null && _message.Value<String>("messageType") == "R" && _message.Value<String>("Action") == "Clear";
             }
         }
 

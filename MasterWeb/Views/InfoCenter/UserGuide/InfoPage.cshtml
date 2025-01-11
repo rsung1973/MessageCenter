@@ -19,8 +19,8 @@
 
     models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
     _viewModel = (UserGuideQueryViewModel)ViewBag.ViewModel;
-
-    String userGuidePath = Server.MapPath("~/UserGuide");
+    String resource = _viewModel.ResourceName ?? "UserGuide";
+    String userGuidePath = Server.MapPath($"~/{resource}");
     //Response.Redirect("~/UserGuide");
 }
 <!DOCTYPE html>
@@ -32,6 +32,7 @@
 <body>
     <form id="theForm" action="@Html.Raw(Url.Action("UserGuide","InfoCenter"))" method="post">
         <input type="hidden" name="UserGuide" id="UserGuide" />
+        <input type="hidden" name="ResourceName" value="@(resource)" />
     </form>
     <script>
         function submitTo(userGuide) {
@@ -43,7 +44,7 @@
     <table border="0" cellspacing="0" cellpadding="0" width="100%" class="queryAction">
         <tbody>
             <tr>
-                <td style="width:80px;">手冊名稱</td>
+                <td style="width:80px;">@Html.Raw(resource == "UserGuide" ? "手冊名稱" : "社區公告") </td>
                 <td class="Bargain_btn">
                     @foreach (var item in Directory.GetDirectories(userGuidePath))
                     {
@@ -56,10 +57,10 @@
     </table>
     @if (_viewModel.UserGuide != null)
     {
-        var items = Directory.EnumerateFiles(Server.MapPath($"~/UserGuide/{_viewModel.UserGuide}"));
+        var items = Directory.EnumerateFiles(Server.MapPath($"~/{resource}/{_viewModel.UserGuide}"));
         int totalCount = items.Count();
         <div>
-            <iframe id="contentPage" src='@Html.Raw(Url.Action("UserGuidePage", "InfoCenter", new { _viewModel.UserGuide, _viewModel.CurrentIndex }))' style="width:100%; height:520px; "></iframe>
+            <iframe id="contentPage" src='@Html.Raw(Url.Action("UserGuidePage", "InfoCenter", new { _viewModel.UserGuide,ResourceName = resource, _viewModel.CurrentIndex }))' style="width:100%; height:520px; "></iframe>
         </div>
         if (totalCount > 1)
         {
@@ -72,20 +73,20 @@
                 </div>
                 <script>
 
-            var currentIndex = @(_viewModel.CurrentIndex ?? 0);
-            var totalCount = @(totalCount);
+                    var currentIndex = @(_viewModel.CurrentIndex ?? 0);
+                    var totalCount = @(totalCount);
 
-            function turnPage(move) {
-                currentIndex += move;
-                if (currentIndex < 0) {
-                    currentIndex = 0;
-                } else if (currentIndex >= totalCount) {
-                    currentIndex = totalCount - 1;
-                }
-                document.getElementById('currentIndex').innerText = currentIndex + 1;
-                var frame = document.getElementById('contentPage');
-                frame.src = '@Html.Raw(Url.Action("UserGuidePage", "InfoCenter", new { _viewModel.UserGuide }))' + '&CurrentIndex=' + currentIndex;
-            }
+                    function turnPage(move) {
+                        currentIndex += move;
+                        if (currentIndex < 0) {
+                            currentIndex = 0;
+                        } else if (currentIndex >= totalCount) {
+                            currentIndex = totalCount - 1;
+                        }
+                        document.getElementById('currentIndex').innerText = currentIndex + 1;
+                        var frame = document.getElementById('contentPage');
+                        frame.src = '@Html.Raw(Url.Action("UserGuidePage", "InfoCenter", new { _viewModel.UserGuide,ResourceName = resource }))' + '&CurrentIndex=' + currentIndex;
+                    }
                 </script>
             </div>
         }

@@ -26,7 +26,7 @@ namespace WebHome.Helper
         private static int __BusyCount;
         private static int __AliveBusyCount;
 
-        public static void SynchronizeUserDevices()
+        public static int SynchronizeUserDevices()
         {
             if (Interlocked.Increment(ref __BusyCount) == 1)
             {
@@ -103,7 +103,74 @@ namespace WebHome.Helper
                     Interlocked.Exchange(ref __BusyCount, 0);
                 }
             }
-            
+            return __BusyCount;
+        }
+
+        public static void SynchronizeLocalUserDevices()
+        {
+            lock(typeof(BusinessExtensionMethods))
+            {
+                try
+                {
+                    using (dnakeDB db = new dnakeDB("dnake"))
+                    {
+                        using (ModelSource<LiveDevice> mgr = new ModelSource<LiveDevice>())
+                        {
+                            var deviceTable = mgr.GetTable<LiveDevice>();
+                            var users = db.users.GroupBy(u => u.user_Column)
+                                .Select(g => g.First()).ToArray();
+
+                            foreach (var item in users)
+                            {
+                                var profile = mgr.GetTable<UserProfile>().Where(u => u.PID == item.user_Column).FirstOrDefault();
+                                if (profile == null)
+                                {
+                                    profile = new UserProfile
+                                    {
+                                        PID = item.user_Column,
+                                        UserName = item.name
+                                    };
+                                    mgr.GetTable<UserProfile>().InsertOnSubmit(profile);
+                                    mgr.SubmitChanges();
+                                }
+
+                                UserRegister userReg = profile.UserRegister;
+                                if (userReg == null)
+                                {
+                                    userReg = new UserRegister
+                                    {
+                                        UserProfile = profile
+                                    };
+                                    mgr.SubmitChanges();
+                                }
+
+                                var items = db.GetTable<alarm_zone>().Where(a => a.user == item.user_Column).ToArray();
+                                foreach (var deviceItem in items)
+                                {
+                                    var dbItem = deviceTable.Where(d => d.DeviceID == deviceItem.id).FirstOrDefault();
+                                    if (dbItem == null)
+                                    {
+                                        dbItem = new LiveDevice
+                                        {
+                                            DeviceID = deviceItem.id
+                                        };
+                                        deviceTable.InsertOnSubmit(dbItem);
+                                    }
+                                    if (!dbItem.UID.HasValue)
+                                    {
+                                        dbItem.UserRegister = userReg;
+                                        mgr.SubmitChanges();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                }
+            }
         }
 
         public static void Insert_BA_Device(this ModelSource<LiveDevice> models, int? buildingID,int? floorID, UserProfile profile, UserRegister userReg,String suffix = null)
@@ -327,14 +394,14 @@ namespace WebHome.Helper
             var device = deviceTable.Where(d => d.DeviceID == deviceToCheck.id).FirstOrDefault();
             if (device != null)
             {
-                device.ReportDeviceEvent(mgr, status, eventType);
+                device.ReportDeviceEvent(mgr, status, eventType, deviceToCheck.zone);
             }
             return device;
         }
 
-        public static void ReportDeviceEvent(this LiveDevice device, ModelSource<LiveDevice> models, Naming.DeviceLevelDefinition status, string eventType)
+        public static void ReportDeviceEvent(this LiveDevice device, ModelSource<LiveDevice> models, Naming.DeviceLevelDefinition status, string eventType,int zone = -1)
         {
-            dynamic result = MessageOutbound.Instance.ReportDeviceEvent(device.UserRegister.DeviceUri, Naming.DeviceStatusCode[(int)status], eventType);
+            dynamic result = MessageOutbound.Instance.ReportDeviceEvent(device.UserRegister.DeviceUri, Naming.DeviceStatusCode[(int)status], eventType, zone, device.UserRegister.UserProfile.PID);
             if (result != null && (String)result[0].result == "OK")
             {
                 var logDate = DateTime.Now;
@@ -537,8 +604,10 @@ namespace WebHome.Helper
         {
             if (loopNo < 0 || loopNo >= Settings.Default.PublicAlarm.Length)
                 return;
-            var items = models.GetTable<UserProfile>().Where(u => (u.SubscribedAlarm & (int)Naming.AlarmSubscription.公共設施) == 1);
-            if (items.Count() < 1)
+            var items = models.GetTable<UserProfile>()
+                                .Where(u => u.SubscribedAlarm == (int)Naming.AlarmSubscription.公共設施
+                                        || u.SubscribedAlarm == loopNo);
+            if (!items.Any())
                 return;
 
             String message = $"{Settings.Default.PublicAlarm[loopNo]}訊息已發生，請注意！！";

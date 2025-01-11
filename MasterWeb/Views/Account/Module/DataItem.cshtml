@@ -8,6 +8,7 @@
 @using WebHome.Models.DataEntity
 @using WebHome.Models.Locale
 @using WebHome.Models.ViewModel
+@using WebHome.Properties
 @using Utility
 @using Newtonsoft.Json
 @{
@@ -23,7 +24,18 @@
     <td>@(_model.PID)</td>
     <td>@(_model.UserName)</td>
     <td>
-        <input type="checkbox" onclick="uiUserAccount.updateAlarmSetting(event);" name="SubscribedAlarm" value="@(_model.UID)" @(_model.SubscribedAlarm.HasValue && (_model.SubscribedAlarm.Value & (int)Naming.AlarmSubscription.公共設施) > 0 ? "checked" : null) />
+        <select onchange="uiUserAccount.updateAlarmSetting(this,@(_model.UID));">
+            <option value="" @(!_model.SubscribedAlarm.HasValue ? "selected" : null)>不接收</option>
+            <option value="-1" @(_model.SubscribedAlarm == (int)Naming.AlarmSubscription.公共設施 ? "selected" : null)>全部</option>
+            <option value="0" @(_model.SubscribedAlarm == (int)Naming.AlarmSubscription.迴路一 ? "selected" : null)>迴路1</option>
+            <option value="1" @(_model.SubscribedAlarm == (int)Naming.AlarmSubscription.迴路二 ? "selected" : null)>迴路2</option>
+            <option value="2" @(_model.SubscribedAlarm == (int)Naming.AlarmSubscription.迴路三 ? "selected" : null)>迴路3</option>
+            <option value="3" @(_model.SubscribedAlarm == (int)Naming.AlarmSubscription.迴路四 ? "selected" : null)>迴路4</option>
+            <option value="4" @(_model.SubscribedAlarm == (int)Naming.AlarmSubscription.迴路五 ? "selected" : null)>迴路5</option>
+            <option value="5" @(_model.SubscribedAlarm == (int)Naming.AlarmSubscription.迴路六 ? "selected" : null)>迴路6</option>
+            <option value="6" @(_model.SubscribedAlarm == (int)Naming.AlarmSubscription.迴路七 ? "selected" : null)>迴路7</option>
+            <option value="7" @(_model.SubscribedAlarm == (int)Naming.AlarmSubscription.迴路八 ? "selected" : null)>迴路8</option>
+        </select>
         @*<div class="btn-group dropdown" data-toggle="dropdown">
                 <button class="btn bg-color-blueLight" data-toggle="dropdown" aria-expanded="false">請選擇功能</button>
                 <button class="btn bg-color-blueLight dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
@@ -34,6 +46,16 @@
     </td>
     <td>
         <input type="text" onchange="uiUserAccount.updatePMIP(@(_model.UID),this.value);" name="IPAddr" value="@(_model.UserProfileExtension?.PowerMeterIP)" />
+    </td>
+    <td>
+        <select onchange="uiUserAccount.updateFloor(this,@(_model.UID));">
+            <option value="" @(_model.UserProfileExtension?.Floor.HasValue == false ? "selected" : null)>請選擇...</option>
+            @for (int i = 0; i < AppSettings.Default.BuildingFloors; i++)
+            {
+                <option value="@(i)" selected="@(_model.UserProfileExtension?.Floor == i)">@(i+1)樓</option>
+            }
+            <option value="-99" selected="@(_model.UserProfileExtension?.Floor == -99)">通往各樓層</option>
+        </select>
     </td>
     <td>
         <div class="btn-group dropdown" data-toggle="dropdown">

@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "UserIndex";
-    Layout = "~/Views/Shared/MvcMainPage.cshtml";
+    Layout = ViewBag.Layout ?? "~/Views/Shared/MvcMainPage.cshtml";
 }
 
 <div class="border_gray">
@@ -91,12 +91,27 @@
             });
         };
 
-        uiUserAccount.updateAlarmSetting = function (event) {
+        uiUserAccount.updateAlarmSetting = function (element, uid) {
             var event = event || window.event;
             var $target = $(event.target);
 
             showLoading();
-            $.post('@(Url.Action("CommitAlarmSetting", "Account"))', { 'UID': $target.val(), 'EnableAlarm': $target.is(':checked') }, function (data) {
+            $.post('@(Url.Action("CommitAlarmSetting", "Account"))', { 'UID': uid, 'EnableAlarm': $target.val() }, function (data) {
+                hideLoading();
+                if ($.isPlainObject(data)) {
+                } else {
+                    $(data).appendTo($('body'));
+                }
+            });
+
+        };
+
+        uiUserAccount.updateFloor = function (element, uid) {
+            var event = event || window.event;
+            var $target = $(event.target);
+
+            showLoading();
+            $.post('@(Url.Action("CommitFloorSetting", "Account"))', { 'UID': uid, 'Floor': $target.val() }, function (data) {
                 hideLoading();
                 if ($.isPlainObject(data)) {
                 } else {

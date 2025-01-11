@@ -87,8 +87,7 @@ namespace WebHome.Controllers
 
         public ActionResult SynchronizeDevices()
         {
-            BusinessExtensionMethods.SynchronizeUserDevices();
-            return View("~/Views/Shared/MessageView.cshtml", model: "登錄設備已啟動!!");
+            return View("~/Views/Shared/MessageView.cshtml", model: $"登錄設備已啟動({BusinessExtensionMethods.SynchronizeUserDevices()})!!");
         }
 
         public ActionResult CheckDeviceAlive()

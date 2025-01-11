@@ -140,6 +140,7 @@ namespace WebHome.Models.ViewModel
     public class UserGuideQueryViewModel : QueryViewModel
     {
         public String UserGuide { get; set; }
+        public String ResourceName { get; set; } = "UserGuide";
     }
 
     public class EnergyQueryViewModel : InfoQueryViewModel
@@ -206,7 +207,8 @@ namespace WebHome.Models.ViewModel
     public class UserProfileViewModel
     {
         public int? UID { get; set; }
-        public bool? EnableAlarm { get; set; }
+        public int? EnableAlarm { get; set; }
+        public int? Floor { get; set; }
     }
 
 }

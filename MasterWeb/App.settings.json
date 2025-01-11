@@ -4,8 +4,10 @@
     "FloorID": 1,
     "LineMessageCenter": "https://s1.awtek-security.com.tw",
     "PushToLineMessageCenter": false,
+    "LocalMessageCenter": true,
     "RegisterResidentToSECOM": true,
     "UseCustomBA": false,
+    "CustomBA_DirectToken": null,
     "SetAccessCardUrl": "http://211.23.144.237:8824/api/datavalue/SetAWTEKCard",
     "DefaultAccessCardMachineKey": "00001-1011111",
     "DefaultAccessCardCustomerID": "guest01",
@@ -143,6 +145,6 @@
         "Disabled": []
       }
     ],
-    "CheckPublicAlarmSettings": false
+    "CheckPublicAlarmSettings": true
   }
 }

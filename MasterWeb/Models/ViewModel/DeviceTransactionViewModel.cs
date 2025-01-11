@@ -11,6 +11,7 @@
         {
             OffGuard = 0,
             OnGuard = 1,
+            CallElevator = 2,
         }
 
         public enum UrgentEventDefinition

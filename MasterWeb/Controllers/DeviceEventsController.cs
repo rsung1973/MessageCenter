@@ -538,7 +538,7 @@ namespace WebHome.Controllers
 
         }
 
-        public ActionResult CommitAccessQRCode(InfoQueryViewModel viewModel)
+        public ActionResult CommitAccessQRCode(UserAccountQueryViewModel viewModel)
         {
             ViewBag.ViewModel = viewModel;
 
@@ -573,8 +573,10 @@ namespace WebHome.Controllers
             {
                 int boxSize = Array.IndexOf<StorageBoxSettings>(AppSettings.Default.ElevatorBoxArray, item);
                 int boxPort = viewModel.Floor.Value % 16;
-                String message = $"{DateTime.Now:yyyy/MM/dd HH:mm}，歡迎搭乘{viewModel.ElevatorNo}號電梯至第{viewModel.Floor + 1}樓。";
-                PushBoxStorageMessageToLine(viewModel.ResidentID, boxSize, boxPort, "訪客通行證", message);
+                viewModel.Title = "訪客通行證";
+                viewModel.Message = $"{DateTime.Now:yyyy/MM/dd HH:mm}，歡迎搭乘{viewModel.ElevatorNo}號電梯至第{viewModel.Floor + 1}樓。";
+                var logItem = PushBoxStorageMessageToLine(viewModel.ResidentID, boxSize, boxPort, viewModel.Title, viewModel.Message);
+                return View("~/Views/DeviceEvents/Module/AccessQRCode.cshtml", logItem);
             }
 
             return Json(new { result = true }, JsonRequestBehavior.AllowGet);
@@ -995,6 +997,12 @@ namespace WebHome.Controllers
             }
 
             return Json(new { UrgentEventHandler.Instance.MainDoorStatus }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult SynchronizeLocal()
+        {
+            BusinessExtensionMethods.SynchronizeLocalUserDevices();
+            return Content("OK");
         }
 
     }

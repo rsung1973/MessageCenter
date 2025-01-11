@@ -28,11 +28,6 @@
     }
 }
 
-<!--交易畫面標題-->
-@{
-    Html.RenderPartial("~/Views/SiteAction/FunctionTitleBar.cshtml", "設定門禁卡");
-}
-
 <div class="border_gray queryAction">
     <!--表格 開始-->
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="left_title">
@@ -43,6 +38,18 @@
             <td class="tdleft">
                 <input type="text" name="ResidentID" value="@(_viewModel.ResidentID.GetEfficientString())" />
             </td>
+        </tr>
+    </table>
+    <!--表格 結束-->
+</div>
+<!--交易畫面標題-->
+@{
+    Html.RenderPartial("~/Views/SiteAction/FunctionTitleBar.cshtml", "設定門禁卡");
+}
+<div class="border_gray queryAction">
+    <!--表格 開始-->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="left_title">
+        <tr>
             <th>
                 客戶代碼
             </th>
@@ -81,15 +88,7 @@
     <table width="100%" border="0" cellpadding="0" cellspacing="0" class="left_title">
         <tr>
             <th>
-                住戶識別碼(resident ID)
-            </th>
-            <td class="tdleft" colspan="3">
-                <input type="text" name="ResidentID" value="@(_viewModel.ResidentID.GetEfficientString())" />
-            </td>
-        </tr>
-        <tr>
-            <th>
-                門牌號碼
+                電梯門號
             </th>
             <td class="tdleft">
                 <select name="ElevatorNo">
@@ -159,7 +158,7 @@
             if ($.isPlainObject(data)) {
                 alert(JSON.stringify(data));
             } else {
-                $(data).appendTo($('body')).remove();
+                $(data).appendTo($('body'));
             }
         });
     }

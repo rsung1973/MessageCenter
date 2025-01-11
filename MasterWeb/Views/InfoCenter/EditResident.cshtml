@@ -46,13 +46,40 @@
                                 </a>
                                 <hr>
                             </form>
-                            <hr/>
-                            @*<div class="text-center">
-                                    <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                </div>
-                                <div class="text-center">
-                                    <a class="small" href="register.html">Create an Account!</a>
-                                </div>*@
+                            @*<hr />*@
+                            @{
+                                string userAgent = Request.UserAgent;
+
+                                if (userAgent != null)
+                                {
+                                    if (userAgent.ToLower().Contains("android"))
+                                    {
+                                        <a class="btn btn-primary btn-user btn-block" href="javascript:openApp();">開啟SIP雲端對講</a>
+                                        <script>
+                                            function openApp() {
+                                                window.location.href = "myapp://messagehub.awtek-security.com/open";
+
+                                                // 設置一個計時器,如果一定時間內APP沒有打開,則跳轉到應用商店
+                                                setTimeout(function () {
+                                                    window.location.href = "https://s1.awtek-security.com.tw/MessageCenter/Pub/messageHub.apk";
+                                                }, 2000);
+                                            }
+                                        </script>
+                                    }
+                                    else if (userAgent.ToLower().Contains("iphone") || userAgent.ToLower().Contains("ipad"))
+                                    {
+                                        ViewBag.DeviceType = "iOS";
+                                    }
+                                    else
+                                    {
+                                        ViewBag.DeviceType = "Other";
+                                    }
+                                }
+                                else
+                                {
+                                    ViewBag.DeviceType = "Unknown";
+                                }
+                            }
                         </div>
                     </div>
                 </div>
@@ -65,8 +92,12 @@
 <script>
     function commitResident() {
         var formData = $('input,select,textarea').serializeObject();
+        formData.KeyID = '@Html.Raw(_viewModel.KeyID)';
         clearErrors();
-        showLoading();
-        $('').launchDownload('@Html.Raw(Url.Action("CommitResidentInfo", "InfoCenter",new { _viewModel.KeyID }))', formData);
+        doPost('@Url.Action("CommitResidentInfo", "InfoCenter")', formData, function (data) {
+            if (data.result) {
+                alertModal('資料修改完成!!');
+            }
+        });
     }
 </script>

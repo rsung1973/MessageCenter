@@ -133,6 +133,8 @@ namespace WebHome.Properties
             set;
         }
 
+        public bool LocalMessageCenter { get; set; } = true;
+
         public bool RegisterResidentToSECOM
         {
             get;
@@ -144,6 +146,8 @@ namespace WebHome.Properties
             get;
             set;
         }
+
+        public String CustomBA_DirectToken { get; set; }
 
         public String SetAccessCardUrl { get; set; } = "http://211.23.144.237:8824/api/datavalue/SetAWTEKCard";
 
