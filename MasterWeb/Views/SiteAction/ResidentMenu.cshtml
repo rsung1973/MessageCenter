@@ -10,21 +10,22 @@
 @using Utility
 @using Newtonsoft.Json
 
-@{ 
+@{
     InfoQueryViewModel _viewModel = ViewBag.ViewModel as InfoQueryViewModel;
 }
 
-<div class="navbar-default sidebar" role="navigation">
-    <div class="sidebar-nav navbar-collapse">
-        <ul class="nav" id="side-menu">
-            <li>
-                <a href="javascript:$('').launchDownload('@Html.Raw(Url.Action("ResidentDeviceIndex","DeviceEvents"))', $global.viewModel);"><i class="fa fa-hand-o-right" aria-hidden="true"></i>住戶警報記錄</a>
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-sticky">
+        <ul class="nav flex-column" id="side-menu">
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:$('').launchDownload('@Html.Raw(Url.Action("ResidentDeviceIndex","DeviceEvents"))', $global.viewModel);"><i class="fas fa-hand-point-right"></i>住戶警報記錄</a>
             </li>
-            <li>
-                <a href="javascript:$('').launchDownload('@Html.Raw(Url.Action("ResidentIndex","InfoCenter"))', $global.viewModel);"><i class="fa fa-hand-o-right" aria-hidden="true"></i>住戶訊息查詢</a>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:$('').launchDownload('@Html.Raw(Url.Action("ResidentIndex","InfoCenter"))', $global.viewModel);"><i class="fas fa-hand-point-right"></i>住戶訊息查詢</a>
             </li>
-            <li>
-                <a href="javascript:$('').launchDownload('@Html.Raw(Url.Action("ResidentEnergyIndex","InfoCenter"))', $global.viewModel);"><i class="fa fa-hand-o-right" aria-hidden="true"></i>瓦斯度數維護</a>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:$('').launchDownload('@Html.Raw(Url.Action("ResidentEnergyIndex","InfoCenter"))', $global.viewModel);"><i class="fas fa-hand-point-right"></i>瓦斯度數維護</a>
             </li>
             @{
                 Html.RenderPartial("~/Views/SiteAction/TaiwanTaxiMenu.cshtml");
@@ -32,11 +33,11 @@
             @{
                 Html.RenderPartial("~/Views/SiteAction/YoxiMenu.cshtml");
             }
-            <li>
-                <a href="javascript:$('').launchDownload('@Html.Raw(Url.Action("AccessCard", "DeviceEvents"))', $global.viewModel);"><i class="fa fa-hand-o-right" aria-hidden="true"></i>設定門禁卡</a>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:$('').launchDownload('@Html.Raw(Url.Action("AccessCard", "DeviceEvents"))', $global.viewModel);"><i class="fas fa-hand-point-right"></i>設定門禁卡</a>
             </li>
-            <li>
-                <a href="javascript:$('').launchDownload('@Html.Raw(Url.Action("PowerMeterIndex","InfoCenter"))', $global.viewModel);"><i class="fa fa-hand-o-right" aria-hidden="true"></i>電錶資訊查詢</a>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:$('').launchDownload('@Html.Raw(Url.Action("PowerMeterIndex","InfoCenter"))', $global.viewModel);"><i class="fas fa-hand-point-right"></i>電錶資訊查詢</a>
             </li>
         </ul>
     </div>

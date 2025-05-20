@@ -3,23 +3,19 @@
 @using System.Linq.Expressions
 
 @using Utility
+@{
 
-@section headContent { 
- 
+    Layout = "~/Views/Shared/MvcMainPage.cshtml";
+
+    ViewBag.Title = "MessageCenter";
+    ViewBag.ActionName = "首頁 > 已登錄設備資訊";
 }
-@section formContent { 
- 
+@section headContent {
+
 }
-@{ Html.RenderPartial("~/Views/Outbound/BuildingInfo/QueryResult.ascx");}
+@section formContent {
 
-<script runat="server">
-
-    String _inquiryView;
-
-    protected override void OnInit(EventArgs e)
-    {
-        base.OnInit(e);
-        ViewBag.ActionName = "首頁 > 已登錄設備資訊";
-    }
-
-</script>
+}
+@{
+    Html.RenderPartial("~/Views/Outbound/BuildingInfo/QueryResult.cshtml");
+}

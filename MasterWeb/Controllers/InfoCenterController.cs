@@ -858,10 +858,18 @@ namespace WebHome.Controllers
                 }
 
                 statusItem.DefenceStatus = viewModel.DefenceStatus;
-                models.ExecuteCommand(@"DELETE FROM UserAlarm
-                                        FROM     UserProfile INNER JOIN
-                                                     UserAlarm ON UserProfile.UID = UserAlarm.UID
-                                        WHERE   (UserProfile.PID = {0})", viewModel.InstanceID);
+                if (viewModel.DefenceStatus == Naming.DefenceStatus.Clear)
+                {
+                    models.ExecuteCommand(@"UPDATE  UserAlarm
+                                            SET        AlarmID = 0
+                                            FROM     UserAlarm INNER JOIN
+                                                         UserProfile ON UserAlarm.UID = UserProfile.UID
+                                            WHERE   (UserProfile.PID = {0})", viewModel.InstanceID);
+                    //models.ExecuteCommand(@"DELETE FROM UserAlarm
+                    //                    FROM     UserProfile INNER JOIN
+                    //                                 UserAlarm ON UserProfile.UID = UserAlarm.UID
+                    //                    WHERE   (UserProfile.PID = {0})", viewModel.InstanceID);
+                }
             }
 
             bool hasResult = false;
@@ -1168,17 +1176,17 @@ namespace WebHome.Controllers
 
                 if (item == null)
                 {
-                    return Content("Device not found !");
+                    return Json(new { result = false, message = "Device not found !" }, JsonRequestBehavior.AllowGet);
                 }
 
                 viewModel.Message = viewModel.Message.GetEfficientString();
-                if(viewModel.Message!=null)
+                if (viewModel.Message != null)
                 {
                     item.PushToLine(viewModel.Message, models);
                 }
             }
 
-            return Content("OK!");
+            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetQRCode(String content)

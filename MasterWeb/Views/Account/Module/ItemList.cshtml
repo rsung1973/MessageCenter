@@ -21,7 +21,8 @@
 
     _model = (IQueryable<UserProfile>)this.Model;
     _viewModel = (UserAccountQueryViewModel)ViewBag.ViewModel;
-    _items = _model;
+    _items = _model.Skip(_viewModel.PageIndex.Value * _viewModel.PageSize)
+                    .Take(_viewModel.PageSize);
 
 }
 

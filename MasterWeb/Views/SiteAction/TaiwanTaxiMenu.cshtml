@@ -14,16 +14,16 @@
     InfoQueryViewModel _viewModel = ViewBag.ViewModel as InfoQueryViewModel;
 }
 
-<li>
-    <a href="javascript:taxiOrder();"><i class="fa fa-hand-o-right" aria-hidden="true"></i>台灣大車隊叫車服務</a>
+<li class="nav-item">
+    <a class="nav-link" href="javascript:taxiOrder();"><i class="fas fa-hand-point-right"></i>台灣大車隊叫車服務</a>
     <script>
         function taxiOrder() {
             $('').launchDownload('@Html.Raw(Url.Action("TaxiOrderIndex", "DeviceEvents"))', $global.viewModel);
         }
     </script>
 </li>
-<li>
-    <a href="javascript:dispatchQuery();"><i class="fa fa-hand-o-right" aria-hidden="true"></i>台灣大車隊叫車查詢</a>
+<li class="nav-item">
+    <a class="nav-link" href="javascript:dispatchQuery();"><i class="fas fa-hand-point-right"></i>台灣大車隊叫車查詢</a>
     <script>
         function dispatchQuery() {
             var wait = -1;

@@ -1,0 +1,63 @@
+﻿
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.DataPort
+@using WebHome.Properties
+@using Utility
+@using Newtonsoft.Json
+@{
+
+    Layout = "~/Views/Shared/MessageViewTemplate.cshtml";
+
+    ModelStateDictionary _modelState;
+    ModelSource<LiveDevice> models;
+    UserAccountQueryViewModel _viewModel;
+
+    _modelState = (ModelStateDictionary)ViewBag.ModelState;
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+
+    _viewModel = (UserAccountQueryViewModel)ViewBag.ViewModel;
+    if(_viewModel == null)
+    {
+        _viewModel = new UserAccountQueryViewModel();
+        ((SampleController<LiveDevice>)ViewContext.Controller).BuildViewModel(_viewModel);
+        ViewBag.ViewModel = _viewModel;
+    }
+
+    UserProfile _model = models.GetTable<UserProfile>().Where(u=>u.UID==_viewModel.UID).FirstOrDefault();
+    var community = _model?.UserProfileExtension?.Community ?? models.GetTable<Community>().FirstOrDefault();
+
+    String _viewID = ViewBag.ViewID = $"card{DateTime.Now.Ticks}";
+
+}
+
+@section Message
+{
+    @{
+        <table border="0" cellpadding="0" cellspacing="0" class="left_title">
+            <tr>
+                    <th colspan="2">
+                        推播訊息
+                    </th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="hidden" name="PID" value="@($"{community?.CommunityNo}-{_model.PID}")" />
+                    <textarea name="Message" rows="3"></textarea>
+                </td>
+                <td>
+                    <button type="button" class="btn" onclick="doPost('@Url.Action("PushToLine", "InfoCenter")', $('#@_viewID').find('input,select,textarea').serializeObject(), function (data) { if (data.result) { } });">
+                        傳送
+                    </button>
+                </td>
+            </tr>
+        </table>
+    }
+}

@@ -21,11 +21,12 @@
     <td>@(_model.DeviceID)</td>
     <td>@(_model.CurrentLevel.HasValue ? _model.LevelExpression.Description : null)</td>
     <td>
-        <div class="btn-group dropdown" data-toggle="dropdown">
-            <button class="btn bg-color-blueLight" data-toggle="dropdown" aria-expanded="false">請選擇功能</button>
-            <button class="btn bg-color-blueLight dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a class="btn" onclick="uiDeviceQuery.deleteItem(@(_model.LiveID));">刪除</a></li>
+        <div class="btn-group dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                請選擇功能
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="#" onclick="uiDeviceQuery.deleteItem(@(_model.LiveID));">刪除</a></li>
             </ul>
         </div>
     </td>

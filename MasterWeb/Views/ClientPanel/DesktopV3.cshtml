@@ -1,0 +1,372 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能家居管理系統</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/bootstrap-icons/font/bootstrap-icons.css" />
+    <style>
+        body {
+            background-color: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background-color: #000;
+            padding: 8px 15px;
+            font-size: 14px;
+            border-bottom: 1px solid #333;
+        }
+
+        .main-container {
+            height: calc(100vh - 70px);
+        }
+
+        .center-area {
+            background: linear-gradient(180deg, #003366 0%, #1a6eb0 100%);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dome-background {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../images/ClientPanel/main_time_bkg.png');
+            /*background-position: center;*/
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        .clock-container {
+            position: relative;
+            z-index: 2;
+            margin-top: 50px;
+        }
+
+        .clock-circle {
+            width: 200px;
+            height: 200px;
+            /*border: 2px dotted rgba(255, 255, 255, 0.5);*/
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .clock-time {
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .date-display {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .status-row {
+            width: 100%;
+            height: 140px;
+            display: flex;
+            z-index: 2;
+            margin-bottom: 0;
+        }
+
+        .status-box {
+            flex: 1;
+            padding: 35px;
+            text-align: center;
+            color: white;
+        }
+
+            .status-box.sms {
+                background-color: #e74c3c;
+            }
+
+            .status-box.msg {
+                background-color: #e67e22;
+            }
+
+            .status-box.calls {
+                background-color: #27ae60;
+            }
+
+            .status-box.weather {
+                background-color: #3498db;
+            }
+
+        .left-menu-item {
+            height: 25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            border: 1px solid #333;
+        }
+
+        .menu-item {
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            border: 1px solid #333;
+        }
+
+        .weather-menu-item {
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            border: 1px solid #333;
+        }
+
+
+        .voip-blue {
+            background-color: #3498db;
+        }
+
+        .security-green {
+            background-color: #2ecc71;
+        }
+
+        .admin-black {
+            background-color: #000;
+        }
+
+        .elevator-dark {
+            background-color: #222;
+        }
+
+        .app-gray {
+            background-color: #444;
+        }
+
+        .emergency-red {
+            background-color: #444;
+            position: relative;
+        }
+
+        .sos {
+            color: #e74c3c;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .on-off {
+            background-color: #444;
+        }
+
+        .community {
+            background-color: #444;
+        }
+
+        .camera {
+            background-color: #444;
+        }
+
+        .door {
+            background-color: #444;
+        }
+
+        .icon-large {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .weather-details {
+            text-align: left;
+            padding-left: 15px;
+        }
+
+        .footer {
+            background-color: #000;
+            padding: 5px;
+            text-align: right;
+            color: #ffc107;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        中興保全 服務電話: 0800-669668 處理單位代碼: E-22
+    </div>
+
+    <div class="container-fluid main-container">
+        <div class="row h-100">
+            <!-- 左側選單 -->
+            <div class="col-2 p-0">
+                <div class="left-menu-item voip-blue">
+                    <i class="bi bi-camera-video icon-large"></i>
+                    <div>VOIP</div>
+                </div>
+                <div class="left-menu-item security-green">
+                    <i class="bi bi-shield icon-large"></i>
+                    <div>Security</div>
+                </div>
+                <div class="left-menu-item admin-black">
+                    <i class="bi bi-telephone icon-large"></i>
+                    <div>管理中心</div>
+                </div>
+                <div class="left-menu-item elevator-dark">
+                    <i class="bi bi-arrow-up-square icon-large"></i>
+                    <div>Elevator</div>
+                </div>
+            </div>
+
+            <!-- 中央區域 -->
+            <div class="col-7 p-0">
+                <div class="center-area">
+                    <div class="dome-background"></div>
+
+                    <div class="clock-container">
+                        <div class="clock-circle">
+                            <div class="clock-time" id="current-time">22:34</div>
+                        </div>
+                    </div>
+
+                    <div class="date-display" id="current-date">2025.4.12/Sat.</div>
+
+                    <div class="row status-row">
+                        <div class="status-box sms">
+                            <i class="bi bi-envelope"></i>
+                            <div>No Unread SMS.</div>
+                        </div>
+                        <div class="status-box msg">
+                            <i class="bi bi-chat-dots"></i>
+                            <div>No Unread MSG.</div>
+                        </div>
+                        <div class="status-box calls">
+                            <i class="bi bi-telephone"></i>
+                            <div>No Missed Calls.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右側選單 -->
+            <div class="col-3 p-0">
+                <div class="row g-0">
+                    <div class="col-6">
+                        <div class="menu-item app-gray">
+                            <i class="bi bi-grid-3x3-gap icon-large"></i>
+                            <div>Apps</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="menu-item emergency-red">
+                            <i class="bi bi-broadcast icon-large"></i>
+                            <div class="sos">SOS</div>
+                            <div>Emergency</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="menu-item on-off">
+                            <i class="bi bi-shield-check icon-large"></i>
+                            <div>ON/OFF</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="menu-item community">
+                            <i class="bi bi-globe icon-large"></i>
+                            <div>社區公告</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="menu-item camera">
+                            <i class="bi bi-camera icon-large"></i>
+                            <div>VOIP</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="menu-item door">
+                            <i class="bi bi-door-open icon-large"></i>
+                            <div>Door</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-0">
+                    <div class="col-12">
+                        <div class="weather-menu-item weather">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-cloud-drizzle me-2"></i>
+                                <div class="weather-details">
+                                    <div>Shower</div>
+                                    <div>TEMP: 21.6°C</div>
+                                    <div>RH: 80%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        AWTEK
+        @*<button onclick="showAndroidToast('Hello from JS!')">Show Toast</button>
+        <button onclick="getAndroidData()">Get Android Data</button>
+        <button onclick="window.location.reload();">reload</button>
+        <button onclick="alert('test');">alert</button>
+        <label id="result"></label>
+        <script type="text/javascript">
+            function showAndroidToast(message) {
+                AppMain.showToast(message);
+                alert(message);
+            }
+
+            function getAndroidData() {
+                var data = AppMain.getData();
+                document.getElementById('result').innerHTML = data;
+            }
+        </script>*@
+    </div>
+
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script>
+        // 更新時間和日期
+        function updateClock() {
+            const now = new Date();
+
+            // 時間格式 HH:MM
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('current-time').textContent = `${hours}:${minutes}`;
+
+            // 日期格式 YYYY.M.DD/Day
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            const day = now.getDate();
+            const weekdays = ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'];
+            const weekday = weekdays[now.getDay()];
+            document.getElementById('current-date').textContent = `${year}.${month}.${day}/${weekday}`;
+        }
+
+        // 初次載入頁面時更新時間
+        updateClock();
+
+        // 每分鐘更新一次時間
+        setInterval(updateClock, 60000);
+    </script>
+</body>
+</html>

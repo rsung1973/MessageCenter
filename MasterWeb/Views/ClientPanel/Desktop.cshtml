@@ -1,0 +1,197 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中興保全介面</title>
+    <!-- Bootstrap CSS -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 圖標 -->
+    <link rel="stylesheet" href="~/Content/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/Content/font-awesome/css/v4-font-face.min.css" />
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .status-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .status-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .temp-display {
+            background-color: #e8f4fc;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4>中興保全</h4>
+                    <p class="mb-0">服務電話：0800-669668 處理單位代碼：E-22</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <p class="mb-0">2025.4.12/Sat</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-6">
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h5>VOIP</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h5>Security</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h5>Apps</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h5>Emergency</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-3 col-6">
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-toggle-on"></i>
+                    </div>
+                    <h5>ON/OFF</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h5>社區公告</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h5>管理中心</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-door-open"></i>
+                    </div>
+                    <h5>Door</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-3 col-6">
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-shower"></i>
+                    </div>
+                    <h5>Shower</h5>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <h5>Elevator</h5>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="temp-display">
+                    <h4>TEMP: 21.6℃</h4>
+                    <h4>RH: 80%</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="status-card">
+                    <p class="mb-1"><i class="fas fa-check-circle text-success"></i> No Unread SMS</p>
+                    <p class="mb-1"><i class="fas fa-check-circle text-success"></i> No Unread MSG, No Missed Calls, Weather</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid footer">
+        <div class="container">
+            <div class="logo">A W T E K</div>
+            <p class="mb-0">2023.4</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+</body>
+</html>

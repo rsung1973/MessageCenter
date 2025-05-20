@@ -36,13 +36,14 @@
             <option value="6" @(_model.SubscribedAlarm == (int)Naming.AlarmSubscription.迴路七 ? "selected" : null)>迴路7</option>
             <option value="7" @(_model.SubscribedAlarm == (int)Naming.AlarmSubscription.迴路八 ? "selected" : null)>迴路8</option>
         </select>
-        @*<div class="btn-group dropdown" data-toggle="dropdown">
-                <button class="btn bg-color-blueLight" data-toggle="dropdown" aria-expanded="false">請選擇功能</button>
-                <button class="btn bg-color-blueLight dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a class="btn" onclick="uiUserAccount.deleteItem(@(_model.UID));">刪除</a></li>
-                </ul>
-            </div>*@
+        @*<div class="btn-group dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                請選擇功能
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="#" onclick="uiUserAccount.deleteItem(@(_model.UID));">刪除</a></li>
+            </ul>
+        </div>*@
     </td>
     <td>
         <input type="text" onchange="uiUserAccount.updatePMIP(@(_model.UID),this.value);" name="IPAddr" value="@(_model.UserProfileExtension?.PowerMeterIP)" />
@@ -58,11 +59,13 @@
         </select>
     </td>
     <td>
-        <div class="btn-group dropdown" data-toggle="dropdown">
-            <button class="btn bg-color-blueLight" data-toggle="dropdown" aria-expanded="false">請選擇功能</button>
-            <button class="btn bg-color-blueLight dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a class="btn" onclick="uiUserAccount.listCardID(@(_model.UID))">卡號設定</a></li>
+        <div class="btn-group dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                請選擇功能
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="#" onclick="uiUserAccount.listCardID(@(_model.UID));">卡號設定</a></li>
+                <li><a class="dropdown-item" href="#" onclick="uiUserAccount.pushLine(@(_model.UID));">Line推播</a></li>
             </ul>
         </div>
     </td>

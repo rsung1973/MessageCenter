@@ -3,7 +3,7 @@
     "BuildingID": 22,
     "FloorID": 1,
     "LineMessageCenter": "https://s1.awtek-security.com.tw",
-    "PushToLineMessageCenter": false,
+    "PushToLineMessageCenter": true,
     "LocalMessageCenter": true,
     "RegisterResidentToSECOM": true,
     "UseCustomBA": false,
@@ -58,7 +58,7 @@
         "Password": "123456",
         "PortCount": 16,
         "BoxSize": 1,
-        "Enabled": true,
+        "Enabled": false,
         "RelayTiming": 3000,
         "No": null,
         "Disabled": []
@@ -145,6 +145,7 @@
         "Disabled": []
       }
     ],
-    "CheckPublicAlarmSettings": true
+    "CheckPublicAlarmSettings": true,
+    "UseDKCMSMessageDispatcher": false
   }
 }

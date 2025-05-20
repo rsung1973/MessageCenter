@@ -35,7 +35,8 @@ namespace WebHome.Controllers
 
             ViewBag.ViewModel = viewModel;
 
-            IQueryable<UserProfile> items = models.GetTable<UserProfile>();
+            IQueryable<UserProfile> items = models.GetTable<UserProfile>()
+                .Where(u=>u.UserProfileExtension == null || u.UserProfileExtension.InstanceID == null);
 
             viewModel.PID = viewModel.PID.GetEfficientString();
             if (viewModel.PID != null)

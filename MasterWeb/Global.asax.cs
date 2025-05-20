@@ -11,6 +11,7 @@ using System.Web.Optimization;
 using WebHome.Helper.Jobs;
 using Utility;
 using System.Net;
+using WebHome.Properties;
 
 namespace WebHome
 {
@@ -26,6 +27,9 @@ namespace WebHome
             JobLauncher.StartUp();
             ServicePointManager.ServerCertificateValidationCallback = (s, cert, chain, policy) => { return true; };
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
+            if (AppSettings.Default.UseDKCMSMessageDispatcher)
+                JobLauncher.DKCMSMessageDispatcher.DelayNotify(10);
         }
 
         void Application_Error(object sender, EventArgs e)

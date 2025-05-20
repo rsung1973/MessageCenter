@@ -145,6 +145,18 @@
             });
         };
 
+        uiUserAccount.pushLine = function (value) {
+            var event = event || window.event;
+            showLoading();
+            $.post('@(Url.Action("PushLine", "Account"))', { 'UID': value }, function (data) {
+                hideLoading();
+                if ($.isPlainObject(data)) {
+                } else {
+                    $(data).appendTo($('body'));
+                }
+            });
+        };
+
         uiUserAccount.applyCard = function (value) {
             var event = event || window.event;
             var $tr = $(event.target).closest('tr');

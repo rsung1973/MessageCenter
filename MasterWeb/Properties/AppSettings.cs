@@ -187,6 +187,8 @@ namespace WebHome.Properties
         public int? ElevatorCount { get; set; }
         public StorageBoxSettings[] ElevatorBoxArray { get; set; }
         public bool CheckPublicAlarmSettings { get; set;} = false;
+        public bool UseDKCMSMessageDispatcher { get; set; } = false;
+        public bool DispatchTalkLog { get; set; } = false;
     }
 
     public partial class TaiwanTaxiAuthRequest

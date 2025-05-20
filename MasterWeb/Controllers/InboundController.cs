@@ -95,8 +95,10 @@ namespace WebHome.Controllers
                         profile.UserAlarm = alarm;
                     }
 
-                    alarm.AlarmID &= (1 << (int)viewModel.Sensor.Value);
+                    alarm.AlarmID |= (1 << (int)viewModel.Sensor.Value);
                     models.SubmitChanges();
+
+                    Logger.Debug(alarm.JsonStringify());
                 }
             }
 

@@ -21,33 +21,134 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="" />
+    <meta name="description" content="住戶訊息中心" />
     <meta name="author" content="" />
 
+    <!-- Bootstrap 5 CSS -->
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap-theme.css" rel="stylesheet" type="text/css" />
-    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="~/css/main.css" rel="stylesheet" />
-    @Styles.Render("~/App_Themes/Visitor")
-    @*<!--Bootstrap Core CSS -->
-        <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">*@
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="~/Content/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/Content/font-awesome/css/v4-font-face.min.css" />
+    <!-- jQuery-UI -->
+    <link rel="stylesheet" href="~/Content/themes/base/all.css" />
+    <style>
+        /* 自訂樣式 */
+        body {
+            background-color: #f8f9fa;
+        }
 
-    <!-- MetisMenu CSS -->
-    <link href="~/vendor/metisMenu/metisMenu.min.css" rel="stylesheet" type="text/css" />
+        #wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
-    <!-- Custom CSS -->
-    <link href="~/css/sb-admin-2.css" rel="stylesheet" type="text/css" />
+        .sidebar {
+            width: 260px;
+            background-color: #343a40;
+            color: white;
+            position: fixed;
+            height: 100vh;
+            padding-top: 56px;
+            overflow-y: auto; /* 添加垂直滾動條 */
+            /*height: 100vh;*/ /* 保持全高 */
+        }
 
-    <!-- Custom Fonts -->
-    @*
-        <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">*@
+            /* 可選：美化滾動條 */
+            .sidebar::-webkit-scrollbar {
+                width: 8px;
+            }
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+            .sidebar::-webkit-scrollbar-track {
+                background: #2c3e50;
+            }
+
+            .sidebar::-webkit-scrollbar-thumb {
+                background-color: #6c757d;
+                border-radius: 4px;
+            }
+
+            .sidebar .nav-link {
+                color: rgba(255, 255, 255, 0.8);
+                padding: 0.75rem 1rem;
+            }
+
+                .sidebar .nav-link:hover {
+                    color: white;
+                    background-color: rgba(255, 255, 255, 0.1);
+                }
+
+                .sidebar .nav-link i {
+                    margin-right: 10px;
+                }
+
+        .navbar-brand {
+            padding: 0.5rem 1rem;
+        }
+
+        #page-wrapper {
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+            background-color: #f8f9fa;
+        }
+
+        .border_gray {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+
+        .Head_style_a {
+            background-color: #f8f9fa;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        .queryAction {
+            margin-bottom: 20px;
+        }
+
+        .nav-tabs {
+            margin-bottom: 20px;
+        }
+
+        .tab-content {
+            padding: 20px 0;
+        }
+
+        .dropdown-menu {
+            min-width: 200px;
+        }
+
+        .table-responsive {
+            margin-top: 20px;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+
     @{
         Html.RenderPartial("~/Views/Shared/CommonScriptInclude.cshtml");
     }
@@ -66,281 +167,91 @@
     @RenderSection("headContent", false)
 </head>
 <body>
-
     <div id="wrapper">
-
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="javascript:void(0);">住戶訊息中心</a>
-            </div>
-            <!-- /.navbar-header -->
+                <a class="navbar-brand" href="#">住戶訊息中心</a>
 
-            <ul class="nav navbar-top-links navbar-right">
-
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-envelope fa-fw"></i><i class="fa fa-caret-down"></i>
-                    </a>
-                    @*<ul class="dropdown-menu dropdown-messages">
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <strong>John Smith</strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <strong>John Smith</strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <strong>John Smith</strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a class="text-center" href="#">
-                                    <strong>Read All Messages</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </li>
-                        </ul>*@
-                    <!-- /.dropdown-messages -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-tasks fa-fw"></i><i class="fa fa-caret-down"></i>
-                    </a>
-                    @*<ul class="dropdown-menu dropdown-tasks">
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 1</strong>
-                                            <span class="pull-right text-muted">40% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                                <span class="sr-only">40% Complete (success)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 2</strong>
-                                            <span class="pull-right text-muted">20% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                                <span class="sr-only">20% Complete</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 3</strong>
-                                            <span class="pull-right text-muted">60% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                                <span class="sr-only">60% Complete (warning)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 4</strong>
-                                            <span class="pull-right text-muted">80% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                                <span class="sr-only">80% Complete (danger)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a class="text-center" href="#">
-                                    <strong>See All Tasks</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </li>
-                        </ul>*@
-                    <!-- /.dropdown-tasks -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell fa-fw"></i><i class="fa fa-caret-down"></i>
-                    </a>
-                    @*<ul class="dropdown-menu dropdown-alerts">
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-comment fa-fw"></i>New Comment
-
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-twitter fa-fw"></i>3 New Followers
-
-                                        <span class="pull-right text-muted small">12 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-envelope fa-fw"></i>Message Sent
-
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-tasks fa-fw"></i>New Task
-
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-upload fa-fw"></i>Server Rebooted
-
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a class="text-center" href="#">
-                                    <strong>See All Alerts</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </li>
-                        </ul>*@
-                    <!-- /.dropdown-alerts -->
-                </li>
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li>
-                            <a href="@(VirtualPathUtility.ToAbsolute(" ~/UserProfile/EditMySelf"))"><i class="fa fa-user fa-fw"></i>帳號管理</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMessages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMessages">
+                                <!-- 訊息下拉選單內容 -->
+                            </ul>
                         </li>
-                        @*
-                            <li>
-                                <a href="#"><i class="fa fa-gear fa-fw"></i>Settings</a>
-                            </li>*@
-                        <li class="divider"></li>
-                        <li>
-                            <a href="@(VirtualPathUtility.ToAbsolute(" ~/Logout.aspx"))"><i class="fa fa-sign-out fa-fw"></i>登出</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTasks" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-tasks fa-fw"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownTasks">
+                                <!-- 任務下拉選單內容 -->
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAlerts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAlerts">
+                                <!-- 通知下拉選單內容 -->
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user fa-fw"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
+                                <li><a class="dropdown-item" href="@(VirtualPathUtility.ToAbsolute("~/UserProfile/EditMySelf"))"><i class="fas fa-user fa-fw me-2"></i>帳號管理</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="@(VirtualPathUtility.ToAbsolute("~/Logout.aspx"))"><i class="fas fa-sign-out-alt fa-fw me-2"></i>登出</a></li>
+                            </ul>
                         </li>
                     </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-            <!-- /.navbar-top-links -->
-            @{ Html.RenderPartial("~/Views/SiteAction/PageMenuBar.cshtml"); }
-            <!-- /.navbar-static-side -->
+                </div>
+            </div>
         </nav>
+
+        @{ Html.RenderPartial("~/Views/SiteAction/PageMenuBar.cshtml"); }
 
         <!-- Page Content -->
         <div id="page-wrapper">
-
-            <ul class="nav nav-tabs" role="tablist" id="masterTab">
-                <li role="presentation" class="active">
-                    <a href="#masterHome" class="tab-link" aria-controls="masterHome" role="tab" data-toggle="tab">@(ViewBag.ActionName ?? "首頁") <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+            <ul class="nav nav-tabs" id="masterTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="masterHome-tab" data-bs-toggle="tab" data-bs-target="#masterHome" type="button" role="tab" aria-controls="masterHome" aria-selected="true">
+                        @(ViewBag.ActionName ?? "首頁") <i class="fas fa-angle-double-right ms-1"></i>
+                    </button>
                 </li>
             </ul>
 
-            <!-- Tab panes -->
             <div class="tab-content" id="masterTabContent">
-                <div role="tabpanel" class="tab-pane active" id="masterHome">
+                <div class="tab-pane fade show active" id="masterHome" role="tabpanel" aria-labelledby="masterHome-tab">
                     <div class="container-fluid">
-                        @if (ViewBag.ActionName != null)
-                        {
-                            @*<div class="row">
-                                    <div class="col-lg-12">
-                                        <h2 class="page-header">@ViewBag.ActionName</h2>
-                                    </div>
-                                </div>*@
-                        }
-                        <h2><br /></h2>
+                        <h2 class="mt-3">@ViewBag.ActionName</h2>
+
                         <form id="theForm" class="queryForm" role="form" method="post" enctype="multipart/form-data">
                             @RenderSection("formContent", false)
                         </form>
                         <div class="row">
                             @RenderBody()
                         </div>
-                        <!-- /.row -->
                     </div>
                 </div>
             </div>
-
-            <!-- /.container-fluid -->
         </div>
-        <!-- /#page-wrapper -->
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" alt="Loading..." />
+            <h3 class="mt-3">Loading...</h3>
+        </div>
     </div>
 
 </body>

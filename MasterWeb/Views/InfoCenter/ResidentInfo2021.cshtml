@@ -47,24 +47,30 @@
                     住戶社區名稱:@(_model.UserProfileExtension.Community?.CommunityName)<br />
                     住戶名稱:@(_model.PID)<br />
                     <a class="dropdown-item" href="javascript:reload();"><i class="fa fa-refresh fa-6" aria-hidden="true"></i></a><br />
-                    @{
-                        var statusItem = UrgentEventHandler.Instance.DeviceStatusList
-                            .Where(d => d != null && d.InstanceID == _model.UserProfileExtension.InstanceID).FirstOrDefault();
-                        if (statusItem != null)
-                        {
-                            <text>保全狀態：</text>
-                            switch ((Naming.DefenceStatus?)statusItem.DefenceStatus)
+                    保全狀態：
+                    <span id="defenceStatus">
+                        @{
+                            var statusItem = UrgentEventHandler.Instance.DeviceStatusList
+                                .Where(d => d != null && d.InstanceID == _model.UserProfileExtension.InstanceID).FirstOrDefault();
+                            if (statusItem != null)
                             {
-                                case Naming.DefenceStatus.Clear:
-                                    Write("未設定");
-                                    break;
+                                switch ((Naming.DefenceStatus?)statusItem.DefenceStatus)
+                                {
+                                    case Naming.DefenceStatus.Clear:
+                                        Write("未設定");
+                                        break;
 
-                                case Naming.DefenceStatus.Secured:
-                                    Write("警戒中");
-                                    break;
+                                    case Naming.DefenceStatus.Secured:
+                                        Write("警戒中");
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                Write("未設定");
                             }
                         }
-                    }
+                    </span>
                 </h4>
                 <div>
                     @*<div class="dropdown-header">Dropdown Header:</div>*@
@@ -140,6 +146,23 @@
         });
     }
 
+    function checkDefence() {
+        var formData = {
+            'InstanceID': '@(_model.UserProfileExtension.InstanceID)',
+        };
+        $.post('@Html.Raw(Url.Action("CheckDefenceStatus", "InfoCenter"))', formData, function (data) {
+            console.log(data);
+            if ($.isPlainObject(data)) {
+                if (data.Defence == 1) {
+                    $('#defenceStatus').text('警戒中');
+                } else {
+                    $('#defenceStatus').text('未設定');
+                }
+            } 
+            setTimeout(checkDefence, 4000);
+        });
+    }
+
     function reload() {
         showLoading();
         $('').launchDownload('@Html.Raw(Url.Action("ResidentInfo","InfoCenter"))', { 'keyID': '@(_model.UID.EncryptKey())' });
@@ -194,5 +217,9 @@
             }
         });
     }
+
+    $(function () {
+        checkDefence();
+    })
 
 </script>

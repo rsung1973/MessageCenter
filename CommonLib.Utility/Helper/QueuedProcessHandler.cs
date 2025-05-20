@@ -11,11 +11,13 @@ namespace CommonLib.Helper
     public class QueuedProcessHandler
     {
         private int _busyCount = 0;
+        private int _readyCount = 0;
         private readonly ILogger _logger;
 
         public Action Process { get; set; }
 
         public int? MaxWaitingCount { get; set; }
+        public int? PeriodInSeconds { get; set; }
 
         public QueuedProcessHandler(ILogger logger)
         {
@@ -50,6 +52,18 @@ namespace CommonLib.Helper
                             _logger?.Error(ex);
                         }
                     } while (Interlocked.Decrement(ref _busyCount) > 0);
+
+                    if(PeriodInSeconds.HasValue)
+                    {
+                        if (Interlocked.Increment(ref _readyCount) == 1)
+                        {
+                            Task.Delay(PeriodInSeconds.Value * 1000).ContinueWith(ts =>
+                            {
+                                Interlocked.Exchange(ref this._readyCount, 0);
+                                this.Notify();
+                            });
+                        }
+                    }
                 });
             }
 
@@ -58,6 +72,14 @@ namespace CommonLib.Helper
         public int ResetBusyCount()
         {
             return Interlocked.Exchange(ref _busyCount, 0);
+        }
+
+        public void DelayNotify(int seconds)
+        {
+            Task.Delay(seconds * 1000).ContinueWith(ts =>
+            {
+                Notify();
+            });
         }
     }
 }

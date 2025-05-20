@@ -9,6 +9,12 @@ using Utility;
 using WebHome.Models.DataEntity;
 using WebHome.Properties;
 using WebHome.Models.Locale;
+using WebHome.DataModels;
+using System.IO;
+using WebHome.Models.ViewModel;
+using LinqToDB;
+using LineMessagingAPISDK.Models;
+using Newtonsoft.Json.Linq;
 
 namespace WebHome.Helper.Jobs
 {
@@ -131,7 +137,119 @@ namespace WebHome.Helper.Jobs
                     }
                 }
             }
+        }
 
+        public static QueuedProcessHandler DKCMSMessageDispatcher { get; } = new QueuedProcessHandler(Logger.Instance)
+        {
+            PeriodInSeconds = 5,
+            Process = () =>
+            { 
+                DispatchTextLogs();
+
+                if (AppSettings.Default.DispatchTalkLog)
+                {
+                    DispatchTalkLogs();
+                }
+            }
+        };
+
+        private static void DispatchTextLogs()
+        {
+            using (dnakeDB db = new dnakeDB("dnake"))
+            {
+                var loggers = db.GetTable<text_logger>().Where(a => a.done == 0)
+                                    .ToList();
+
+                if (loggers.Any())
+                {
+                    String url = $"{AppSettings.Default.LineMessageCenter}/MessageCenter/LineEvents/PushMessage";
+                    var viewModel = new UserAccountQueryViewModel
+                    {
+                        Title = "CMS公告訊息",
+                    };
+
+                    using (var models = new ModelSource<LiveDevice>())
+                    {
+                        foreach (var logger in loggers)
+                        {
+                            String id = $"-{logger.user}";
+                            var user = models.GetTable<UserProfile>().Where(p => p.PID.Contains(id)).FirstOrDefault();
+                            if (user != null)
+                            {
+                                String logPath = Path.Combine(Path.Combine(Logger.LogPath, "SMS", $"{user.PID}").CheckStoredPath(), $"{logger.id}.txt");
+                                if (!File.Exists(logPath))
+                                {
+                                    File.WriteAllText(logPath, logger.text);
+                                    viewModel.PID = user.PID;
+                                    viewModel.Message = logger.text;
+                                    url.PushToLineMessageCenter(viewModel);
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+        private static void DispatchTalkLogs()
+        {
+            using (dnakeDB db = new dnakeDB("dnake"))
+            {
+                var talkLogs = db.GetTable<talk_logger>().ToList();
+                if (talkLogs.Any())
+                {
+                    foreach (var talk in talkLogs)
+                    {
+                        if (AppSettings.Default.UseCustomBA)
+                        {
+                            if (AppSettings.Default.CustomBA_DirectToken != null)
+                            {
+                                String jsonRequest;
+
+                                jsonRequest = (new
+                                {
+                                    TokenID = AppSettings.Default.CustomBA_DirectToken,
+                                    DeviceType = Settings.Default.PRMType,
+                                    DeviceUri = talk.to_user,
+                                    //SensorID = loop,
+                                    UserID = talk.user,
+                                    NeedRelease = false,
+                                    //EventType = eventType,
+                                    EventSubtype = "0",
+                                    EventLevel = 0,
+                                    EventTimeout = 0,
+                                    //DeviceStatus = status,
+                                    CardNo = "",
+                                    EventDetail = "",
+                                    isLog = false,
+                                    DeviceTime = talk.ts,
+                                }).JsonStringify();
+
+                                try
+                                {
+                                    using (WebClient client = new WebClient())
+                                    {
+                                        //Logger.Debug(Settings.Default.GetAuthToken + queryValues.ToQueryString());
+                                        client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                                        var json = client.UploadString(Settings.Default.MessageCenter_BA_Service_sr_BA_DeviceWebService, jsonRequest);
+                                        Logger.Info($"{Settings.Default.MessageCenter_BA_Service_sr_BA_DeviceWebService} => {jsonRequest}");
+                                        Logger.Info(json);
+                                        //JObject result = JObject.Parse(json);
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Logger.Error(ex);
+                                }
+                            }
+                        }
+
+                        //刪除talk_logger資料
+                        db.talk_logger.Delete(t => t.id == talk.id);
+                    }
+                }
+            }
         }
     }
 }

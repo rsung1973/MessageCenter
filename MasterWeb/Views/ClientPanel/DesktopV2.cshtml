@@ -1,0 +1,165 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>控制面板</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000;
+            color: white;
+        }
+
+        .tile {
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+
+            .tile.blue {
+                background-color: #007bff;
+            }
+
+            .tile.green {
+                background-color: #28a745;
+            }
+
+            .tile.red {
+                background-color: #dc3545;
+            }
+
+            .tile.orange {
+                background-color: #fd7e14;
+            }
+
+            .tile.gray {
+                background-color: #6c757d;
+            }
+
+            .tile img {
+                max-width: 50%;
+                margin-bottom: 10px;
+            }
+
+        .clock-section {
+            text-align: center;
+        }
+
+            .clock-section h1 {
+                font-size: 48px;
+                margin-bottom: 10px;
+            }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 頂部資訊 -->
+    <div class="container-fluid text-center py-2 bg-dark">
+        <p>中興保全 服務電話：0800-669668 處理單位代碼：E-22</p>
+    </div>
+
+    <!-- 主內容區 -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- 左側區塊 -->
+            <div class="col-md-3">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="tile blue text-center">
+                            <img src="https://via.placeholder.com/50" alt="VOIP Icon">
+                            VOIP
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="tile green text-center">
+                            <img src="https://via.placeholder.com/50" alt="Security Icon">
+                            Security
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="tile gray text-center">
+                            <img src="https://via.placeholder.com/50" alt="管理中心 Icon">
+                            管理中心
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="tile gray text-center">
+                            <img src="https://via.placeholder.com/50" alt="Elevator Icon">
+                            Elevator
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 中間時鐘區塊 -->
+            <div class="col-md-6 clock-section">
+                <h1>22:34</h1>
+                <p>2025.4.12/Sat</p>
+                <!-- 背景圖片 -->
+                <img src="https://via.placeholder.com/300x150" alt="背景圖片" style="width: 100%; border-radius: 8px;">
+            </div>
+
+            <!-- 右側功能區塊 -->
+            <div class="col-md-3">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="tile gray text-center">Apps</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="tile red text-center">Emergency</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="tile green text-center">ON/OFF</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="tile gray text-center">社區公告</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="tile gray text-center">VOIP</div>
+                    </div>
+                    <div class="col-6">
+                        <div class="tile gray text-center">Door</div>
+                    </div>
+                </div>
+                <!-- 天氣資訊 -->
+                <h5>Weather:</h5>
+                <p>Shower<br>TEMP: 21.6°C<br>RH: 80%</p>
+            </div>
+
+        </div>
+
+        <!-- 底部標誌 -->
+        <footer class="footer mt-4 py-2 bg-dark text-white">
+            AWTEK
+        </footer>
+
+</body>
+</html>
+

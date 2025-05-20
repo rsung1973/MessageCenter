@@ -64,7 +64,7 @@ namespace WebHome.Controllers
             var result = MessageOutbound.Instance.QueryAllDevices();
             if (result != null)
             {
-                return View("~/Views/Outbound/DevicesInfo.aspx", result);
+                return View("~/Views/Outbound/DevicesInfo.cshtml", result);
             }
             else
             {
@@ -77,7 +77,7 @@ namespace WebHome.Controllers
             var result = MessageOutbound.Instance.GetResidentInfo();
             if (result != null)
             {
-                return View("~/Views/Outbound/ResidentInfo.aspx", result);
+                return View("~/Views/Outbound/ResidentInfo.cshtml", result);
             }
             else
             {
@@ -98,7 +98,7 @@ namespace WebHome.Controllers
 
         public ActionResult TestIndex()
         {
-            return View();
+            return View("~/Views/Outbound/TestIndex.cshtml");
         }
     }
 }

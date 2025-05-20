@@ -1,0 +1,552 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <title>Message Center</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="住戶訊息中心" />
+    <meta name="author" content="" />
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jQuery 3.7.1 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        /* 自訂樣式 */
+        body {
+            background-color: #f8f9fa;
+        }
+
+        #wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            position: fixed;
+            height: 100vh;
+            padding-top: 56px;
+        }
+
+            .sidebar .nav-link {
+                color: rgba(255, 255, 255, 0.8);
+                padding: 0.75rem 1rem;
+            }
+
+                .sidebar .nav-link:hover {
+                    color: white;
+                    background-color: rgba(255, 255, 255, 0.1);
+                }
+
+                .sidebar .nav-link i {
+                    margin-right: 10px;
+                }
+
+        .navbar-brand {
+            padding: 0.5rem 1rem;
+        }
+
+        #page-wrapper {
+            margin-left: 250px;
+            padding: 20px;
+            width: calc(100% - 250px);
+            background-color: #f8f9fa;
+        }
+
+        .border_gray {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+
+        .Head_style_a {
+            background-color: #f8f9fa;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        .queryAction {
+            margin-bottom: 20px;
+        }
+
+        .nav-tabs {
+            margin-bottom: 20px;
+        }
+
+        .tab-content {
+            padding: 20px 0;
+        }
+
+        .dropdown-menu {
+            min-width: 200px;
+        }
+
+        .table-responsive {
+            margin-top: 20px;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="#">住戶訊息中心</a>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMessages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-envelope fa-fw"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMessages">
+                                <!-- 訊息下拉選單內容 -->
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTasks" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-tasks fa-fw"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownTasks">
+                                <!-- 任務下拉選單內容 -->
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAlerts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownAlerts">
+                                <!-- 通知下拉選單內容 -->
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user fa-fw"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUser">
+                                <li><a class="dropdown-item" href="/MessageCenter/UserProfile/EditMySelf"><i class="fas fa-user fa-fw me-2"></i>帳號管理</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/MessageCenter/Logout.aspx"><i class="fas fa-sign-out-alt fa-fw me-2"></i>登出</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/MessageCenter/Outbound/ApplyCenterBuildingInfo"><i class="fas fa-hand-point-right"></i>檢視樓層資訊</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/MessageCenter/DeviceEvents"><i class="fas fa-hand-point-right"></i>設備端狀態查詢</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="$.post('/MessageCenter/Outbound/SynchronizeDevices',{},function(data){ $(data).appendTo($('body')); });"><i class="fas fa-hand-point-right"></i>登錄設備</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/MessageCenter/Outbound/ApplyDevicesInfo"><i class="fas fa-hand-point-right"></i>檢視BA登錄設備</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/MessageCenter/Outbound/ResidentInfo"><i class="fas fa-hand-point-right"></i>檢視BA住戶資訊</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/MessageCenter/InfoCenter"><i class="fas fa-hand-point-right"></i>住戶訊息查詢</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/MessageCenter/Account/UserIndex"><i class="fas fa-hand-point-right"></i>住戶管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:$('').launchDownload('/MessageCenter/InfoCenter/EnergyIndex', $global.viewModel);"><i class="fas fa-hand-point-right"></i>瓦斯度數維護</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/MessageCenter/InfoCenter/BuildingLocationIndex"><i class="fas fa-hand-point-right"></i>社區地址維護(台灣大車隊)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:dispatchQuery();"><i class="fas fa-hand-point-right"></i>台灣大車隊住戶叫車查詢</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/MessageCenter/InfoCenter/BuildingYoxiIndex"><i class="fas fa-hand-point-right"></i>社區地址維護(Yoxi)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:yoxiQuery();"><i class="fas fa-hand-point-right"></i>Yoxi車隊住戶叫車查詢</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="$.post('/MessageCenter/InfoCenter/UrgentCall?reset=True', {}, function (data) { if ($.isPlainObject(data)) { alert('警報已解除!!'); } else { $(data).appendTo($('body')); } });"><i class="fas fa-hand-point-right"></i>解除社區公共警報</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/MessageCenter/DeviceEvents/InitStorageBox"><i class="fas fa-hand-point-right"></i>智慧郵箱</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/MessageCenter/DeviceEvents/InitElevatorBox"><i class="fas fa-hand-point-right"></i>智慧梯控</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:$('').launchDownload('/MessageCenter/InfoCenter/PowerMeterIndex?residentOnly=False', $global.viewModel);"><i class="fas fa-hand-point-right"></i>電錶資訊查詢</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <ul class="nav nav-tabs" id="masterTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="masterHome-tab" data-bs-toggle="tab" data-bs-target="#masterHome" type="button" role="tab" aria-controls="masterHome" aria-selected="true">
+                        首頁 &gt; 設備端裝置列表 <i class="fas fa-angle-double-right ms-1"></i>
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="masterTabContent">
+                <div class="tab-pane fade show active" id="masterHome" role="tabpanel" aria-labelledby="masterHome-tab">
+                    <div class="container-fluid">
+                        <h2 class="mt-3">設備端裝置查詢</h2>
+
+                        <form id="theForm" class="queryForm" role="form" method="post" enctype="multipart/form-data">
+                            <div class="border_gray">
+                                <table class="table table-bordered">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th colspan="2" class="Head_style_a">查詢條件</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th class="w-25">Device Uri</th>
+                                            <td>
+                                                <textarea name="DeviceUri" class="form-control" rows="3"></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>每頁資料筆數</th>
+                                            <td>
+                                                <input name="pageSize" type="number" class="form-control" value="50" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="queryAction mb-4">
+                                <button type="button" class="btn btn-primary me-2" onclick="uiDeviceQuery.inquire();">
+                                    <i class="fas fa-search me-1"></i>查詢
+                                </button>
+                                <button type="button" class="btn btn-danger" onclick="uiDeviceQuery.deleteUri();">
+                                    <i class="fas fa-trash me-1"></i>刪除
+                                </button>
+                            </div>
+                        </form>
+
+                        <div class="row">
+                            <!-- 查詢結果將顯示在這裡 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" alt="Loading..." />
+            <h3 class="mt-3">Loading...</h3>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- jQuery Form Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+
+    <!-- jQuery Cookie Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    <!-- BlockUI Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+
+    <!-- Custom Scripts -->
+    <script>
+        // 全域變數
+        var $global = (function () {
+            var $printContainer = {};
+            var fileDownloadCheckTimer;
+
+            function showLoading(autoHide, onBlock) {
+                $('#loadingOverlay').show();
+                if(autoHide) {
+                    setTimeout(hideLoading, 5000);
+                }
+            }
+
+            function hideLoading() {
+                $('#loadingOverlay').hide();
+                if(fileDownloadCheckTimer) {
+                    clearInterval(fileDownloadCheckTimer);
+                }
+            }
+
+            function finishDownload() {
+                if(fileDownloadCheckTimer) {
+                    clearInterval(fileDownloadCheckTimer);
+                }
+                $.removeCookie('fileDownloadToken');
+                hideLoading();
+            }
+
+            function alertModal(alertMessage) {
+                // 使用 Bootstrap 的 Modal 替代原來的 dialog
+                var modalId = 'alertModal_' + Date.now();
+                var modalHTML = `
+                    <div class="modal fade" id="${modalId}" tabindex="-1" aria-labelledby="${modalId}Label" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="${modalId}Label"><i class="fas fa-info-circle me-2"></i>訊息</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ${alertMessage}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">確定</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                $(modalHTML).appendTo('body');
+                var modal = new bootstrap.Modal(document.getElementById(modalId));
+                modal.show();
+
+                // 移除 modal 當它被隱藏時
+                $('#' + modalId).on('hidden.bs.modal', function () {
+                    $(this).remove();
+                });
+            }
+
+            // 其他原有函數...
+
+            return {
+                showLoading: showLoading,
+                hideLoading: hideLoading,
+                alertModal: alertModal,
+                // 其他原有屬性和方法...
+                viewModel: {"PageSize":50},
+                onReady: [],
+                nothingToken: false
+            };
+        })();
+
+        // 表單序列化為物件
+        $.fn.serializeObject = function () {
+            var o = {};
+            var a = this.serializeArray();
+            $.each(a, function () {
+                if (o[this.name] !== undefined) {
+                    if (!o[this.name].push) {
+                        o[this.name] = [o[this.name]];
+                    }
+                    o[this.name].push(this.value || '');
+                } else {
+                    o[this.name] = this.value || '';
+                }
+            });
+            return o;
+        };
+
+        // 檔案下載功能
+        $.fn.launchDownload = function (url, params, target, loading) {
+            var data = this.serializeObject();
+            if (params) {
+                $.extend(data, params);
+            }
+
+            if (loading) {
+                var token = (new Date()).getTime();
+                data.FileDownloadToken = token;
+            }
+
+            var form = $('<form></form>').attr('action', url).attr('method', 'post');
+            if (target) {
+                form.attr('target', target);
+                if (window.frames[target] == null) {
+                    $('<iframe>')
+                        .css('display', 'none')
+                        .attr('name', target).appendTo($('body'));
+                }
+            }
+
+            Object.keys(data).forEach(function (key) {
+                var value = data[key];
+                if (value instanceof Array) {
+                    value.forEach(function (v) {
+                        form.append($("<input>").attr('type', 'hidden').attr('name', key).attr('value', v));
+                    });
+                } else {
+                    form.append($("<input>").attr('type', 'hidden').attr('name', key).attr('value', value));
+                }
+            });
+
+            if (loading) {
+                showLoading();
+                fileDownloadCheckTimer = window.setInterval(function () {
+                    var cookieValue = $.cookie('FileDownloadToken');
+                    if (cookieValue == token) {
+                        finishDownload();
+                    }
+                }, 1000);
+            }
+
+            form.appendTo('body').submit().remove();
+        };
+
+        // 設備查詢功能
+        var uiDeviceQuery = {
+            viewModel: {
+                "DeviceUri": null, "LiveID": null, "ResidentID": null, "CheckConnection": null,
+                "ShowEvent": null, "InstanceID": null, "LineID": null, "DefenceStatus": null,
+                "CustomerID": null, "BranchNo": null, "Cards": null, "Caller": null,
+                "Callee": null, "Message": null, "Title": null, "Floor": null,
+                "ElevatorNo": null, "id": null, "KeyID": null, "HKeyID": null,
+                "DialogID": null, "FileDownloadToken": null, "CurrentIndex": null,
+                "PagingSize": null, "RecordCount": null, "CustomQuery": null,
+                "ViewID": null, "PageSize": 50, "PageIndex": null
+            },
+            inquire: function (pageNum, onPaging) {
+                if (pageNum) {
+                    $('input[name="PageIndex"]').val(pageNum);
+                } else {
+                    $('input[name="PageIndex"]').val('');
+                    $('input[name="sort"]').remove();
+                }
+
+                $('form.queryForm').ajaxForm({
+                    url: "/MessageCenter/DeviceEvents/Inquire",
+                    beforeSubmit: function () {
+                        showLoading();
+                    },
+                    success: function (data) {
+                        hideLoading();
+                        if (data) {
+                            if (onPaging) {
+                                onPaging(data);
+                            } else {
+                                if (uiDeviceQuery.$result) {
+                                    uiDeviceQuery.$result.remove();
+                                }
+                                uiDeviceQuery.$result = $(data);
+                                $('.queryAction').after(uiDeviceQuery.$result);
+                            }
+                        }
+                    },
+                    error: function () {
+                        hideLoading();
+                    }
+                }).submit();
+            },
+            deleteUri: function () {
+                if (confirm('確定刪除?')) {
+                    $.post('/MessageCenter/DeviceEvents/DeleteDevicesByUri', {
+                        'uri': $('textarea[name="DeviceUri"]').val()
+                    }, function (data) {
+                        $(data).appendTo($('body'));
+                    });
+                }
+            }
+            // 其他原有方法...
+        };
+
+        // 台灣大車隊查詢功能
+        function dispatchQuery() {
+            doDispatchQuery();
+        }
+
+        function doDispatchQuery() {
+            $('').launchDownload('/MessageCenter/TaiwanTaxiAgent/DispatchQueryAll', $global.viewModel);
+        }
+
+        // Yoxi 車隊查詢功能
+        function yoxiQuery() {
+            doYoxiQuery();
+        }
+
+        function doYoxiQuery() {
+            $('').launchDownload('/MessageCenter/YoxiAgent/DispatchQueryAll', $global.viewModel);
+        }
+
+        function deleteTrip(hashId) {
+            if (confirm('確定刪除此行程?')) {
+                showLoading();
+                $.post('/MessageCenter/YoxiAgent/DeleteTrip', { 'hashId': hashId }, function (data) {
+                    hideLoading();
+                    if ($.isPlainObject(data)) {
+                        // 處理回傳物件
+                    } else {
+                        $(data).appendTo($('body'));
+                        $('tr[data-hash-id="' + hashId + '"]').remove();
+                    }
+                });
+            }
+        }
+
+        // 初始化
+        $(function () {
+            // 初始化日期選擇器
+            $('.form-date').datepicker({
+                showButtonPanel: true,
+                changeYear: true,
+                changeMonth: true,
+                yearRange: '2025:+1'
+            });
+
+            // 初始化按鈕樣式
+            $('input[type="button"]').addClass('btn btn-secondary');
+            $('button').addClass('btn btn-secondary');
+
+            // 執行 ready 函數
+            for (var i = 0; i < $global.onReady.length; i++) {
+                $global.onReady[i]();
+            }
+        });
+    </script>
+</body>
+</html>

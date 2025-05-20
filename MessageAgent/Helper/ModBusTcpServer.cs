@@ -18,6 +18,7 @@ namespace MessageAgent.Helper
         private TcpListener tcpListener;
         private bool isRunning = false;
         private ushort[] registers = new ushort[16]; // 16個整數值陣列
+        private String[] userNames = new String[16]; // 16個用戶名稱陣列
 
         public ModbusTcpServer() 
         {
@@ -25,7 +26,7 @@ namespace MessageAgent.Helper
             {
                 using(ModelSource<UserProfile> models = new ModelSource<UserProfile>())
                 {
-                    var items = models.GetTable<UserProfile>().Where(u => u.UserAlarm.AlarmID > 0);
+                    var items = models.GetTable<UserProfile>();
                     if(items.Any())
                     {
                         if(registers?.Length == items.Count())
@@ -34,13 +35,17 @@ namespace MessageAgent.Helper
                             foreach(var item in items)
                             {
                                 registers[i] = (ushort)(item.UserAlarm?.AlarmID ?? 0);
+                                userNames[i] = item.PID;
+                                i++;
                             }
                         }
                         else
                         {
-                            registers = items.ToList()
-                                            .Select(u => (ushort)(u.UserAlarm.AlarmID ?? 0))
+                            var users = items.ToList();
+                            registers = users
+                                            .Select(u => (ushort)(u.UserAlarm?.AlarmID ?? 0))
                                             .ToArray();
+                            userNames = users.Select(u => u.PID).ToArray();
                         }
                     }
                     else
@@ -74,11 +79,18 @@ namespace MessageAgent.Helper
 
         private void ListenForClients()
         {
-            while (isRunning)
+            try
             {
-                TcpClient client = tcpListener.AcceptTcpClient();
-                Thread clientThread = new Thread(HandleClientComm);
-                clientThread.Start(client);
+                while (isRunning)
+                {
+                    TcpClient client = tcpListener.AcceptTcpClient();
+                    Thread clientThread = new Thread(HandleClientComm);
+                    clientThread.Start(client);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
         }
 
@@ -124,13 +136,17 @@ namespace MessageAgent.Helper
             ushort startAddress = (ushort)((request[8] << 8) | request[9]);
             ushort quantity = (ushort)((request[10] << 8) | request[11]);
 
+            byte[] response = null;
             if (functionCode == 0x03 || functionCode == 0x04) // 讀取保持寄存器或輸入寄存器
             {
-                return CreateReadResponse(transactionId, functionCode, startAddress, quantity);
+                response =  CreateReadResponse(transactionId, functionCode, startAddress, quantity);
             }
-
-            // 不支持的功能碼
-            return CreateExceptionResponse(transactionId, functionCode, 0x01);
+            else
+            {
+                response = CreateExceptionResponse(transactionId, functionCode, 0x01); // 不支持的功能碼
+            }
+            Logger.Debug($"Modbus TCP請求: 功能碼={functionCode}, 起始地址={startAddress}, 數量={quantity}\r\n{response.ToHexString(" ")}");
+            return response;
         }
 
         private byte[] CreateReadResponse(ushort transactionId, byte functionCode, ushort startAddress, ushort quantity)
@@ -192,6 +208,15 @@ namespace MessageAgent.Helper
             isRunning = false;
             tcpListener.Stop();
             Console.WriteLine("Modbus TCP服務器已停止");
+        }
+
+        public void DumpRegisters()
+        {
+            Console.WriteLine($"住戶警報暫存器:共{registers.Length}戶");
+            for (int i = 0; i < registers.Length; i++)
+            {
+                Console.WriteLine($"[{i}:{userNames[i]}] = {registers[i]:X02}");
+            }
         }
     }
 

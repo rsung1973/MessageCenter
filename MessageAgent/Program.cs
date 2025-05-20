@@ -9,6 +9,7 @@ using CommonLib.Helper;
 using MessageAgent.Helper;
 using MessageAgent.Helper.Jobs;
 using MessageAgent.Properties;
+using Utility;
 
 namespace MessageAgent
 {
@@ -23,8 +24,7 @@ namespace MessageAgent
                 JobLauncher.StartUp();
             }
 
-
-
+            Logger.Info("程式已啟動...");
             Console.WriteLine("程式已啟動...");
 
             ModbusTcpServer server = new ModbusTcpServer();
@@ -33,16 +33,21 @@ namespace MessageAgent
             //Application.Run();
             while (true)
             {
-                Console.WriteLine("請輸入=>r:立即執行; q:結束");
-                var cmd = Console.ReadLine();
-                if (cmd == "r")
+                Console.WriteLine("請輸入=>r:立即執行; d:顯示內容; q:結束");
+                var cmd = Console.ReadKey();
+                Console.WriteLine();
+                if (cmd.Key == ConsoleKey.R)
                 {
-                    if(Settings.Default.UseJobLauncher)
+                    if (Settings.Default.UseJobLauncher)
                     {
                         JobScheduler.LaunchImmediately();
                     }
                 }
-                else if(cmd=="q")
+                else if (cmd.Key == ConsoleKey.D)
+                {
+                    server.DumpRegisters();
+                }
+                else if (cmd.Key == ConsoleKey.Q)
                 {
                     break;
                 }
