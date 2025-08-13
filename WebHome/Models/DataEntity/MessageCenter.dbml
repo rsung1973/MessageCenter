@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="MessageCenter" Class="MessageCenterDataContext" Serialization="Unidirectional" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=VM-Titan\sqlexpress,1433;Initial Catalog=MessageCenter;Integrated Security=True;Encrypt=False;Trust Server Certificate=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="MessageCenterConnectionString" Provider="Microsoft.Data.SqlClient" />
+  <Table Name="dbo.DeviceCommand" Member="DeviceCommand">
+    <Type Name="DeviceCommand">
+      <Column Name="LogID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CommandID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TokenID" Type="System.String" DbType="NVarChar(64) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserRegister" Member="UserRegister">
+    <Type Name="UserRegister">
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DeviceUri" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Association Name="UserRegister_LiveDevice" Member="LiveDevice" ThisKey="UID" OtherKey="UID" Type="LiveDevice" />
+      <Association Name="UserProfile_UserRegister" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DeviceEventLog" Member="DeviceEventLog">
+    <Type Name="DeviceEventLog">
+      <Column Name="LogID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LogDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EventCode" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="Tx" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="Rx" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+      <Column Name="LiveID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="DeviceEventLog_DeviceEventReport" Member="DeviceEventReport" ThisKey="LogID" OtherKey="LogID" Type="DeviceEventReport" />
+      <Association Name="LiveDevice_DeviceEventLog" Member="LiveDevice" ThisKey="LiveID" OtherKey="LiveID" Type="LiveDevice" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DeviceEventReport" Member="DeviceEventReport">
+    <Type Name="DeviceEventReport">
+      <Column Name="ReportID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="LevelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReportDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LogID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LiveID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="DeviceEventLog_DeviceEventReport" Member="DeviceEventLog" ThisKey="LogID" OtherKey="LogID" Type="DeviceEventLog" IsForeignKey="true" DeleteRule="CASCADE" />
+      <Association Name="LevelExpression_DeviceEventReport" Member="LevelExpression" ThisKey="LevelID" OtherKey="LevelID" Type="LevelExpression" IsForeignKey="true" />
+      <Association Name="LiveDevice_DeviceEventReport" Member="LiveDevice" ThisKey="LiveID" OtherKey="LiveID" Type="LiveDevice" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LevelExpression" Member="LevelExpression">
+    <Type Name="LevelExpression">
+      <Column Name="LevelID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Expression" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="LevelExpression_DeviceEventReport" Member="DeviceEventReport" ThisKey="LevelID" OtherKey="LevelID" Type="DeviceEventReport" />
+      <Association Name="LevelExpression_LiveDevice" Member="LiveDevice" ThisKey="LevelID" OtherKey="CurrentLevel" Type="LiveDevice" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LiveDevice" Member="LiveDevice">
+    <Type Name="LiveDevice">
+      <Column Name="LiveID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DeviceID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DeviceUri" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="CurrentLevel" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="LiveDevice_DeviceEventLog" Member="DeviceEventLog" ThisKey="LiveID" OtherKey="LiveID" Type="DeviceEventLog" />
+      <Association Name="LiveDevice_DeviceEventReport" Member="DeviceEventReport" ThisKey="LiveID" OtherKey="LiveID" Type="DeviceEventReport" />
+      <Association Name="LevelExpression_LiveDevice" Member="LevelExpression" ThisKey="CurrentLevel" OtherKey="LevelID" Type="LevelExpression" IsForeignKey="true" />
+      <Association Name="UserRegister_LiveDevice" Member="UserRegister" ThisKey="UID" OtherKey="UID" Type="UserRegister" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserFCM" Member="UserFCM">
+    <Type Name="UserFCM">
+      <Column Name="TokenID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FCMToken" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Association Name="UserProfile_UserFCM" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserProfile" Member="UserProfile">
+    <Type Name="UserProfile">
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="PID" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="ExternalID" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="Expiration" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Creator" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AuthID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LevelID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ThemeName" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="Password2" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="MemberCode" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="PictureID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RealName" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(32)" CanBeNull="true" />
+      <Column Name="RecentStatus" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Birthday" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="SubscribedAlarm" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="UserProfile_UserRegister" Member="UserRegister" ThisKey="UID" OtherKey="UID" Type="UserRegister" Cardinality="One" />
+      <Association Name="UserProfile_UserFCM" Member="UserFCM" ThisKey="UID" OtherKey="UID" Type="UserFCM" />
+      <Association Name="UserProfile_UserProfile" Member="UserProfile2" ThisKey="UID" OtherKey="Creator" Type="UserProfile" />
+      <Association Name="UserProfile_UserProfile1" Member="UserProfile4" ThisKey="UID" OtherKey="AuthID" Type="UserProfile" />
+      <Association Name="UserProfile_UserBinding" Member="UserBinding" ThisKey="UID" OtherKey="UID" Type="UserBinding" />
+      <Association Name="UserProfile_UserProfileExtension" Member="UserProfileExtension" ThisKey="UID" OtherKey="UID" Type="UserProfileExtension" Cardinality="One" />
+      <Association Name="UserProfile_GasUsageReport" Member="GasUsageReport" ThisKey="UID" OtherKey="UID" Type="GasUsageReport" />
+      <Association Name="UserProfile_UserAccessCard" Member="UserAccessCard" ThisKey="UID" OtherKey="UID" Type="UserAccessCard" />
+      <Association Name="UserProfile_BoxStorageLog" Member="BoxStorageLog" ThisKey="UID" OtherKey="UID" Type="BoxStorageLog" />
+      <Association Name="UserProfile_UserAlarm" Member="UserAlarm" ThisKey="UID" OtherKey="UID" Type="UserAlarm" Cardinality="One" />
+      <Association Name="UserProfile_UserProfile" Member="UserProfile1" ThisKey="Creator" OtherKey="UID" Type="UserProfile" IsForeignKey="true" />
+      <Association Name="UserProfile_UserProfile1" Member="UserProfile3" ThisKey="AuthID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserBinding" Member="UserBinding">
+    <Type Name="UserBinding">
+      <Column Name="BindingID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LineID" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="LineUser" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Association Name="UserProfile_UserBinding" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Community" Member="Community">
+    <Type Name="Community">
+      <Column Name="CommunityID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CommunityNo" Type="System.String" DbType="NVarChar(16) NOT NULL" CanBeNull="false" />
+      <Column Name="CommunityName" Type="System.String" DbType="NVarChar(64) NOT NULL" CanBeNull="false" />
+      <Association Name="Community_UserProfileExtension" Member="UserProfileExtension" ThisKey="CommunityID" OtherKey="CommunityID" Type="UserProfileExtension" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserProfileExtension" Member="UserProfileExtension">
+    <Type Name="UserProfileExtension">
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LineID" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="InstanceID" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="CommunityID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DefenceStatus" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PowerMeterIP" Type="System.String" DbType="NVarChar(16)" CanBeNull="true" />
+      <Column Name="Floor" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Community_UserProfileExtension" Member="Community" ThisKey="CommunityID" OtherKey="CommunityID" Type="Community" IsForeignKey="true" />
+      <Association Name="UserProfile_UserProfileExtension" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MessageBoard" Member="MessageBoard">
+    <Type Name="MessageBoard">
+      <Column Name="InstanceID" Type="System.String" DbType="NVarChar(64) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MessageDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Defence" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GasUsageReport" Member="GasUsageReport">
+    <Type Name="GasUsageReport">
+      <Column Name="ReportID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReportDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Year" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Month" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Usage" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Association Name="UserProfile_GasUsageReport" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FCMToken" Member="FCMToken">
+    <Type Name="FCMToken">
+      <Column Name="Token" Type="System.String" DbType="NVarChar(256) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserAccessCard" Member="UserAccessCard">
+    <Type Name="UserAccessCard">
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CardID" Type="System.String" DbType="NVarChar(32) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="UserProfile_UserAccessCard" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BoxStorageLog" Member="BoxStorageLog">
+    <Type Name="BoxStorageLog">
+      <Column Name="LogID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BoxSize" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BoxPort" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PushDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PopDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="UserProfile_BoxStorageLog" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserAlarm" Member="UserAlarm">
+    <Type Name="UserAlarm">
+      <Column Name="UID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="AlarmID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="UserProfile_UserAlarm" Member="UserProfile" ThisKey="UID" OtherKey="UID" Type="UserProfile" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+</Database>

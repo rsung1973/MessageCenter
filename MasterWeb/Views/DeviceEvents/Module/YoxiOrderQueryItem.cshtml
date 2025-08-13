@@ -41,12 +41,12 @@
                         if (ViewBag.EnableDispatchCancel != false
                             && !(data.status == "CANCEL_TRIP" || data.status == "CLOSE_TRIP"))
                         {
-                            <button type="button" class="btn" onclick="javascript: dispatchCancel('@(data.hashId)');">取消叫車</button>
+                            <button type="button" class="btn btn-primary" onclick="javascript: dispatchCancel('@(data.hashId)');">取消叫車</button>
                         }
 
                         if (data.status == "CANCEL_TRIP" || data.status == "CLOSE_TRIP")
                         {
-                            <button type="button" class="btn" onclick="javascript: deleteTrip('@(data.hashId)');">刪除叫車資料</button>
+                            <button type="button" class="btn btn-primary" onclick="javascript: deleteTrip('@(data.hashId)');">刪除叫車資料</button>
                         }
 
                     }
@@ -56,7 +56,7 @@
                             && (DateTime.Now - _viewModel.BookDate.Value).TotalSeconds >= YoxiAgent.TripOrderWaitingIntervalInSeconds)
                         {
                             <label class="label-info">無回應</label>
-                            <button type="button" class="btn" onclick="javascript: deleteTrip('@(ViewBag.HashID)');">刪除叫車資料</button>
+                            <button type="button" class="btn btn-primary" onclick="javascript: deleteTrip('@(ViewBag.HashID)');">刪除叫車資料</button>
                         }
                         else
                         {
@@ -132,7 +132,7 @@
                 }
             }
             @*<div class="row text-center">
-                    <button class="btn" type="button">送出</button>
+                    <button class="btn btn-primary" type="button">送出</button>
                 </div>*@
         </td>
     </tr>

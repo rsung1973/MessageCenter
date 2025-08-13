@@ -23,7 +23,6 @@ namespace MessageAgent
             {
                 JobLauncher.StartUp();
             }
-
             Logger.Info("程式已啟動...");
             Console.WriteLine("程式已啟動...");
 

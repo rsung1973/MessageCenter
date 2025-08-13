@@ -1,0 +1,93 @@
+@using System.IO
+@using System.Linq.Expressions
+
+@using WebHome.Controllers
+@using WebHome.Helper
+@using WebHome.Models
+@using WebHome.Models.DataEntity
+@using WebHome.Models.Locale
+@using WebHome.Models.ViewModel
+@using WebHome.DataPort
+@using WebHome.Properties
+@using Utility
+@using Newtonsoft.Json
+@{
+
+    ModelSource<LiveDevice> models;
+    StorageBoxViewModel _viewModel;
+
+    models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
+    _viewModel = (StorageBoxViewModel)ViewBag.ViewModel;
+
+    if (_viewModel == null)
+    {
+        _viewModel = new StorageBoxViewModel();
+        ((SampleController<LiveDevice>)ViewContext.Controller).BuildViewModel(_viewModel);
+        ViewBag.ViewModel = _viewModel;
+    }
+
+}
+
+@if (AppSettings.Default.StorageBoxArray != null && AppSettings.Default.StorageBoxArray.Length > 0)
+{
+    String url = $"{AppSettings.Default.LineMessageCenter}/MessageCenter/LineEvents/PushQRCode";
+
+    for (int i = 0; i < AppSettings.Default.StorageBoxArray.Length; i++)
+    {
+        _viewModel.BoxDeviceIndex = i;
+        var boxSettings = AppSettings.Default.StorageBoxArray[i];
+        StorageBoxAgent agent = new StorageBoxAgent(boxSettings);
+        StorageBoxAgent.BoxPortList box = agent.GetBoxPortList();
+        if(box == null)
+        {
+            continue;
+        }
+
+        for (int idx = 0; idx < box.ports.Length; idx++)
+        {
+            var item = box.ports[idx];
+            bool disabled = agent.ViewModel.Disabled.Contains(idx);
+            if (disabled)
+            {
+                continue;
+            }
+            else if (item.room == null)
+            {
+                continue;
+            }
+            else
+            {
+                UserProfile user = models.InquireUser($"{item.room}", out bool lineUser);
+                if (user != null && lineUser)
+                {
+                    var logItem = models.GetTable<BoxStorageLog>()
+                        .Where(b => b.UID == user.UID)
+                        .Where(b => b.BoxPort == idx)
+                        .Where(b => b.BoxSize == (int)boxSettings.BoxSize)
+                        .Where(b => !b.PopDate.HasValue)
+                        .OrderByDescending(b => b.LogID)
+                        .FirstOrDefault();
+
+                    if (logItem?.PushDate.HasValue == true && (DateTime.Now - logItem.PushDate.Value).TotalHours >= boxSettings.DepositedForOverHours)
+                    {
+                        url.PushToLineMessageCenter(new UserAccountQueryViewModel
+                        {
+                            PID = user.PID,
+                            QRCode = logItem.LogID.EncryptKey(),
+                            Title = "快遞通知",
+                            Message = $"{DateTime.Now:yyyy/MM/dd HH:mm}，您的快遞寄放於{boxSettings.BoxSize}型郵箱第{item.port + 1}櫃，請盡速取件。"
+                        });
+                    }
+                }
+            }
+        }
+
+    }
+}
+@{ 
+    (new JsonResult
+    {
+        Data = new { result = true },
+        JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+    }).ExecuteResult(ViewContext.Controller.ControllerContext);
+}

@@ -764,5 +764,27 @@ namespace WebHome.Helper
                 return null;
             }
         }
+
+        public static UserProfile InquireUser(this ModelSource<LiveDevice> models, string residentID, out bool lineUser)
+        {
+            lineUser = true;
+            UserProfile user = null;
+            if (residentID.Any(c => c == '-'))
+            {
+                user = models.GetTable<UserProfile>().Where(p => p.PID == residentID).FirstOrDefault();
+            }
+            else
+            {
+                String id = $"-{residentID}";
+                user = models.GetTable<UserProfile>().Where(p => p.PID.Contains(id)).FirstOrDefault();
+                if (user == null)
+                {
+                    lineUser = false;
+                    user = models.GetTable<UserProfile>().Where(p => p.PID == residentID).FirstOrDefault();
+                }
+            }
+            return user;
+        }
+
     }
 }

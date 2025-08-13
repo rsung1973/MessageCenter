@@ -18,7 +18,8 @@
 
     models = ((SampleController<LiveDevice>)ViewContext.Controller).DataSource;
     _viewModel = (ElevatorBoxViewModel)ViewBag.ViewModel;
-
+    int boxIdx = 0;
+    int elevatorGroupCount = (AppSettings.Default.BuildingFloors.Value + 15) / 16;
 }
 
 <div class="border_gray" id="step2">
@@ -28,6 +29,7 @@
         {
             StorageBoxAgent agent = new StorageBoxAgent(item);
             var box = agent.GetBoxPortList();
+            var groupIdx = boxIdx % elevatorGroupCount;
             <tr>
                 <th>
                     電梯控制盒IP：
@@ -39,10 +41,35 @@
                     電梯門號(@(item?.No))
                 </th>
                 <td class="tdleft">
-                    @(box!=null ? "設定完成" : "設備未設定")
+                    @(box!=null ? "" : "設備未設定")
                 </td>
             </tr>
+            <tr>
+                <th>
+                    樓層
+                </th>
+                <td class="tdleft" colspan="3">
+                    @if (box != null)
+                    {
+                        for (int idx = 0; idx < box.ports.Length; idx++)
+                        {
+                            var floor = idx + groupIdx * 16;
+                            if (floor < AppSettings.Default.BuildingFloors)
+                            {
+                                bool disabled = agent.ViewModel.Disabled.Contains(idx);
+                                <input type="checkbox" name="KeyItems" value='@Html.Raw((new { BoxDeviceIndex = boxIdx, Port = idx }).JsonStringify())' checked="@(disabled)" />@(floor+1)<text>&nbsp;</text>
+                            }
+                        }
+                    }
+                </td>
+            </tr>
+            boxIdx++;
         }
+        <tr>
+            <td colspan="4">
+                <button type="button" class="btn btn-primary" onclick="setElevatorStatus();">設定樓層管制</button>
+            </td>
+        </tr>
     </table>
     <!--表格 結束-->
 </div>

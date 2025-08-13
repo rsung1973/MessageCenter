@@ -336,7 +336,12 @@ namespace WebHome.Controllers
                     if (elevator != null)
                     {
                         var agent = new StorageBoxAgent(elevator);
-                        agent.TriggerBoxPort(floor % 16);
+                        int port = floor % 16;
+                        if (agent.ViewModel.Disabled.Contains(port))
+                        {
+                            return Json(new { result = 0, message = "該樓層管制中" }, JsonRequestBehavior.AllowGet);
+                        }
+                        agent.TriggerBoxPort(port);
                         return Json(new { result = 1 }, JsonRequestBehavior.AllowGet);
                     }
                     else if(floor == -99)
@@ -360,8 +365,12 @@ namespace WebHome.Controllers
                 if (logItem.BoxSize >= 0 && logItem.BoxSize < AppSettings.Default.ElevatorBoxArray?.Length)
                 {
                     var agent = new StorageBoxAgent(AppSettings.Default.ElevatorBoxArray[logItem.BoxSize.Value]);
-                    agent.TriggerBoxPort(logItem.BoxPort.Value);
+                    if(agent.ViewModel.Disabled.Contains(logItem.BoxPort.Value))
+                    {
+                        return Json(new { result = 0, message = "該管制中" }, JsonRequestBehavior.AllowGet);
+                    }
 
+                    agent.TriggerBoxPort(logItem.BoxPort.Value);
                     return Json(new { result = 1 }, JsonRequestBehavior.AllowGet);
                 }
             }

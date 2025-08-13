@@ -53,7 +53,7 @@
                     <textarea name="Message" rows="3"></textarea>
                 </td>
                 <td>
-                    <button type="button" class="btn" onclick="doPost('@Url.Action("PushToLine", "InfoCenter")', $('#@_viewID').find('input,select,textarea').serializeObject(), function (data) { if (data.result) { } });">
+                    <button type="button" class="btn btn-primary" onclick="doPost('@Url.Action("PushToLine", "InfoCenter")', $('#@_viewID').find('input,select,textarea').serializeObject(), function (data) { if (data.result) { } });">
                         傳送
                     </button>
                 </td>

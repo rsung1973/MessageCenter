@@ -29,5 +29,8 @@
     <Setting Name="ModbusServerPort" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">5502</Value>
     </Setting>
+    <Setting Name="AWTEKMode" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -47,9 +47,9 @@ namespace CommonLib.Helper
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
+                throw new Exception("Logger實作類別設定錯誤!!", ex);
             }
         }
 

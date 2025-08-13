@@ -132,10 +132,24 @@ namespace WebHome.Controllers
                 viewModel.UID = viewModel.DecryptKeyValue();
             }
 
+            var item = models.GetTable<UserProfileExtension>().Where(u => u.UID == viewModel.UID).FirstOrDefault();
+
+            if (item == null)
+            {
+                viewModel.InstanceID = viewModel.InstanceID.GetEfficientString();
+                item = models.GetTable<UserProfileExtension>().Where(t => t.InstanceID == viewModel.InstanceID)
+                            .FirstOrDefault();
+            }
+
+            if (item == null)
+            {
+                return Json(new { result = false, message = "資料錯誤!!" }, JsonRequestBehavior.AllowGet);
+            } 
+
             var result = models.ExecuteCommand("delete UserBinding where UID={0} and LineID={1}",
                             viewModel.UID, viewModel.LineID);
 
-            if(result>0)
+            if (result > 0)
             {
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
@@ -420,6 +434,92 @@ namespace WebHome.Controllers
                 return View("ToBindingInfo", binding);
             }
 
+        }
+
+        [HttpPost]
+        public ActionResult RegisterResidentDevice(UserAccountQueryViewModel viewModel)
+        {
+            if (viewModel.KeyID != null)
+            {
+                viewModel.LineID = viewModel.KeyID.DecryptKey();
+            }
+
+            viewModel.InstanceID = viewModel.InstanceID.GetEfficientString();
+            var item = models.GetTable<UserProfileExtension>().Where(t => t.InstanceID == viewModel.InstanceID)
+                        .FirstOrDefault();
+
+            if (item == null)
+            {
+                return Json(new { result = false, message = "設備識別碼錯誤!!" }, JsonRequestBehavior.AllowGet);
+            }
+
+            //if (String.IsNullOrEmpty(viewModel.Password))
+            //{
+            //    ModelState.AddModelError("PassWord", "請輸入密碼!!");
+            //}
+            //else
+            //{
+            //    if (viewModel.Password != viewModel.Password2)
+            //    {
+            //        ModelState.AddModelError("PassWord2", "二組密碼輸入不同!!");
+            //    }
+            //}
+
+            viewModel.PID = viewModel.PID.GetEfficientString();
+            if (viewModel.PID == null)
+            {
+                ModelState.AddModelError("PID", "請輸入APP號碼!!");
+            }
+            else if (viewModel.PID != item.UserProfile.PID)
+            {
+                if (item.LineID == null)
+                {
+                    ModelState.AddModelError("PID", "首次註冊時APP號碼需同住戶名稱!!");
+                }
+            }
+            else if (viewModel.PID == item.UserProfile.PID)
+            {
+                if (item.LineID != null)
+                {
+                    ModelState.AddModelError("PID", "設備已註冊，請輸入其他APP號碼!!");
+                }
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .Select(x => new { key = x.Key, errors = x.Value.Errors.Select(e => e.ErrorMessage).ToArray() })
+                    .ToArray();
+                return Json(new { result = false, errors }, JsonRequestBehavior.AllowGet);
+            }
+
+            bool registerAdmin = item.LineID == null || item.UserProfile.PID == viewModel.PID;
+            if (registerAdmin)
+            {
+                item.LineID = viewModel.LineID;
+                //item.UserProfile.Password = ValueValidity.MakePassword(viewModel.Password);
+            }
+            var binding = createBinding(item.UserProfile, viewModel);
+            models.SubmitChanges();
+
+            if (registerAdmin)
+            {
+                return Json(new { result = true, KeyID = item.UID.EncryptKey() }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new
+                {
+                    result = true,
+                    binding = new
+                    {
+                        binding.BindingID,
+                        binding.UID,
+                        binding.LineID
+                    }
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
 
 
@@ -833,8 +933,13 @@ namespace WebHome.Controllers
 
         public ActionResult CheckDefence(InfoQueryViewModel viewModel)
         {
+            // 將 viewModel 放入 ViewBag 以便於 View 使用
             ViewBag.ViewModel = viewModel;
+
+            // 輸出目前時間與 viewModel 內容到 Console 以便除錯
             Console.WriteLine($"{DateTime.Now},{viewModel.JsonStringify()}");
+
+            // 若設定為推送到 Line Message Center，則直接推送並回傳結果
             if (AppSettings.Default.PushToLineMessageCenter)
             {
                 String url = $"{AppSettings.Default.LineMessageCenter}{Request.RawUrl}";
@@ -842,8 +947,10 @@ namespace WebHome.Controllers
                 return Content(data, "application/json");
             }
 
+            // 若有傳入 DefenceStatus 且 UrgentEventHandler 實例存在，則更新裝置狀態
             if (viewModel.DefenceStatus.HasValue && UrgentEventHandler.Instance != null)
             {
+                // 取得或建立對應 InstanceID 的 DeviceStatus
                 var statusItem = UrgentEventHandler.Instance.DeviceStatusList
                         .Where(d => d != null && d.InstanceID == viewModel.InstanceID)
                         .FirstOrDefault();
@@ -857,7 +964,10 @@ namespace WebHome.Controllers
                     Logger.Debug($"CheckDefence DeviceStatus Item: {viewModel.JsonStringify()}");
                 }
 
+                // 設定防禦狀態
                 statusItem.DefenceStatus = viewModel.DefenceStatus;
+
+                // 若狀態為清除，則將對應 UserAlarm 的 AlarmID 設為 0
                 if (viewModel.DefenceStatus == Naming.DefenceStatus.Clear)
                 {
                     models.ExecuteCommand(@"UPDATE  UserAlarm
@@ -865,6 +975,7 @@ namespace WebHome.Controllers
                                             FROM     UserAlarm INNER JOIN
                                                          UserProfile ON UserAlarm.UID = UserProfile.UID
                                             WHERE   (UserProfile.PID = {0})", viewModel.InstanceID);
+                    // 若需刪除 UserAlarm，可啟用下列程式碼
                     //models.ExecuteCommand(@"DELETE FROM UserAlarm
                     //                    FROM     UserProfile INNER JOIN
                     //                                 UserAlarm ON UserProfile.UID = UserAlarm.UID
@@ -873,12 +984,14 @@ namespace WebHome.Controllers
             }
 
             bool hasResult = false;
+            // 建立回傳的結果物件
             DeviceTransactionViewModel result = new DeviceTransactionViewModel
             {
 
             };
 
-            if(AppSettings.Default.LocalMessageCenter)
+            // 若為本地訊息中心，檢查主門狀態
+            if (AppSettings.Default.LocalMessageCenter)
             {
                 if (UrgentEventHandler.Instance.MainDoorStatus.HasValue)
                 {
@@ -887,6 +1000,7 @@ namespace WebHome.Controllers
                 }
             }
 
+            // 查詢 MessageBoard 是否有對應 InstanceID 的訊息
             var item = models.GetTable<MessageBoard>()
                         .Where(d => d.InstanceID == viewModel.InstanceID)
                         .FirstOrDefault();
@@ -895,10 +1009,12 @@ namespace WebHome.Controllers
             {
                 hasResult = true;
                 result.Defence = (DeviceTransactionViewModel.DefenceStatus?)item.Defence;
+                // 取得後刪除該訊息
                 models.ExecuteCommand("delete MessageBoard where InstanceID = {0} ", item.InstanceID);
             }
 
-            if(AppSettings.Default.LocalMessageCenter)
+            // 若為本地訊息中心，檢查緊急事件（火災、地震、清除）
+            if (AppSettings.Default.LocalMessageCenter)
             {
                 if (UrgentEventHandler.Instance.CurrentFire)
                 {
@@ -908,7 +1024,7 @@ namespace WebHome.Controllers
                         var items = models.GetTable<UserProfile>()
                             .Where(u => u.PID == viewModel.InstanceID);
 
-                        if(UrgentEventHandler.Instance.AlarmLoop.HasValue)
+                        if (UrgentEventHandler.Instance.AlarmLoop.HasValue)
                         {
                             items = items.Where(u => u.SubscribedAlarm == (int)Naming.AlarmSubscription.公共設施
                                 || u.SubscribedAlarm == UrgentEventHandler.Instance.AlarmLoop);
@@ -946,6 +1062,7 @@ namespace WebHome.Controllers
                 }
             }
 
+            // 若有結果，回傳 JSON 格式內容，否則回傳空結果
             if (hasResult)
             {
                 Logger.Debug($"CheckDefence:{viewModel.JsonStringify()}\r\n{result.JsonStringify()}");
@@ -1053,6 +1170,13 @@ namespace WebHome.Controllers
             }
 
             var item = models.GetTable<UserProfileExtension>().Where(p => p.UID == viewModel.UID).FirstOrDefault();
+
+            if (item == null)
+            {
+                viewModel.InstanceID = viewModel.InstanceID.GetEfficientString();
+                item = models.GetTable<UserProfileExtension>().Where(t => t.InstanceID == viewModel.InstanceID)
+                            .FirstOrDefault();
+            }
 
             if (item == null || item.InstanceID == null)
             {

@@ -37,7 +37,7 @@
                     <label class="label-info">@(i+1)、@(vehicle.TraState)</label>
                     @if (ViewBag.EnableDispatchCancel != false)
                     {
-                        <button type="button" class="btn" onclick="javascript: dispatchCancel('@(vehicle.JobId)');">取消叫車</button>
+                        <button type="button" class="btn btn-primary" onclick="javascript: dispatchCancel('@(vehicle.JobId)');">取消叫車</button>
                     }
                 </div>
                 <div>
@@ -135,7 +135,7 @@
                 }
             }
             @*<div class="row text-center">
-            <button class="btn" type="button">送出</button>
+            <button class="btn btn-primary" type="button">送出</button>
         </div>*@
         </td>
     </tr>

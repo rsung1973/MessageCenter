@@ -29,22 +29,30 @@
                 電梯組數：
             </th>
             <td class="tdleft">
-                <input type="text" name="ElevatorCount" value="" />
+                <input type="text" name="ElevatorCount" value="@(AppSettings.Default.ElevatorCount)" />
             </td>
             <th>
                 樓層數：
             </th>
             <td class="tdleft">
-                <input type="text" name="Floors" value="" />
+                <input type="text" name="Floors" value="@(AppSettings.Default.BuildingFloors)" />
             </td>
         </tr>
         <tr>
             <td colspan="4">
-                <button type="button" onclick="commitStep0();">Step 1</button>
+                <button type="button" class="btn btn-primary" onclick="commitStep0();">Step 1</button>
             </td>
         </tr>
     </table>
 </div>
+@if (AppSettings.Default.ElevatorCount > 0)
+{
+    Html.RenderPartial("~/Views/DeviceEvents/Module/ElevatorBoxStep1.cshtml");
+    if(AppSettings.Default.ElevatorBoxArray?.Length>0)
+    {
+        Html.RenderPartial("~/Views/DeviceEvents/Module/ElevatorBoxStep2.cshtml");
+    }
+}
 <script>
     function commitStep0() {
         var event = event || window.event;
@@ -79,7 +87,7 @@
                 if (data.result) {
                     alert(data.message);
                 } else {
-                    alert("郵箱設定失敗!!");
+                    alert("設定失敗!!");
                 }
             } else {
                 $('#step2').remove();
@@ -88,5 +96,46 @@
         });
     }
 
+    function showStep2() {
+        var event = event || window.event;
+        showLoading();
+        $.post('@Html.Raw(Url.Action("ElevatorBoxStep2", "DeviceEvents"))', {}, function (data) {
+            hideLoading();
+            if ($.isPlainObject(data)) {
+                if (data.result) {
+                    alert(data.message);
+                } else {
+                    alert("設定失敗!!");
+                }
+            } else {
+                $('#step2').remove();
+                $('#step1').after($(data));
+            }
+        });
+    }
+
+
+    function setElevatorStatus() {
+        var event = event || window.event;
+        var $queryArea = $(event.target).closest('table.queryArea');
+        var formData = $queryArea.find('input,select,textarea').serializeObject();
+
+        clearErrors();
+        showLoading();
+        $.post('@Html.Raw(Url.Action("SetElevatorStatus", "DeviceEvents"))', formData, function (data) {
+            hideLoading();
+            if ($.isPlainObject(data)) {
+                if (data.result) {
+                    alert("設定完成!!");
+                    showStep2();
+                } else {
+                    alert(data.message);
+                }
+            } else {
+                $('body')
+                    .append($(data));
+            }
+        });
+    }
 
 </script>

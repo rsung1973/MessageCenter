@@ -20,7 +20,6 @@ namespace WebHome.Models.ViewModel
     public class StorageBoxViewModel : InfoQueryViewModel
     {
         public string StorageBoxUrl { get; set; }
-        public int BoxDeviceIndex { get; set; } = 0;
         public StorageBoxSize? BoxSize { get; set; }
         public int? Port { get; set; }
         public int? ActionType { get; set; }
@@ -58,6 +57,7 @@ namespace WebHome.Models.ViewModel
         public String ViewID { get; set; }
         public int PageSize { get; set; } = 50;
         public int? PageIndex { get; set; }
+        public String[] KeyItems { get; set; }
 
         public static T LoadData<T>(String fileName = null)
             where T : QueryViewModel, new()
@@ -103,7 +103,7 @@ namespace WebHome.Models.ViewModel
         public String Message { get; set; }
         public String Title { get; set; }
         public int? Floor { get; set; }
-        public String ElevatorNo { get; set; }
+        public int BoxDeviceIndex { get; set; } = 0;
     }
 
     public class TaiwanTaxiAgentViewModel : DeviceQueryViewModel

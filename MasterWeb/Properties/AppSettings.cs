@@ -252,6 +252,7 @@ namespace WebHome.Properties
         public int RelayTiming { get; set; } = 3000;
         public String No { get; set; }
         public List<int> Disabled { get; set; } = new List<int>();
+        public double DepositedForOverHours { get; set; } = 0.5; // 24 hours
 
     }
 

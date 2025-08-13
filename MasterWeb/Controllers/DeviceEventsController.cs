@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel.Composition.Primitives;
 using System.Data;
+using System.EnterpriseServices;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,8 +12,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-
-using Newtonsoft.Json;
 using Utility;
 using WebHome.DataModels;
 using WebHome.DataPort;
@@ -542,15 +542,16 @@ namespace WebHome.Controllers
         {
             ViewBag.ViewModel = viewModel;
 
-            viewModel.ElevatorNo = viewModel.ElevatorNo.GetEfficientString();
-            if (viewModel.ElevatorNo == null)
+            if (!(viewModel.KeyID?.Length > 0))
             {
-                this.ModelState.AddModelError("ElevatorNo", "請選擇門牌號碼!!");
+                return Json(new { result = false, message = "請選擇檈層!!" }, JsonRequestBehavior.AllowGet);
             }
 
-            if (!viewModel.Floor.HasValue)
+            StorageBoxViewModel tmpModel = JsonConvert.DeserializeObject<StorageBoxViewModel>(viewModel.KeyID);
+            if (!(AppSettings.Default.ElevatorBoxArray?.Length > tmpModel.BoxDeviceIndex
+                && tmpModel.BoxDeviceIndex >= 0 && tmpModel.Port >= 0))
             {
-                this.ModelState.AddModelError("Floor", "請選擇樓層!!");
+                this.ModelState.AddModelError("Message", "電梯控制盒資料錯誤!!");
             }
 
             viewModel.ResidentID = viewModel.ResidentID.GetEfficientString();
@@ -561,20 +562,20 @@ namespace WebHome.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.ModelState = this.ModelState;
-                return View("~/Views/Shared/ReportInputError.cshtml");
+                return Json(new { result = false, message = ModelState.ErrorMessage() }, JsonRequestBehavior.AllowGet);
             }
 
-            var item = AppSettings.Default.ElevatorBoxArray.Where(l => l.No == viewModel.ElevatorNo)
-                            .Skip(viewModel.Floor.Value / 16)
-                            .FirstOrDefault();
+            var item = AppSettings.Default.ElevatorBoxArray[tmpModel.BoxDeviceIndex];
 
             if (item != null)
             {
-                int boxSize = Array.IndexOf<StorageBoxSettings>(AppSettings.Default.ElevatorBoxArray, item);
-                int boxPort = viewModel.Floor.Value % 16;
+                int boxSize = tmpModel.BoxDeviceIndex;
+                int boxPort = tmpModel.Port.Value;
+                int elevatorGroupCount = (AppSettings.Default.BuildingFloors.Value + 15) / 16;
+                var groupIdx = tmpModel.BoxDeviceIndex % elevatorGroupCount;
+
                 viewModel.Title = "訪客通行證";
-                viewModel.Message = $"{DateTime.Now:yyyy/MM/dd HH:mm}，歡迎搭乘{viewModel.ElevatorNo}號電梯至第{viewModel.Floor + 1}樓。";
+                viewModel.Message = $"{DateTime.Now:yyyy/MM/dd HH:mm}，歡迎搭乘{item.No}號電梯至第{boxPort + 1 + groupIdx * 16}樓。";
                 var logItem = PushBoxStorageMessageToLine(viewModel.ResidentID, boxSize, boxPort, viewModel.Title, viewModel.Message);
                 return View("~/Views/DeviceEvents/Module/AccessQRCode.cshtml", logItem);
             }
@@ -707,6 +708,49 @@ namespace WebHome.Controllers
 
         }
 
+        public ActionResult SetElevatorStatus(StorageBoxViewModel viewModel)
+        {
+            ViewBag.ViewModel = viewModel;
+
+            if (!(AppSettings.Default.ElevatorBoxArray?.Length > 0))
+            {
+                return Json(new { result = false, message = "資料錯誤!!" }, JsonRequestBehavior.AllowGet);
+            }
+
+            foreach (var item in AppSettings.Default.ElevatorBoxArray)
+            {
+                StorageBoxAgent agent = new StorageBoxAgent(item);
+                agent.ViewModel.Disabled.Clear();
+            }
+
+            if(viewModel.KeyItems?.Length > 0)
+            {
+                foreach (var key in viewModel.KeyItems)
+                {
+                    if (key?.Length > 0)
+                    {
+                        StorageBoxViewModel tmpModel = JsonConvert.DeserializeObject<StorageBoxViewModel>(key);
+                        if (tmpModel == null || tmpModel.BoxDeviceIndex < 0
+                            || !(tmpModel.Port >= 0)
+                            || !(tmpModel.BoxDeviceIndex < AppSettings.Default.ElevatorBoxArray?.Length))
+                        {
+                            return Json(new { result = false, message = "資料錯誤!!" }, JsonRequestBehavior.AllowGet);
+                        }
+
+                        var item = AppSettings.Default.ElevatorBoxArray[tmpModel.BoxDeviceIndex];
+                        StorageBoxAgent agent = new StorageBoxAgent(item);
+                        if (!agent.ViewModel.Disabled.Contains(tmpModel.Port.Value))
+                        {
+                            agent.ViewModel.Disabled.Add(tmpModel.Port.Value);
+                        }
+                    }
+                }
+            }
+
+            AppSettings.Default.Save();
+
+            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult CommitStorageItem(StorageBoxViewModel viewModel)
         {
@@ -748,7 +792,7 @@ namespace WebHome.Controllers
                     SET        PopDate = GETDATE()
                     FROM     UserProfile INNER JOIN
                                  BoxStorageLog ON UserProfile.UID = BoxStorageLog.UID
-                    WHERE   (UserProfile.PID = {0}) AND (BoxStorageLog.BoxSize = {1}) AND (BoxStorageLog.BoxPort = {2})",
+                    WHERE   (BoxStorageLog.PopDate IS NULL) AND (UserProfile.PID = {0}) AND (BoxStorageLog.BoxSize = {1}) AND (BoxStorageLog.BoxPort = {2})",
                     viewModel.ResidentID, (int)agent.ViewModel.BoxSize, viewModel.Port.Value);
             }
 
@@ -832,22 +876,7 @@ namespace WebHome.Controllers
                 return null;
             }
 
-            UserProfile user;
-            bool lineUser = true;
-            if (residentID.Any(c => c == '-'))
-            {
-                user = models.GetTable<UserProfile>().Where(p => p.PID == residentID).FirstOrDefault();
-            }
-            else
-            {
-                String id = $"-{residentID}";
-                user = models.GetTable<UserProfile>().Where(p => p.PID.Contains(id)).FirstOrDefault();
-                if (user == null)
-                {
-                    lineUser = false;
-                    user = models.GetTable<UserProfile>().Where(p => p.PID == residentID).FirstOrDefault();
-                }
-            }
+            UserProfile user = models.InquireUser(residentID, out bool lineUser);
 
             BoxStorageLog logItem = null;
             if (user != null)
@@ -858,6 +887,8 @@ namespace WebHome.Controllers
                                     .Where(b => b.UID == user.UID)
                                     .Where(b => b.BoxPort == boxPort)
                                     .Where(b => b.BoxSize == boxSize)
+                                    .Where(b => !b.PopDate.HasValue)
+                                    .OrderByDescending(b => b.LogID)
                                     .FirstOrDefault();
 
                     if (logItem != null)
@@ -963,9 +994,9 @@ namespace WebHome.Controllers
                 this.ModelState.AddModelError("ElevatorCount", "請輸入電梯組數!!");
             }
 
-            if (AppSettings.Default.ElevatorBoxArray == null 
+            if (AppSettings.Default.ElevatorBoxArray == null
                 || viewModel.StorageBoxUrl == null || viewModel.StorageBoxUrl.Length != AppSettings.Default.ElevatorBoxArray.Length
-                || viewModel.No == null || viewModel.No.Length != AppSettings.Default.ElevatorBoxArray.Length)
+                || viewModel.No == null || viewModel.No.Length != AppSettings.Default.ElevatorCount)
             {
                 this.ModelState.AddModelError("Message", "資料錯誤!!");
             }
@@ -976,10 +1007,11 @@ namespace WebHome.Controllers
                 return View("~/Views/Shared/ReportInputError.cshtml");
             }
 
+            int elevatorGroupCount = (AppSettings.Default.BuildingFloors.Value + 15) / 16;
             for (int i = 0; i < AppSettings.Default.ElevatorBoxArray.Length; i++)
             {
                 var item = AppSettings.Default.ElevatorBoxArray[i];
-                item.No = viewModel.No[i].GetEfficientString();
+                item.No = viewModel.No[i/elevatorGroupCount].GetEfficientString();
                 item.StorageBoxUrl = viewModel.StorageBoxUrl[i].GetEfficientString();
             }
 

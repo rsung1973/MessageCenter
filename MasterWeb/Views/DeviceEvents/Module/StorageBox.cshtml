@@ -68,7 +68,26 @@
                 }
                 else
                 {
-                    <td><a href="#" onclick="javascript:removeStorageItem({ 'ResidentID': '@(item.room)', 'Port': @(item.port), 'ActionType': 0, 'BoxDeviceIndex': @(_viewModel.BoxDeviceIndex) });">@(item.room)</a></td>
+                    <td>
+                        <a href="#" onclick="javascript:removeStorageItem({ 'ResidentID': '@(item.room)', 'Port': @(item.port), 'ActionType': 0, 'BoxDeviceIndex': @(_viewModel.BoxDeviceIndex) });">@(item.room)</a><br />
+                        @{ 
+                            UserProfile user = models.InquireUser($"{item.room}", out bool lineUser);
+                            if (user != null)
+                            {
+                                var logItem = models.GetTable<BoxStorageLog>()
+                                    .Where(b => b.UID == user.UID)
+                                    .Where(b => b.BoxPort == idx)
+                                    .Where(b => b.BoxSize == (int)_model.BoxSize)
+                                    .Where(b => !b.PopDate.HasValue)
+                                    .OrderByDescending(b => b.LogID)
+                                    .FirstOrDefault();
+                                if(logItem!=null)
+                                {
+                                    <span>@($"{logItem.PushDate:yyyy/MM/dd HH:mm}")</span>
+                                }
+                            }
+                        }
+                    </td>
                 }
             }
         </tr>

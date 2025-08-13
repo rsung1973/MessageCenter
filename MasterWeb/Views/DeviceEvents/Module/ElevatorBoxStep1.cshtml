@@ -30,21 +30,33 @@
         }
         @for (int i = 0; i < AppSettings.Default.ElevatorCount; i++)
         {
+            bool showNo = true;
             for (int j = 0; j < (AppSettings.Default.BuildingFloors + 15) / 16; j++)
             {
                 var item = AppSettings.Default.ElevatorBoxArray[idx];
                 <tr>
+                    @if (showNo)
+                    {
+                        <th>
+                            電梯門號
+                        </th>
+                        <td class="tdleft">
+                                <input type="text" name="No" value="@(item?.No)" />
+                        </td>
+                        showNo = false;
+                    }
+                    else
+                    {
+                        <td colspan="2"></td>
+                    }
                     <th>
                         電梯控制盒IP：
                     </th>
                     <td class="tdleft">
                         <input type="text" name="StorageBoxUrl" value="@(item?.StorageBoxUrl)" />
                     </td>
-                    <th>
-                        電梯門號(樓層:@(j*16+1)~@(j*16+16))
-                    </th>
-                    <td class="tdleft">
-                        <input type="text" name="No" value="@(item?.No)" />
+                    <td>
+                        樓層:@(j*16+1)~@(j*16+16)
                     </td>
                 </tr>
                 idx++;
@@ -52,7 +64,7 @@
         }
         <tr>
             <td colspan="4">
-                <button type="button" class="btn" onclick="commitStep1();">step 2</button>
+                <button type="button" class="btn btn-primary" onclick="commitStep1();">step 2</button>
             </td>
         </tr>
     </table>

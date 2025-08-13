@@ -1,0 +1,150 @@
+WebHome.Controllers.InfoCenterController.RegisterResident 方法說明
+
+------------------------------------------------------------
+
+/// <summary>
+/// 處理住戶註冊流程的入口方法。<br/>
+/// 依據傳入的 <paramref name="viewModel"/> 參數，嘗試以 LineID 查詢對應的住戶資料。<br/>
+/// 若未找到對應住戶，則回傳「RegisterResidentDevice」檢視，提示用戶進行設備註冊。<br/>
+/// 若找到住戶，則將 LineID 重新加密後設為 KeyID，並回傳「ResidentIndex」檢視及住戶資料。
+/// </summary>
+/// <param name="viewModel">包含註冊資訊的查詢 ViewModel，需包含 KeyID 或 LineID。</param>
+/// <returns>
+/// 若查無住戶資料，回傳 RegisterResidentDevice 檢視；<br/>
+/// 若查得住戶資料，回傳 ResidentIndex 檢視及住戶資料模型。
+/// </returns>
+
+------------------------------------------------------------
+
+WebHome.Controllers.InfoCenterController.ResidentLogin 方法說明
+
+------------------------------------------------------------
+
+/// <summary>
+/// 處理住戶登入驗證流程。<br/>
+/// 依據傳入的 <paramref name="viewModel"/> 參數，先嘗試以 RegisterResident 方法取得對應住戶資料。<br/>
+/// 驗證密碼是否正確，若驗證失敗則回傳錯誤訊息頁面；驗證成功則回傳住戶的加密識別碼(KeyID)。
+/// </summary>
+/// <param name="viewModel">包含登入資訊的查詢 ViewModel，需包含密碼與識別資訊。</param>
+/// <returns>
+/// 若驗證失敗，回傳 ReportInputError 檢視及錯誤訊息；<br/>
+/// 驗證成功則回傳 JSON 物件，內容包含 result 與 KeyID。
+/// </returns>
+
+------------------------------------------------------------
+
+WebHome.Controllers.InfoCenterController.SetDefence 方法說明
+
+------------------------------------------------------------
+
+/// <summary>
+/// 設定指定設備的防禦（Defence）狀態。<br/>
+/// 依據傳入的 <paramref name="viewModel"/> 參數，解密取得 UID，並查詢對應的設備資料。<br/>
+/// 若設備或設備識別碼不存在，回傳錯誤訊息。<br/>
+/// 若查得設備，則於 MessageBoard 記錄或更新防禦狀態，並儲存至資料庫。
+/// </summary>
+/// <param name="viewModel">包含設備識別資訊與防禦狀態的 ViewModel。</param>
+/// <returns>
+/// 若設備識別錯誤，回傳 JSON 物件 result=false 及錯誤訊息；<br/>
+/// 設定成功則回傳 JSON 物件 result=true。
+/// </returns>
+
+------------------------------------------------------------
+
+CheckDefenceStatus.cshtml 檔案說明
+
+------------------------------------------------------------
+
+本檔案為 Razor Page 檢視元件，用於查詢指定設備的防禦（Defence）狀態並以 JSON 格式回傳。<br/>
+- 透過 ViewBag 取得查詢參數（InstanceID），並從 UrgentEventHandler.Instance.DeviceStatusList 查詢對應設備狀態。
+- 若設備處於 Secured 狀態，回傳 DefenceStatus.OnGuard，否則回傳 DefenceStatus.OffGuard。
+- 以 application/json 格式輸出結果，內容為 DeviceTransactionViewModel 物件序列化後的 JSON 字串。
+
+------------------------------------------------------------
+
+WebHome.Controllers.InfoCenterController.ResidentInfo 方法說明
+
+------------------------------------------------------------
+
+/// <summary>
+/// 查詢指定住戶的詳細資料。<br/>
+/// 依據傳入的 <paramref name="viewModel"/> 參數，若有 KeyID 則先解密取得 UID，並查詢對應的 UserProfile。<br/>
+/// 若查無住戶資料，則回傳 RegisterResidentDevice 檢視提示註冊；<br/>
+/// 若查得住戶資料，則回傳 ResidentInfo2021 檢視及住戶資料模型。
+/// </summary>
+/// <param name="viewModel">包含查詢資訊的 ViewModel，需包含 KeyID 或 UID。</param>
+/// <returns>
+/// 若查無住戶資料，回傳 RegisterResidentDevice 檢視；<br/>
+/// 若查得住戶資料，回傳 ResidentInfo2021 檢視及住戶資料模型。
+/// </returns>
+
+------------------------------------------------------------
+
+WebHome.Controllers.InfoCenterController.ResetRegister 方法說明
+
+------------------------------------------------------------
+
+/// <summary>
+/// 重設住戶的 Line 綁定資訊。<br/>
+/// 依據傳入的 <paramref name="viewModel"/> 參數，查詢對應住戶資料，若查無資料則回傳錯誤訊息。<br/>
+/// 若查得住戶，則清除其 UserProfileExtension 的 LineID，並刪除對應的 UserBinding 資料，最後回傳加密後的 LineID。
+/// </summary>
+/// <param name="viewModel">包含查詢資訊的 ViewModel，需包含 KeyID 或 UID。</param>
+/// <returns>
+/// 若查無住戶資料，回傳 JSON 物件 result=false 及錯誤訊息；<br/>
+/// 重設成功則回傳 JSON 物件 result=true 及加密後的 KeyID。
+/// </returns>
+
+------------------------------------------------------------
+
+WebHome.Controllers.InfoCenterController.CommitResidentInfo 方法說明
+
+------------------------------------------------------------
+
+/// <summary>
+/// 更新指定住戶的真實姓名資訊。<br/>
+/// 依據傳入的 <paramref name="viewModel"/> 參數，查詢對應住戶資料，若查無資料則回傳錯誤訊息。<br/>
+/// 若查得住戶，則將其 RealName 欄位更新為 viewModel.RealName，並儲存變更。
+/// </summary>
+/// <param name="viewModel">包含查詢與更新資訊的 ViewModel，需包含 KeyID 或 UID 及 RealName。</param>
+/// <returns>
+/// 若查無住戶資料，回傳 JSON 物件 result=false 及錯誤訊息；<br/>
+/// 更新成功則回傳 JSON 物件 result=true。
+/// </returns>
+
+------------------------------------------------------------
+
+WebHome.Controllers.InfoCenterController.DeleteLineBinding 方法說明
+
+------------------------------------------------------------
+
+/// <summary>
+/// 刪除指定住戶的 Line 綁定資料。<br/>
+/// 依據傳入的 <paramref name="viewModel"/> 參數，若有 KeyID 則先解密取得 UID，並以 UID 與 LineID 刪除對應的 UserBinding 資料。<br/>
+/// 若刪除成功，回傳 JSON 物件 result=true；否則回傳 result=false 及錯誤訊息。
+/// </summary>
+/// <param name="viewModel">包含查詢資訊的 ViewModel，需包含 KeyID 或 UID 及 LineID。</param>
+/// <returns>
+/// 刪除成功則回傳 JSON 物件 result=true；<br/>
+/// 刪除失敗則回傳 JSON 物件 result=false 及錯誤訊息。
+/// </returns>
+
+------------------------------------------------------------
+
+WebHome.Controllers.InfoCenterController.CheckDefence 方法說明
+
+------------------------------------------------------------
+
+/// <summary>
+/// 查詢或設定設備的防禦（Defence）狀態，並回傳相關事件資訊。<br/>
+/// 依據傳入的 <paramref name="viewModel"/> 參數，若有 DefenceStatus 則更新 UrgentEventHandler.Instance.DeviceStatusList 中對應設備的狀態，並於必要時清除警報。<br/>
+/// 若 AppSettings.Default.PushToLineMessageCenter 為 true，則將資料推送至 LineMessageCenter 並回傳結果。<br/>
+/// 查詢 MessageBoard、UrgentEventHandler 狀態，組合 DeviceTransactionViewModel 結果，並以 application/json 格式回傳。
+/// </summary>
+/// <param name="viewModel">包含查詢與設定資訊的 ViewModel，需包含 InstanceID 與 DefenceStatus。</param>
+/// <returns>
+/// 若查得事件或狀態，回傳 JSON 物件（DeviceTransactionViewModel）；<br/>
+/// 否則回傳空結果。
+/// </returns>
+
+------------------------------------------------------------
